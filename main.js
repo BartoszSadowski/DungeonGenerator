@@ -10,16 +10,18 @@ const LINE_ORIENTATION = {
 };
 
 const MINIMAL_ROOM_SIZE = {
-    HORIZONTAL: 30,
-    VERTICAL: 30
+    HORIZONTAL: 100,
+    VERTICAL: 100
 }
+
+const BIG_ROOMS_CHANCE = 100000;
 
 const getRandomValue = (min, max) => {
     return min + Math.floor(Math.random() * (max - min + 1));
 };
 
-const getRandomOrientation = () => {
-    const randomOrientation = getRandomValue(-1, 1);
+const getRandomOrientation = (chance = 1) => {
+    const randomOrientation = getRandomValue(-chance, chance);
     if (randomOrientation > 0) {
         return LINE_ORIENTATION.HORIZONTAL;
     } else if (randomOrientation < 0) {
@@ -59,8 +61,8 @@ class Room {
         this.y2 = y2;
         this.division = LINE_ORIENTATION.NONE;
         this.minValues = {
-            width: 100,
-            height: 100
+            width: MINIMAL_ROOM_SIZE.VERTICAL,
+            height: MINIMAL_ROOM_SIZE.HORIZONTAL
         };
     }
 
@@ -72,8 +74,25 @@ class Room {
         return Math.abs(this.y2 - this.y1);
     }
 
-    get isRoomDivisable() {
-        return this.minValues.width <= this.width && this.minValues.height <= this.height;
+    get isRoomDivisableVerticaly() {
+        return 2*this.minValues.height <= this.height;
+    }
+
+    get isRoomDivisableHorizontaly() {
+        return 2*this.minValues.width <= this.width;
+    }
+
+    randomDivisionOrientation() {
+        const orientation = getRandomOrientation(BIG_ROOMS_CHANCE);
+
+        if (
+            (orientation == LINE_ORIENTATION.HORIZONTAL && !this.isRoomDivisableHorizontaly)
+            || (orientation == LINE_ORIENTATION.VERTICAL && !this.isRoomDivisableVerticaly)
+        ) {
+            return LINE_ORIENTATION.NONE;
+        } else {
+            return orientation;
+        }
     }
 
     setDivision(line) {
@@ -81,8 +100,7 @@ class Room {
     }
 }
 
-function generateNextRooms(index) {
-    const orientation = getRandomOrientation();
+function generateNextRooms(index, orientation) {
     const currentRoom = dungeon[index];
     let coords = {
         x1: currentRoom.x1,
@@ -94,11 +112,11 @@ function generateNextRooms(index) {
     currentRoom.setDivision(orientation);
 
     switch (orientation) {
-        case LINE_ORIENTATION.HORIZONTAL:
+        case LINE_ORIENTATION.VERTICAL:
             coords.y1 = getRandomLineDivision(currentRoom.y1, currentRoom.y2, MINIMAL_ROOM_SIZE.VERTICAL);
             coords.y2 = coords.y1;
             break;
-        case LINE_ORIENTATION.VERTICAL:
+        case LINE_ORIENTATION.HORIZONTAL:
             coords.x1 = getRandomLineDivision(currentRoom.x1, currentRoom.x2, MINIMAL_ROOM_SIZE.HORIZONTAL);
             coords.x2 = coords.x1;
             break;
@@ -121,17 +139,14 @@ function generateNextRooms(index) {
         coords.y2
     );
 
-    if(dungeon[nextRooms[0]].isRoomDivisable){
-        generateNextRooms(nextRooms[0]);
-    }
-
-    if(dungeon[nextRooms[1]].isRoomDivisable){
-        generateNextRooms(nextRooms[1]);
-    }
+    generateNextRooms(nextRooms[0], dungeon[nextRooms[0]].randomDivisionOrientation());
+    generateNextRooms(nextRooms[1], dungeon[nextRooms[1]].randomDivisionOrientation());
 
     return;
 }
 
 let dungeon = [new Room(0, width(), 0, height())];
 
-generateNextRooms(0);
+generateNextRooms(0, dungeon[0].randomDivisionOrientation());
+
+console.log(dungeon);
