@@ -1,6 +1,14 @@
 const canvas = document.getElementById('demoCanvas');
+const ctx = canvas.getContext('2d');
 
 const getRandomValue = (min, max) =>  min + Math.floor(Math.random() * (max - min + 1));
+
+function getRandomColor() {
+    var r = 255*Math.random()|0,
+        g = 255*Math.random()|0,
+        b = 255*Math.random()|0;
+    return 'rgb(' + r + ',' + g + ',' + b + ')';
+}
 
 class Dimensions {
     constructor(width, height) {
@@ -10,9 +18,10 @@ class Dimensions {
 }
 
 class Config {
-    constructor(divisable, minDimension) {
+    constructor(divisable, minDimension, scale) {
         this.divisable = divisable;
         this.minDimension = minDimension;
+        this.scale = scale;
     }
 }
 
@@ -20,7 +29,11 @@ class Point {
     constructor(x, y) {
         this.x = x,
         this.y = y
-    } 
+    }
+
+    rescale(scale) {
+        return new Point(this.x * scale, this.y * scale);
+    }
 }
 
 class Room {
@@ -97,6 +110,19 @@ class Room {
 
         return 'Room divided';
     }
+
+    draw() {
+        if (this.childRooms.length === 0) {
+            const scaledPoint1 = this.point1.rescale(this.config.scale);
+            const scaledWidth = this.width * this.config.scale;
+            const scaledHeight = this.height * this.config.scale;
+
+            ctx.fillStyle = getRandomColor();
+            ctx.fillRect(scaledPoint1.x, scaledPoint1.y, scaledWidth, scaledHeight);
+        } else {
+            this.childRooms.forEach(room => room.draw());
+        }
+    }
 }
 
 class Dungeon extends Room {
@@ -111,16 +137,19 @@ class Dungeon extends Room {
 }
 
 (function init(options){
-    const { divisable, minDimension, dungeonPoint } = options;
-    const config = new Config(divisable, minDimension);
+    canvas.width = document.body.clientWidth;
+    canvas.height = document.body.clientHeight;
+
+    const { divisable, minDimension, scale, dungeonPoint } = options;
+    const config = new Config(divisable, minDimension, scale);
 
     const dungeon = new Dungeon(dungeonPoint, config);
 
     dungeon.divide();
-
-    console.log(dungeon);
+    dungeon.draw();
 })({
     divisable: new Dimensions(10, 10),
-    minDimension: new Dimensions(3, 3),
-    dungeonPoint: new Point(50, 50)
+    minDimension: new Dimensions(4, 3),
+    dungeonPoint: new Point(42, 30),
+    scale: 30
 });
