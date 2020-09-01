@@ -1,6 +1,12 @@
 const canvas = document.getElementById('demoCanvas');
 const ctx = canvas.getContext('2d');
 
+const AXIS = {
+    VERTICAL: 'VERTICAL',
+    HORIZONTAL: 'HORIZONTAL',
+    UNDEFINED: 'UNDEFINED'
+};
+
 const getRandomValue = (min, max) =>  min + Math.floor(Math.random() * (max - min + 1));
 
 function getRandomColor() {
@@ -8,6 +14,44 @@ function getRandomColor() {
         g = 255*Math.random()|0,
         b = 255*Math.random()|0;
     return 'rgb(' + r + ',' + g + ',' + b + ')';
+}
+
+function canvasInit(canvasDimensions) {
+    canvas.width = canvasDimensions.width;
+    canvas.height = canvasDimensions.height;
+}
+
+class Line {
+    constructor(point1, point2) {
+        this.point1 = point1;
+        this.point2 = point2;
+    }
+
+    rescale(scale) {
+        return new Line(
+            this.point1.rescale(scale),
+            this.point2.rescale(scale)
+        );
+    }
+
+    get axis() {
+        if (this.point1.x === this.point2.x) {
+            return AXIS.VERTICAL;
+        } else if (this.point1.y === this.point2.y) {
+            return AXIS.HORIZONTAL;
+        } else {
+            return AXIS.UNDEFINED;
+        }
+    }
+
+    draw(ctx) {
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(this.point1.x, this.point1.y);
+        ctx.lineTo(this.point2.x, this.point2.y);
+        ctx.stroke();
+    }
 }
 
 class Dimensions {
@@ -43,6 +87,8 @@ class Room {
         this.config = config;
         this.parentRoom = parentRoom;
         this.childRooms = [];
+        this.doors = [];
+        this.divisionLine;
     }
 
     get width() {
@@ -73,6 +119,11 @@ class Room {
         if (divideVerticly) {
             const newLine = getRandomValue(this.point1.x + this.config.minDimension.width, this.point2.x - this.config.minDimension.width);
 
+            this.divisionLine = new Line(
+                new Point(newLine, this.point1.y),
+                new Point(newLine, this.point2.y)
+            );
+
             this.childRooms.push(
                 new Room(
                     this.point1,
@@ -88,6 +139,11 @@ class Room {
                 ));
         } else {
             const newLine = getRandomValue(this.point1.y + this.config.minDimension.height, this.point2.y - this.config.minDimension.height);
+
+            this.divisionLine = new Line(
+                new Point(this.point1.x, newLine),
+                new Point(this.point2.x, newLine)
+            );
 
             this.childRooms.push(
                 new Room(
@@ -111,16 +167,46 @@ class Room {
         return 'Room divided';
     }
 
+    connect() {
+        if (this.childRooms.length === 0) {
+            return;
+        } else {
+            // create connection
+            if (this.divisionLine.axis === AXIS.VERTICAL) {
+                const doorCut = getRandomValue(this.divisionLine.point1.y + 1, this.divisionLine.point2.y - 2);
+                this.doors.push(new Line(
+                    new Point(this.divisionLine.point1.x, doorCut),
+                    new Point(this.divisionLine.point2.x, doorCut + 1)
+                ));
+            } else {
+                const doorCut = getRandomValue(this.divisionLine.point1.x + 1, this.divisionLine.point2.x - 2);
+                this.doors.push(new Line(
+                    new Point(doorCut, this.divisionLine.point1.y),
+                    new Point(doorCut + 1, this.divisionLine.point2.y)
+                ));
+            }
+
+            this.childRooms.forEach(room => room.connect());
+        }
+    }
+
     draw() {
         if (this.childRooms.length === 0) {
             const scaledPoint1 = this.point1.rescale(this.config.scale);
             const scaledWidth = this.width * this.config.scale;
             const scaledHeight = this.height * this.config.scale;
 
-            ctx.fillStyle = getRandomColor();
-            ctx.fillRect(scaledPoint1.x, scaledPoint1.y, scaledWidth, scaledHeight);
+            ctx.strokeStyle = '#a0a0a0';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(scaledPoint1.x, scaledPoint1.y, scaledWidth, scaledHeight);
         } else {
             this.childRooms.forEach(room => room.draw());
+        }
+
+        if (this.doors.length !== 0) {
+            this.doors.forEach(door => {
+                door.rescale(this.config.scale).draw(ctx);
+            });
         }
     }
 }
@@ -134,22 +220,35 @@ class Dungeon extends Room {
             null
         );
     }
+
+    create() {
+        this.divide();
+        this.connect();
+        this.draw();
+    }
 }
 
 (function init(options){
-    canvas.width = document.body.clientWidth;
-    canvas.height = document.body.clientHeight;
+    const {
+        divisable,
+        minDimension,
+        scale,
+        dungeonPoint,
+        canvasDimensions
+    } = options;
 
-    const { divisable, minDimension, scale, dungeonPoint } = options;
+    canvasInit(canvasDimensions);
+
     const config = new Config(divisable, minDimension, scale);
 
     const dungeon = new Dungeon(dungeonPoint, config);
 
-    dungeon.divide();
-    dungeon.draw();
+    dungeon.create();
+    console.log(dungeon);
 })({
-    divisable: new Dimensions(10, 10),
-    minDimension: new Dimensions(4, 3),
+    divisable: new Dimensions(20, 20),
+    minDimension: new Dimensions(4, 4),
     dungeonPoint: new Point(42, 30),
+    canvasDimensions: new Dimensions(document.body.clientWidth, document.body.clientHeight),
     scale: 30
 });
