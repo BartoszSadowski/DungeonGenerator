@@ -248,7 +248,7 @@ class Dungeon extends Room {
 })({
     divisable: new Dimensions(20, 20),
     minDimension: new Dimensions(4, 4),
-    dungeonPoint: new Point(42, 30),
+    dungeonPoint: new Point(54, 30),
     canvasDimensions: new Dimensions(document.body.clientWidth, document.body.clientHeight),
-    scale: 30
+    scale: 35
 });
