@@ -1,0 +1,21 @@
+{
+  "name": "one-page-dungeon-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "start": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BartoszSadowski/DungeonGenerator.git"
+  },
+  "author": "Bartosz Sadowski",
+  "bugs": {
+    "url": "https://github.com/BartoszSadowski/DungeonGenerator/issues"
+  },
+  "homepage": "https://github.com/BartoszSadowski/DungeonGenerator#readme",
+  "dependencies": {
+    "typescript": "^4.0.3"
+  }
+}

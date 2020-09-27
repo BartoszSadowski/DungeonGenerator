@@ -1,5 +1,5 @@
-const canvas = document.getElementById('demoCanvas');
-const ctx = canvas.getContext('2d');
+const canvas = <HTMLCanvasElement> document.getElementById('demoCanvas');
+const ctx = <CanvasRenderingContext2D> canvas.getContext('2d');
 
 const AXIS = {
     VERTICAL: 'VERTICAL',
@@ -21,13 +21,30 @@ function canvasInit(canvasDimensions) {
     canvas.height = canvasDimensions.height;
 }
 
+class Point {
+    x: number;
+    y: number;
+
+    constructor(x: number, y: number) {
+        this.x = x,
+        this.y = y
+    }
+
+    rescale(scale: number) {
+        return new Point(this.x * scale, this.y * scale);
+    }
+}
+
 class Line {
-    constructor(point1, point2) {
+    point1: Point;
+    point2: Point;
+
+    constructor(point1: Point, point2: Point) {
         this.point1 = point1;
         this.point2 = point2;
     }
 
-    rescale(scale) {
+    rescale(scale: number) {
         return new Line(
             this.point1.rescale(scale),
             this.point2.rescale(scale)
@@ -44,7 +61,7 @@ class Line {
         }
     }
 
-    draw(ctx) {
+    draw(ctx: CanvasRenderingContext2D) {
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 3;
         ctx.beginPath();
@@ -55,32 +72,36 @@ class Line {
 }
 
 class Dimensions {
-    constructor(width, height) {
+    width: number;
+    height: number;
+
+    constructor(width: number, height: number) {
         this.width = width;
         this.height = height;
     }
 }
 
 class Config {
-    constructor(divisable, minDimension, scale) {
+    divisable: Dimensions;
+    minDimension: Dimensions;
+    scale: number;
+
+    constructor(divisable: Dimensions, minDimension: Dimensions, scale: number) {
         this.divisable = divisable;
         this.minDimension = minDimension;
         this.scale = scale;
     }
 }
 
-class Point {
-    constructor(x, y) {
-        this.x = x,
-        this.y = y
-    }
-
-    rescale(scale) {
-        return new Point(this.x * scale, this.y * scale);
-    }
-}
-
 class Room {
+    point1: Point;
+    point2: Point;
+    config: Config;
+    parentRoom: Room;
+    childRooms: Room[];
+    doors: Line[];
+    divisionLine: Line;
+
     constructor(point1, point2, config, parentRoom) {
         this.point1 = point1;
         this.point2 = point2;
