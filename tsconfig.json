@@ -1,8 +1,10 @@
 {
     "compilerOptions": {
         "outDir": "./dist",
-        "allowJs": true,
-        "target": "ES6"
+        "allowJs": false,
+        "target": "ES6",
+        "noImplicitAny": true,
+        "noImplicitThis": true
     },
     "include": ["./src/**/*"]
 }

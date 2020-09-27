@@ -7,7 +7,7 @@ const AXIS = {
     UNDEFINED: 'UNDEFINED'
 };
 
-const getRandomValue = (min, max) =>  min + Math.floor(Math.random() * (max - min + 1));
+const getRandomValue = (min: number, max: number) =>  min + Math.floor(Math.random() * (max - min + 1));
 
 function getRandomColor() {
     var r = 255*Math.random()|0,
@@ -16,7 +16,7 @@ function getRandomColor() {
     return 'rgb(' + r + ',' + g + ',' + b + ')';
 }
 
-function canvasInit(canvasDimensions) {
+function canvasInit(canvasDimensions: Dimensions) {
     canvas.width = canvasDimensions.width;
     canvas.height = canvasDimensions.height;
 }
@@ -102,7 +102,7 @@ class Room {
     doors: Line[];
     divisionLine: Line;
 
-    constructor(point1, point2, config, parentRoom) {
+    constructor(point1: Point, point2: Point, config: Config, parentRoom: Room) {
         this.point1 = point1;
         this.point2 = point2;
         this.config = config;
@@ -233,7 +233,7 @@ class Room {
 }
 
 class Dungeon extends Room {
-    constructor(dungeonPoint, config) {
+    constructor(dungeonPoint: Point, config: Config) {
         super(
             new Point(0, 0),
             dungeonPoint,
