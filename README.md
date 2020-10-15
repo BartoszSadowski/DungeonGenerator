@@ -13,4 +13,4 @@ Repozytorium do mojej pracy inżynierskiej o tytule "One Page Dungeon Generator"
 
 - Pobrać repozytorium
 - W wierszu poleceń w głównym folderze głównym projektu uruchomić polecenie `npm start`
-- Uruchomić plik `index.html`
+- Przejść pod adres http://localhost:1234

@@ -1,0 +1,5 @@
+export const AXIS = {
+    VERTICAL: 'VERTICAL',
+    HORIZONTAL: 'HORIZONTAL',
+    UNDEFINED: 'UNDEFINED'
+};
