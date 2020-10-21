@@ -1,5 +1,5 @@
 import { getRandomValue } from '../../utils/random';
- 
+
 function mockMathRandom(val: number) {
     const mock = Object.create(global.Math);
     mock.random = () => val;

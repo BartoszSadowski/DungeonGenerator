@@ -5,7 +5,7 @@ import Line from './line';
 import { AXIS } from '../utils/dictionary';
 import {
     getRandomValue
-} from '../utils/random'
+} from '../utils/random';
 
 export default class Room {
     point1: Point;
@@ -23,15 +23,14 @@ export default class Room {
         this.parentRoom = parentRoom;
         this.childRooms = [];
         this.doors = [];
-        this.divisionLine;
     }
 
     get width() {
-        return Math.abs(this.point1.x - this.point2.x)
+        return Math.abs(this.point1.x - this.point2.x);
     }
 
     get height() {
-        return Math.abs(this.point1.y - this.point2.y)
+        return Math.abs(this.point1.y - this.point2.y);
     }
 
     divide() {
@@ -45,14 +44,18 @@ export default class Room {
 
         if (!isWide && !isHigh) {
             return 'Room is not dividable';
-        } else if (isWide && isHigh) {
+        }
+        if (isWide && isHigh) {
             divideVerticly = Math.random() >= 0.5;
         } else {
             divideVerticly = isWide;
         }
 
         if (divideVerticly) {
-            const newLine = getRandomValue(this.point1.x + this.config.minDimension.width, this.point2.x - this.config.minDimension.width);
+            const newLine = getRandomValue(
+                this.point1.x + this.config.minDimension.width,
+                this.point2.x - this.config.minDimension.width
+            );
 
             this.divisionLine = new Line(
                 new Point(newLine, this.point1.y),
@@ -71,9 +74,13 @@ export default class Room {
                     this.point2,
                     this.config,
                     this
-                ));
+                )
+            );
         } else {
-            const newLine = getRandomValue(this.point1.y + this.config.minDimension.height, this.point2.y - this.config.minDimension.height);
+            const newLine = getRandomValue(
+                this.point1.y + this.config.minDimension.height,
+                this.point2.y - this.config.minDimension.height
+            );
 
             this.divisionLine = new Line(
                 new Point(this.point1.x, newLine),
@@ -92,7 +99,8 @@ export default class Room {
                     this.point2,
                     this.config,
                     this
-                ));
+                )
+            );
         }
 
         this.childRooms.forEach(room => {
@@ -105,24 +113,23 @@ export default class Room {
     connect() {
         if (this.childRooms.length === 0) {
             return;
-        } else {
-            // create connection
-            if (this.divisionLine.axis === AXIS.VERTICAL) {
-                const doorCut = getRandomValue(this.divisionLine.point1.y + 1, this.divisionLine.point2.y - 2);
-                this.doors.push(new Line(
-                    new Point(this.divisionLine.point1.x, doorCut),
-                    new Point(this.divisionLine.point2.x, doorCut + 1)
-                ));
-            } else {
-                const doorCut = getRandomValue(this.divisionLine.point1.x + 1, this.divisionLine.point2.x - 2);
-                this.doors.push(new Line(
-                    new Point(doorCut, this.divisionLine.point1.y),
-                    new Point(doorCut + 1, this.divisionLine.point2.y)
-                ));
-            }
-
-            this.childRooms.forEach(room => room.connect());
         }
+        // create connection
+        if (this.divisionLine.axis === AXIS.VERTICAL) {
+            const doorCut = getRandomValue(this.divisionLine.point1.y + 1, this.divisionLine.point2.y - 2);
+            this.doors.push(new Line(
+                new Point(this.divisionLine.point1.x, doorCut),
+                new Point(this.divisionLine.point2.x, doorCut + 1)
+            ));
+        } else {
+            const doorCut = getRandomValue(this.divisionLine.point1.x + 1, this.divisionLine.point2.x - 2);
+            this.doors.push(new Line(
+                new Point(doorCut, this.divisionLine.point1.y),
+                new Point(doorCut + 1, this.divisionLine.point2.y)
+            ));
+        }
+
+        this.childRooms.forEach(room => room.connect());
     }
 
     draw(ctx: CanvasRenderingContext2D) {

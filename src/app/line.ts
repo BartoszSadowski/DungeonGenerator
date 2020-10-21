@@ -11,24 +11,24 @@ export default class Line {
         this.point2 = point2;
     }
 
-    rescale(scale: number) {
+    rescale(scale: number):Line {
         return new Line(
             this.point1.rescale(scale),
             this.point2.rescale(scale)
         );
     }
 
-    get axis() {
+    get axis():string {
         if (this.point1.x === this.point2.x) {
             return AXIS.VERTICAL;
-        } else if (this.point1.y === this.point2.y) {
-            return AXIS.HORIZONTAL;
-        } else {
-            return AXIS.UNDEFINED;
         }
+        if (this.point1.y === this.point2.y) {
+            return AXIS.HORIZONTAL;
+        }
+        return AXIS.UNDEFINED;
     }
 
-    draw(ctx: CanvasRenderingContext2D) {
+    draw(ctx: CanvasRenderingContext2D):void {
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 3;
         ctx.beginPath();
