@@ -28,7 +28,7 @@ class Dungeon extends Room {
     }
 }
 
-(function init(options){
+(function init(options) {
     const {
         divisable,
         minDimension,
