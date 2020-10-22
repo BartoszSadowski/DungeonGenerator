@@ -1,4 +1,7 @@
-import { getRandomValue } from '../../utils/random';
+import {
+    getRandomValue,
+    getRandomColor
+} from '../../utils/random';
 
 function mockMathRandom(val: number) {
     const mock = Object.create(global.Math);
@@ -17,5 +20,19 @@ describe('getRandomValue() - function retrieving random value from given range',
         mockMathRandom(0.999999);
 
         expect(getRandomValue(50, 75)).toEqual(75);
+    });
+});
+
+describe('getRandomColor() - function retrieving random color', () => {
+    it('should give color in rgb() format with 0 minimal value', () => {
+        mockMathRandom(0);
+
+        expect(getRandomColor()).toEqual('rgb(0,0,0)');
+    });
+
+    it('should give color in rgb() format with 255 minimal value', () => {
+        mockMathRandom(0.999999);
+
+        expect(getRandomColor()).toEqual('rgb(255,255,255)');
     });
 });
