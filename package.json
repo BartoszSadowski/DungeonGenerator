@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.html",
   "scripts": {
-    "start": "run-s compile bundle",
-    "compile": "tsc",
+    "start": "run-p compile bundle",
+    "compile": "tsc -w",
     "bundle": "parcel index.html",
     "test": "jest",
     "lint": "eslint --ext .js,.ts src/"
