@@ -2,6 +2,14 @@ import Room from './app/room';
 import Config from './app/config';
 import Dimensions from './app/dimensions';
 import Point from './app/point';
+import {
+    calculateCanvas,
+    calculateDungeonPoint
+} from './utils/canvas';
+
+const SCALE = 35;
+const CANVAS_DIMENSIONS = <Dimensions> calculateCanvas(document.body.clientWidth, document.body.clientHeight, SCALE);
+const DUNGEON_POINT = <Point> calculateDungeonPoint(CANVAS_DIMENSIONS, SCALE);
 
 const canvas = <HTMLCanvasElement> document.getElementById('demoCanvas');
 const ctx = <CanvasRenderingContext2D> canvas.getContext('2d');
@@ -49,8 +57,8 @@ class Dungeon extends Room {
 })({
     divisable: new Dimensions(20, 20),
     minDimension: new Dimensions(4, 4),
-    dungeonPoint: new Point(54, 30),
-    canvasDimensions: new Dimensions(document.body.clientWidth, document.body.clientHeight),
-    scale: 35,
-    context: ctx
+    context: ctx,
+    dungeonPoint: DUNGEON_POINT,
+    canvasDimensions: CANVAS_DIMENSIONS,
+    scale: SCALE
 });
