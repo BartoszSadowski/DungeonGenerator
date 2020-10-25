@@ -7,6 +7,7 @@ import {
     calculateDungeonPoint
 } from './utils/canvas';
 
+const TILE_MAP_PATH = '../imgs/rockyTileSet.png';
 const SCALE = 35;
 const CANVAS_DIMENSIONS = <Dimensions> calculateCanvas(document.body.clientWidth, document.body.clientHeight, SCALE);
 const DUNGEON_POINT = <Point> calculateDungeonPoint(CANVAS_DIMENSIONS, SCALE);
@@ -32,7 +33,7 @@ class Dungeon extends Room {
     create() {
         this.divide();
         this.connect();
-        this.draw(ctx);
+        this.draw(this.config.ctx);
     }
 }
 
@@ -52,8 +53,10 @@ class Dungeon extends Room {
 
     const dungeon = new Dungeon(dungeonPoint, config);
 
-    dungeon.create();
-    console.log(dungeon);
+    config.loadSpriteMap(TILE_MAP_PATH, () => {
+        dungeon.create();
+        console.log(dungeon);
+    });
 })({
     divisable: new Dimensions(20, 20),
     minDimension: new Dimensions(4, 4),
