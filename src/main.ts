@@ -47,14 +47,13 @@ class Dungeon extends Room {
             scale,
             dungeonPoint,
             canvasDimensions,
-            context
+            context,
+            spriteMap
         } = options;
 
         canvasInit(canvasDimensions);
 
-        console.log(createSpriteMap());
-
-        const config = new Config(divisable, minDimension, scale, context);
+        const config = new Config(divisable, minDimension, scale, context, spriteMap);
 
         const dungeon = new Dungeon(dungeonPoint, config);
 
@@ -67,5 +66,6 @@ class Dungeon extends Room {
     context: ctx,
     dungeonPoint: DUNGEON_POINT,
     canvasDimensions: CANVAS_DIMENSIONS,
-    scale: SCALE
+    scale: SCALE,
+    spriteMap: createSpriteMap()
 });
