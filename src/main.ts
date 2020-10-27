@@ -1,5 +1,6 @@
 import Room from './app/room';
 import Config from './app/config';
+import Sprite from './app/sprite';
 import Dimensions from './utils/dimensions';
 import Point from './utils/point';
 import {
@@ -49,11 +50,11 @@ class Dungeon extends Room {
 
     canvasInit(canvasDimensions);
 
-    const config = new Config(divisable, minDimension, scale, context);
+    Sprite.initialize(TILE_MAP_PATH, () => {
+        const config = new Config(divisable, minDimension, scale, context);
 
-    const dungeon = new Dungeon(dungeonPoint, config);
+        const dungeon = new Dungeon(dungeonPoint, config);
 
-    config.loadSpriteMap(TILE_MAP_PATH, () => {
         dungeon.create();
         console.log(dungeon);
     });
