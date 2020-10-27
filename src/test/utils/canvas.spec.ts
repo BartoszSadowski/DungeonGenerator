@@ -1,4 +1,4 @@
-import Dimensions from '../../app/dimensions';
+import Dimensions from '../../utils/dimensions';
 import {
     calculateCanvas, calculateDungeonPoint
 } from '../../utils/canvas';

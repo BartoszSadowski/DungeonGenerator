@@ -1,6 +1,6 @@
 import Config from './config';
-import Point from './point';
-import Line from './line';
+import Point from '../utils/point';
+import Line from '../utils/line';
 
 import { AXIS } from '../utils/dictionary';
 import {

@@ -1,7 +1,7 @@
 import Room from './app/room';
 import Config from './app/config';
-import Dimensions from './app/dimensions';
-import Point from './app/point';
+import Dimensions from './utils/dimensions';
+import Point from './utils/point';
 import {
     calculateCanvas,
     calculateDungeonPoint

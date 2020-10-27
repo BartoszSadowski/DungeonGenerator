@@ -1,6 +1,6 @@
 import Point from './point';
 
-import { AXIS } from '../utils/dictionary';
+import { AXIS } from './dictionary';
 
 export default class Line {
     point1: Point;

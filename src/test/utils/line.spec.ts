@@ -1,5 +1,5 @@
-import Line from '../../app/line';
-import Point from '../../app/point';
+import Line from '../../utils/line';
+import Point from '../../utils/point';
 import { AXIS } from '../../utils/dictionary';
 
 describe('rescale() - function returning new Line with scaled points', () => {

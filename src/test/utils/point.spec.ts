@@ -1,4 +1,4 @@
-import Point from '../../app/point';
+import Point from '../../utils/point';
 
 describe('rescale() - function returning new Point with scaled dimensions', () => {
     it('should return bigger point if given scale higher than 1', () => {

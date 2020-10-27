@@ -1,4 +1,4 @@
-import Dimensions from './dimensions';
+import Dimensions from '../utils/dimensions';
 
 type anyFunction = () => any;
 
