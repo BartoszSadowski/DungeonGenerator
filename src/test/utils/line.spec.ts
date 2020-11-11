@@ -71,3 +71,43 @@ describe('get axis() - retrieves axis in which line is layed', () => {
         expect(line.axis).toBe(AXIS.UNDEFINED);
     });
 });
+
+describe('get width()', () => {
+    it('should return correct value', () => {
+        const point1 = new Point(5, 4);
+        const point2 = new Point(7, 2);
+        const line = new Line(point1, point2);
+
+        expect(line.width).toBe(2);
+    });
+
+    it('should always return nonegative value', () => {
+        const point1 = new Point(5, 4);
+        const point2 = new Point(7, 2);
+        const line = new Line(point1, point2);
+        const line2 = new Line(point2, point1);
+
+        expect(line.width).toBe(2);
+        expect(line2.width).toBe(2);
+    });
+});
+
+describe('get height()', () => {
+    it('should return correct value', () => {
+        const point1 = new Point(5, 4);
+        const point2 = new Point(7, 2);
+        const line = new Line(point1, point2);
+
+        expect(line.height).toBe(2);
+    });
+
+    it('should always return nonegative value', () => {
+        const point1 = new Point(5, 4);
+        const point2 = new Point(7, 2);
+        const line = new Line(point1, point2);
+        const line2 = new Line(point2, point1);
+
+        expect(line.height).toBe(2);
+        expect(line2.height).toBe(2);
+    });
+});

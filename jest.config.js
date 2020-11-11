@@ -9,5 +9,11 @@ module.exports = {
     transform: {
         '^.+\\.(ts|tsx)': 'ts-jest'
     },
-    verbose: true
+    verbose: true,
+    collectCoverage: true,
+    collectCoverageFrom: [
+        'src/app/**/*.+(ts|tsx|js)',
+        'src/utils/**/*.+(ts|tsx|js)',
+        'src/main.ts'
+    ]
 };

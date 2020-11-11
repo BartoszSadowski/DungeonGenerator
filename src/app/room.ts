@@ -151,7 +151,7 @@ export default class Room {
                         .get(SPRITE_TYPES.BASE)
                         .draw(
                             ctx,
-                            new Point(scaledPoint1.x + (i * scale), scaledPoint1.y+ (j * scale)),
+                            new Point(scaledPoint1.x + (i * scale), scaledPoint1.y + (j * scale)),
                             new Dimensions(scale, scale)
                         );
                 }
