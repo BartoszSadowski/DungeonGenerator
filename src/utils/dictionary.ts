@@ -6,6 +6,13 @@ export const AXIS: Record<string, string> = {
     UNDEFINED: 'UNDEFINED'
 };
 
+export enum Directions {
+    Up = 'UP',
+    Down = 'DOWN',
+    Left = 'LEFT',
+    Right = 'RIGHT'
+}
+
 export const SPRITE_TYPES: Record<string, string> = {
     BASE: 'BASE',
     WALL: 'WALL',
