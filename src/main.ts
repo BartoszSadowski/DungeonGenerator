@@ -35,7 +35,7 @@ class Dungeon extends Room {
     create() {
         this.divide();
         this.connect();
-        this.draw(this.config.ctx);
+        this.draw();
     }
 }
 

@@ -2,7 +2,7 @@ import Config from './config';
 import Point from '../utils/point';
 import Line from '../utils/line';
 
-import { AXIS } from '../utils/dictionary';
+import { AXIS, SPRITE_TYPES } from '../utils/dictionary';
 import {
     getRandomValue
 } from '../utils/random';
@@ -132,7 +132,9 @@ export default class Room {
         this.childRooms.forEach(room => room.connect());
     }
 
-    draw(ctx: CanvasRenderingContext2D) {
+    draw() {
+        const { ctx, spriteMap } = this.config;
+
         if (this.childRooms.length === 0) {
             const scaledPoint1 = this.point1.rescale(this.config.scale);
             const scaledWidth = this.width * this.config.scale;
@@ -142,12 +144,12 @@ export default class Room {
             ctx.lineWidth = 1;
             ctx.strokeRect(scaledPoint1.x, scaledPoint1.y, scaledWidth, scaledHeight);
         } else {
-            this.childRooms.forEach(room => room.draw(ctx));
+            this.childRooms.forEach(room => room.draw());
         }
 
         if (this.doors.length !== 0) {
             this.doors.forEach(door => {
-                door.rescale(this.config.scale).draw(ctx);
+                door.rescale(this.config.scale).draw(ctx, spriteMap.get(SPRITE_TYPES.DOOR));
             });
         }
     }
