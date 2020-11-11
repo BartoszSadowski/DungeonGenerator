@@ -31,6 +31,6 @@
         "max-len": ["warn", 120],
         "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
         "arrow-parens": ["error", "as-needed"],
-        "no-plusplus": ["error", "never"]
+        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
     }
 }
