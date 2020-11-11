@@ -1,8 +1,12 @@
 import Config from './config';
 import Point from '../utils/point';
 import Line from '../utils/line';
+import Dimensions from '../utils/dimensions';
 
-import { AXIS, SPRITE_TYPES } from '../utils/dictionary';
+import {
+    AXIS,
+    SPRITE_TYPES
+} from '../utils/dictionary';
 import {
     getRandomValue
 } from '../utils/random';
@@ -133,14 +137,27 @@ export default class Room {
     }
 
     draw() {
-        const { ctx, spriteMap } = this.config;
+        const { ctx, spriteMap, scale } = this.config;
 
         if (this.childRooms.length === 0) {
             const scaledPoint1 = this.point1.rescale(this.config.scale);
             const scaledWidth = this.width * this.config.scale;
             const scaledHeight = this.height * this.config.scale;
 
-            ctx.strokeStyle = '#a0a0a0';
+            // draw room background
+            for (let i = 0; i < this.width; i++) {
+                for (let j = 0; j < this.height; j++) {
+                    spriteMap
+                        .get(SPRITE_TYPES.BASE)
+                        .draw(
+                            ctx,
+                            new Point(scaledPoint1.x + (i * scale), scaledPoint1.y+ (j * scale)),
+                            new Dimensions(scale, scale)
+                        );
+                }
+            }
+
+            ctx.strokeStyle = '#000';
             ctx.lineWidth = 1;
             ctx.strokeRect(scaledPoint1.x, scaledPoint1.y, scaledWidth, scaledHeight);
         } else {
@@ -149,7 +166,9 @@ export default class Room {
 
         if (this.doors.length !== 0) {
             this.doors.forEach(door => {
-                door.rescale(this.config.scale).draw(ctx, spriteMap.get(SPRITE_TYPES.DOOR));
+                door
+                    .rescale(this.config.scale)
+                    .draw(ctx, spriteMap.get(SPRITE_TYPES.DOOR));
             });
         }
     }
