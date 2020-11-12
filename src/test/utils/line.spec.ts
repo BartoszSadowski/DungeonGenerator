@@ -1,8 +1,23 @@
 import Line from '../../utils/line';
 import Point from '../../utils/point';
-import { AXIS } from '../../utils/dictionary';
 import Sprite from '../../app/sprite';
 import Dimensions from '../../utils/dimensions';
+import {
+    AXIS,
+    Directions
+} from '../../utils/dictionary';
+
+const drawMock = jest.fn();
+
+const spriteMock: jest.Mocked<Sprite> = {
+    anchor: new Point(0, 0),
+    size: new Dimensions(0, 0),
+    draw: drawMock.mockReturnValue({
+        anchor: new Point(0, 0),
+        size: new Dimensions(0, 0),
+        draw: drawMock
+    })
+};
 
 let canvas: HTMLCanvasElement;
 let ctx: CanvasRenderingContext2D;
@@ -11,6 +26,10 @@ beforeEach(() => {
     // canvas mocks
     canvas = <HTMLCanvasElement> document.createElement('canvas');
     ctx = <CanvasRenderingContext2D> canvas.getContext('2d');
+});
+
+afterEach(() => {
+    drawMock.mockReset();
 });
 
 describe('rescale() - function returning new Line with scaled points', () => {
@@ -125,17 +144,59 @@ describe('get height()', () => {
 
 describe('draw()', () => {
     it('should call sprite draw function twice', () => {
-        const point = new Point(0, 0);
-        const dimensions = new Dimensions(0, 0);
-
-        const sprite = new Sprite(point, dimensions);
+        spriteMock.draw
+            .mockReturnValueOnce({
+                anchor: new Point(0, 0),
+                size: new Dimensions(0, 0),
+                draw: drawMock
+            });
 
         const point1 = new Point(5, 4);
         const point2 = new Point(7, 2);
         const line = new Line(point1, point2);
 
-        line.draw(ctx, sprite);
+        line.draw(ctx, spriteMock);
 
-        expect(ctx.drawImage).toHaveBeenCalledTimes(2);
+        expect(drawMock).toHaveBeenCalledTimes(2);
+    });
+
+    it('should call sprite Left and Right when line is horizontal', () => {
+        spriteMock.draw
+            .mockReturnValueOnce({
+                anchor: new Point(0, 0),
+                size: new Dimensions(0, 0),
+                draw: drawMock
+            });
+
+        const point1 = new Point(5, 4);
+        const point2 = new Point(5, 2);
+        const line = new Line(point1, point2);
+
+        const point3 = new Point(4, 4);
+
+        line.draw(ctx, spriteMock, 1);
+
+        expect(drawMock).toHaveBeenNthCalledWith(1, ctx, point1, { width: 2, height: 2 }, Directions.Left);
+        expect(drawMock).toHaveBeenNthCalledWith(2, ctx, point3, { width: 2, height: 2 }, Directions.Right);
+    });
+
+    it('should call sprite Up and Down when line is horizontal', () => {
+        spriteMock.draw
+            .mockReturnValueOnce({
+                anchor: new Point(0, 0),
+                size: new Dimensions(0, 0),
+                draw: drawMock
+            });
+
+        const point1 = new Point(5, 4);
+        const point2 = new Point(8, 4);
+        const line = new Line(point1, point2);
+
+        const point3 = new Point(5, 3);
+
+        line.draw(ctx, spriteMock, 1);
+
+        expect(drawMock).toHaveBeenNthCalledWith(1, ctx, point1, { width: 3, height: 3 }, Directions.Up);
+        expect(drawMock).toHaveBeenNthCalledWith(2, ctx, point3, { width: 3, height: 3 }, Directions.Down);
     });
 });
