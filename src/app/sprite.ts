@@ -15,7 +15,7 @@ export default class Sprite {
         this.size = size;
     }
 
-    draw(ctx: CanvasRenderingContext2D, spot: Point, dimensions: Dimensions, direction?: Directions) {
+    draw(ctx: CanvasRenderingContext2D, spot: Point, dimensions: Dimensions, direction?: Directions): Sprite {
         let angle;
         switch (direction) {
         case Directions.Down:
@@ -67,6 +67,8 @@ export default class Sprite {
                 -(spot.y + (dimensions.height / 2))
             );
         }
+
+        return this;
     }
 
     static initialize(tileMap: string, callBack: anyFunction) {
