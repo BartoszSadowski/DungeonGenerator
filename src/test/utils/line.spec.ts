@@ -1,6 +1,17 @@
 import Line from '../../utils/line';
 import Point from '../../utils/point';
 import { AXIS } from '../../utils/dictionary';
+import Sprite from '../../app/sprite';
+import Dimensions from '../../utils/dimensions';
+
+let canvas: HTMLCanvasElement;
+let ctx: CanvasRenderingContext2D;
+
+beforeEach(() => {
+    // canvas mocks
+    canvas = <HTMLCanvasElement> document.createElement('canvas');
+    ctx = <CanvasRenderingContext2D> canvas.getContext('2d');
+});
 
 describe('rescale() - function returning new Line with scaled points', () => {
     it('should return bigger points if given scale higher than 1', () => {
@@ -109,5 +120,22 @@ describe('get height()', () => {
 
         expect(line.height).toBe(2);
         expect(line2.height).toBe(2);
+    });
+});
+
+describe('draw()', () => {
+    it('should call sprite draw function twice', () => {
+        const point = new Point(0, 0);
+        const dimensions = new Dimensions(0, 0);
+
+        const sprite = new Sprite(point, dimensions);
+
+        const point1 = new Point(5, 4);
+        const point2 = new Point(7, 2);
+        const line = new Line(point1, point2);
+
+        line.draw(ctx, sprite);
+
+        expect(ctx.drawImage).toHaveBeenCalledTimes(2);
     });
 });

@@ -15,5 +15,6 @@ module.exports = {
         'src/app/**/*.+(ts|tsx|js)',
         'src/utils/**/*.+(ts|tsx|js)',
         'src/main.ts'
-    ]
+    ],
+    setupFiles: ['jest-canvas-mock']
 };

@@ -1,5 +1,6 @@
 import {
-    roundDown
+    roundDown,
+    degreeToRadians
 } from '../../utils/calculate';
 
 describe('roundDown() - rounds down to selected value', () => {
@@ -16,5 +17,17 @@ describe('roundDown() - rounds down to selected value', () => {
     it('should round down to 10s if no second argument provided', () => {
         const [number, result] = [16, 10];
         expect(roundDown(number)).toEqual(result);
+    });
+});
+
+describe('degreeToRadians() - converts angle from 0-360 scale to 0-2pi scale', () => {
+    it('should return 0 if given 0', () => {
+        const [degree, radian] = [0, 0];
+        expect(degreeToRadians(degree)).toEqual(radian);
+    });
+
+    it('should return 2pi if given 360', () => {
+        const [degree, radian] = [360, 2 * Math.PI];
+        expect(degreeToRadians(degree)).toEqual(radian);
     });
 });
