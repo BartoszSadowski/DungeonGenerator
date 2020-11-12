@@ -167,8 +167,8 @@ export default class Room {
         if (this.doors.length !== 0) {
             this.doors.forEach(door => {
                 door
-                    .rescale(this.config.scale)
-                    .draw(ctx, spriteMap.get(SPRITE_TYPES.DOOR));
+                    .rescale(scale)
+                    .draw(ctx, spriteMap.get(SPRITE_TYPES.DOOR), scale);
             });
         }
     }

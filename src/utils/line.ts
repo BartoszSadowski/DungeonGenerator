@@ -2,7 +2,10 @@ import Point from './point';
 import Sprite from '../app/sprite';
 import Dimensions from './dimensions';
 
-import { AXIS } from './dictionary';
+import {
+    AXIS,
+    Directions
+} from './dictionary';
 
 export default class Line {
     point1: Point;
@@ -38,9 +41,20 @@ export default class Line {
         return Math.abs(this.point1.y - this.point2.y);
     }
 
-    draw(ctx: CanvasRenderingContext2D, sprite?: Sprite): void {
+    draw(ctx: CanvasRenderingContext2D, sprite?: Sprite, scale: number = 16): void {
         if (sprite) {
-            sprite.draw(ctx, this.point1, new Dimensions(this.width || this.height, this.width || this.height));
+            sprite.draw(
+                ctx,
+                this.point1,
+                new Dimensions(this.width || this.height, this.width || this.height),
+                this.axis === AXIS.HORIZONTAL ? Directions.Up : Directions.Left
+            );
+            sprite.draw(
+                ctx,
+                this.axis === AXIS.HORIZONTAL ? this.point1.move(0, -scale) : this.point1.move(-scale, 0),
+                new Dimensions(this.width || this.height, this.width || this.height),
+                this.axis === AXIS.HORIZONTAL ? Directions.Down : Directions.Right
+            );
         } else {
             ctx.strokeStyle = '#000000';
             ctx.lineWidth = 3;
