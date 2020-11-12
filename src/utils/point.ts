@@ -10,4 +10,8 @@ export default class Point {
     rescale(scale: number) {
         return new Point(this.x * scale, this.y * scale);
     }
+
+    move(x: number, y: number) {
+        return new Point(this.x + x, this.y + y);
+    }
 }

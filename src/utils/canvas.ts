@@ -1,5 +1,5 @@
-import Dimensions from '../app/dimensions';
-import Point from '../app/point';
+import Dimensions from './dimensions';
+import Point from './point';
 import { roundDown } from './calculate';
 
 export function calculateCanvas(width: number, height: number, scale: number): Dimensions {
