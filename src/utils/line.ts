@@ -41,6 +41,21 @@ export default class Line {
         return Math.abs(this.point1.y - this.point2.y);
     }
 
+    contains(line: Line): boolean {
+        return (this.hasPoint(line.point1)
+            && this.hasPoint(line.point2)
+            && line.point1.isBetween(this.point1, this.point2)
+            && line.point2.isBetween(this.point1, this.point2)
+        );
+    }
+
+    hasPoint(point: Point): boolean {
+        const paramY = this.point2.x - this.point1.x;
+        const paramX = this.point2.y - this.point1.y;
+
+        return ((point.y - this.point1.y) * paramY) - (paramX * (point.x - this.point1.x)) === 0;
+    }
+
     draw(ctx: CanvasRenderingContext2D, sprite: Sprite, scale: number = 16): void {
         sprite
             .draw(

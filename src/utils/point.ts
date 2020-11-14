@@ -14,4 +14,13 @@ export default class Point {
     move(x: number, y: number) {
         return new Point(this.x + x, this.y + y);
     }
+
+    isBetween(point1: Point, point2: Point): boolean {
+        const bigX = Math.max(point1.x, point2.x);
+        const smallX = Math.min(point1.x, point2.x);
+        const bigY = Math.max(point1.y, point2.y);
+        const smallY = Math.min(point1.y, point2.y);
+
+        return this.x <= bigX && this.x >= smallX && this.y <= bigY && this.y >= smallY;
+    }
 }
