@@ -38,6 +38,27 @@ export default class Room {
         return Math.abs(this.point1.y - this.point2.y);
     }
 
+    get sides(): Line[] {
+        return [
+            new Line(
+                this.point1,
+                new Point(this.point1.x, this.point2.y)
+            ),
+            new Line(
+                this.point1,
+                new Point(this.point2.x, this.point1.y)
+            ),
+            new Line(
+                this.point2,
+                new Point(this.point1.x, this.point2.y)
+            ),
+            new Line(
+                this.point2,
+                new Point(this.point2.x, this.point1.y)
+            )
+        ];
+    }
+
     divide() {
         if (this.childRooms.length > 0) {
             throw new Error('This room has already been divided');
@@ -115,26 +136,43 @@ export default class Room {
         return 'Room divided';
     }
 
-    connect() {
+    addDoor(door: Line): void {
+        this.doors.push(door);
+
+        if (this.childRooms.length !== 0) {
+            this.childRooms.forEach(room => {
+                if (room.sides.find(side => side.contains(door))) {
+                    room.addDoor(door);
+                }
+            });
+        }
+    }
+
+    connect(): void {
         if (this.childRooms.length === 0) {
             return;
         }
+        let door: Line;
+
         // create connection
         if (this.divisionLine.axis === AXIS.VERTICAL) {
-            const doorCut = getRandomValue(this.divisionLine.point1.y + 1, this.divisionLine.point2.y - 2);
-            this.doors.push(new Line(
+            const doorCut = getRandomValue(this.divisionLine.point1.y, this.divisionLine.point2.y - 1);
+            door = new Line(
                 new Point(this.divisionLine.point1.x, doorCut),
                 new Point(this.divisionLine.point2.x, doorCut + 1)
-            ));
+            );
         } else {
-            const doorCut = getRandomValue(this.divisionLine.point1.x + 1, this.divisionLine.point2.x - 2);
-            this.doors.push(new Line(
+            const doorCut = getRandomValue(this.divisionLine.point1.x, this.divisionLine.point2.x - 1);
+            door = new Line(
                 new Point(doorCut, this.divisionLine.point1.y),
                 new Point(doorCut + 1, this.divisionLine.point2.y)
-            ));
+            );
         }
 
-        this.childRooms.forEach(room => room.connect());
+        this.childRooms.forEach(room => {
+            room.addDoor(door);
+            room.connect();
+        });
     }
 
     draw() {
@@ -143,11 +181,10 @@ export default class Room {
 
             this.drawBackground(scaledPoint1);
             this.drawOutline(scaledPoint1);
-        } else {
-            this.childRooms.forEach(room => room.draw());
+            this.drawDoors();
         }
 
-        this.drawDoors();
+        this.childRooms.forEach(room => room.draw());
     }
 
     drawBackground(origin: Point) {
@@ -206,12 +243,10 @@ export default class Room {
     drawDoors() {
         const { ctx, spriteMap, scale } = this.config;
 
-        if (this.doors.length !== 0) {
-            this.doors.forEach(door => {
-                door
-                    .rescale(scale)
-                    .draw(ctx, spriteMap.get(SPRITE_TYPES.DOOR), scale);
-            });
-        }
+        this.doors.forEach(door => {
+            door
+                .rescale(scale)
+                .draw(ctx, spriteMap.get(SPRITE_TYPES.DOOR), scale);
+        });
     }
 }
