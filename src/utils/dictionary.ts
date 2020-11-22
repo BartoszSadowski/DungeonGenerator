@@ -24,3 +24,11 @@ export const SPRITE_LOCATIONS: Record<string, Point> = {
     [SPRITE_TYPES.WALL]: new Point(16, 0),
     [SPRITE_TYPES.DOOR]: new Point(0, 16)
 };
+
+export enum RoomMapItems {
+    Empty = '',
+    Door = 'D',
+    DoubleDoor = 'B',
+    Wall = 'W',
+    Floor = 'F'
+}

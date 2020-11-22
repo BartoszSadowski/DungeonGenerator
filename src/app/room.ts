@@ -6,7 +6,8 @@ import Dimensions from '../utils/dimensions';
 import {
     AXIS,
     SPRITE_TYPES,
-    Directions
+    Directions,
+    RoomMapItems
 } from '../utils/dictionary';
 import {
     getRandomValue
@@ -20,6 +21,7 @@ export default class Room {
     childRooms: Room[];
     doors: Line[];
     divisionLine: Line;
+    roomMap: Array<Array<RoomMapItems>>
 
     constructor(point1: Point, point2: Point, config: Config, parentRoom: Room) {
         this.point1 = point1;
@@ -173,6 +175,51 @@ export default class Room {
             room.addDoor(door);
             room.connect();
         });
+    }
+
+    plan(): void {
+        if (this.childRooms.length === 0) {
+            const roomMap: Array<Array<RoomMapItems>> = [];
+
+            for (let i = 0; i < this.height; i++) {
+                roomMap.push([]);
+                for (let j = 0; j < this.width; j++) {
+                    roomMap[i].push(RoomMapItems.Empty);
+                }
+            }
+
+            this.doors.forEach(door => {
+                const yCoord = door.axis === AXIS.VERTICAL
+                    ? door.point1.y - this.point1.y
+                    : door.point1.y - this.point1.y && door.point1.y - this.point1.y - 1;
+                const xCoord = door.axis === AXIS.HORIZONTAL
+                    ? door.point1.x - this.point1.x
+                    : door.point1.x - this.point1.x && door.point1.x - this.point1.x - 1;
+                const roomMapSymbol = roomMap[yCoord][xCoord] === RoomMapItems.Door
+                    ? RoomMapItems.DoubleDoor : RoomMapItems.Door;
+
+                roomMap[yCoord][xCoord] = roomMapSymbol;
+            });
+
+            for (let i = 0; i < this.width; i++) {
+                roomMap[0][i] = roomMap[0][i] || RoomMapItems.Wall;
+                roomMap[this.height - 1][i] = roomMap[this.height - 1][i] || RoomMapItems.Wall;
+            }
+            for (let i = 0; i < this.height; i++) {
+                roomMap[i][0] = roomMap[i][0] || RoomMapItems.Wall;
+                roomMap[i][this.width - 1] = roomMap[i][this.width - 1] || RoomMapItems.Wall;
+            }
+
+            for (let i = 0; i < this.height; i++) {
+                for (let j = 0; j < this.width; j++) {
+                    roomMap[i][j] = roomMap[i][j] || RoomMapItems.Floor;
+                }
+            }
+
+            this.roomMap = roomMap;
+        }
+
+        this.childRooms.forEach(room => room.plan());
     }
 
     draw() {

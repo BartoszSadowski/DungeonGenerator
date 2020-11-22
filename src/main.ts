@@ -35,6 +35,7 @@ class Dungeon extends Room {
     create() {
         this.divide();
         this.connect();
+        this.plan();
         this.draw();
     }
 }
@@ -61,7 +62,7 @@ class Dungeon extends Room {
         console.log(dungeon);
     });
 })({
-    divisable: new Dimensions(20, 20),
+    divisable: new Dimensions(16, 12),
     minDimension: new Dimensions(4, 4),
     context: ctx,
     dungeonPoint: DUNGEON_POINT,
