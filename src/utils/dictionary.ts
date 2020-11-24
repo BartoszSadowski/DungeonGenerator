@@ -10,7 +10,10 @@ export enum Directions {
     Up = 'UP',
     Down = 'DOWN',
     Left = 'LEFT',
-    Right = 'RIGHT'
+    Right = 'RIGHT',
+    Default = 'UP',
+    Center = 'CENTER',
+    Floor = 'FLOOR'
 }
 
 export const SPRITE_TYPES: Record<string, string> = {
@@ -25,10 +28,14 @@ export const SPRITE_LOCATIONS: Record<string, Point> = {
     [SPRITE_TYPES.DOOR]: new Point(0, 16)
 };
 
-export enum RoomMapItems {
+export enum Items {
     Empty = '',
     Door = 'D',
     DoubleDoor = 'B',
     Wall = 'W',
     Floor = 'F'
+}
+
+export enum Modifiers {
+    None = ''
 }

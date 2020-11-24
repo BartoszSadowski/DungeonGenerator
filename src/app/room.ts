@@ -2,29 +2,30 @@ import Config from './config';
 import Point from '../utils/point';
 import Line from '../utils/line';
 import Dimensions from '../utils/dimensions';
+import RoomItem from './roomItem';
 
 import {
     AXIS,
     SPRITE_TYPES,
     Directions,
-    RoomMapItems
+    Items
 } from '../utils/dictionary';
 import {
     getRandomValue
 } from '../utils/random';
 
 export default class Room {
-    point1: Point;
+    origin: Point;
     point2: Point;
     config: Config;
     parentRoom: Room;
     childRooms: Room[];
     doors: Line[];
     divisionLine: Line;
-    roomMap: Array<Array<RoomMapItems>>
+    roomMap: Array<Array<RoomItem>>
 
     constructor(point1: Point, point2: Point, config: Config, parentRoom: Room) {
-        this.point1 = point1;
+        this.origin = point1;
         this.point2 = point2;
         this.config = config;
         this.parentRoom = parentRoom;
@@ -33,30 +34,30 @@ export default class Room {
     }
 
     get width() {
-        return Math.abs(this.point1.x - this.point2.x);
+        return Math.abs(this.origin.x - this.point2.x);
     }
 
     get height() {
-        return Math.abs(this.point1.y - this.point2.y);
+        return Math.abs(this.origin.y - this.point2.y);
     }
 
     get sides(): Line[] {
         return [
             new Line(
-                this.point1,
-                new Point(this.point1.x, this.point2.y)
+                this.origin,
+                new Point(this.origin.x, this.point2.y)
             ),
             new Line(
-                this.point1,
-                new Point(this.point2.x, this.point1.y)
-            ),
-            new Line(
-                this.point2,
-                new Point(this.point1.x, this.point2.y)
+                this.origin,
+                new Point(this.point2.x, this.origin.y)
             ),
             new Line(
                 this.point2,
-                new Point(this.point2.x, this.point1.y)
+                new Point(this.origin.x, this.point2.y)
+            ),
+            new Line(
+                this.point2,
+                new Point(this.point2.x, this.origin.y)
             )
         ];
     }
@@ -81,24 +82,24 @@ export default class Room {
 
         if (divideVerticly) {
             const newLine = getRandomValue(
-                this.point1.x + this.config.minDimension.width,
+                this.origin.x + this.config.minDimension.width,
                 this.point2.x - this.config.minDimension.width
             );
 
             this.divisionLine = new Line(
-                new Point(newLine, this.point1.y),
+                new Point(newLine, this.origin.y),
                 new Point(newLine, this.point2.y)
             );
 
             this.childRooms.push(
                 new Room(
-                    this.point1,
+                    this.origin,
                     new Point(newLine, this.point2.y),
                     this.config,
                     this
                 ),
                 new Room(
-                    new Point(newLine, this.point1.y),
+                    new Point(newLine, this.origin.y),
                     this.point2,
                     this.config,
                     this
@@ -106,24 +107,24 @@ export default class Room {
             );
         } else {
             const newLine = getRandomValue(
-                this.point1.y + this.config.minDimension.height,
+                this.origin.y + this.config.minDimension.height,
                 this.point2.y - this.config.minDimension.height
             );
 
             this.divisionLine = new Line(
-                new Point(this.point1.x, newLine),
+                new Point(this.origin.x, newLine),
                 new Point(this.point2.x, newLine)
             );
 
             this.childRooms.push(
                 new Room(
-                    this.point1,
+                    this.origin,
                     new Point(this.point2.x, newLine),
                     this.config,
                     this
                 ),
                 new Room(
-                    new Point(this.point1.x, newLine),
+                    new Point(this.origin.x, newLine),
                     this.point2,
                     this.config,
                     this
@@ -179,40 +180,60 @@ export default class Room {
 
     plan(): void {
         if (this.childRooms.length === 0) {
-            const roomMap: Array<Array<RoomMapItems>> = [];
+            const roomMap: Array<Array<RoomItem>> = [];
 
             for (let i = 0; i < this.height; i++) {
                 roomMap.push([]);
                 for (let j = 0; j < this.width; j++) {
-                    roomMap[i].push(RoomMapItems.Empty);
+                    roomMap[i].push(new RoomItem());
                 }
             }
 
             this.doors.forEach(door => {
-                const yCoord = door.axis === AXIS.VERTICAL
-                    ? door.point1.y - this.point1.y
-                    : door.point1.y - this.point1.y && door.point1.y - this.point1.y - 1;
-                const xCoord = door.axis === AXIS.HORIZONTAL
-                    ? door.point1.x - this.point1.x
-                    : door.point1.x - this.point1.x && door.point1.x - this.point1.x - 1;
-                const roomMapSymbol = roomMap[yCoord][xCoord] === RoomMapItems.Door
-                    ? RoomMapItems.DoubleDoor : RoomMapItems.Door;
-
-                roomMap[yCoord][xCoord] = roomMapSymbol;
+                let x: number;
+                let y: number;
+                let dir: Directions;
+                if (
+                    this.origin.x === door.point2.x
+                    && this.origin.x === door.point1.x
+                ) {
+                    x = 0;
+                    y = door.point1.y - this.origin.y;
+                    dir = Directions.Left;
+                } else if (
+                    this.origin.y === door.point2.y
+                    && this.origin.y === door.point1.y
+                ) {
+                    x = door.point1.x - this.origin.x;
+                    y = 0;
+                    dir = Directions.Up;
+                } else if (
+                    this.origin.x + this.width === door.point2.x
+                    && this.origin.x + this.width === door.point1.x
+                ) {
+                    x = this.width - 1;
+                    y = door.point1.y - this.origin.y;
+                    dir = Directions.Right;
+                } else {
+                    x = door.point1.x - this.origin.x;
+                    y = this.height - 1;
+                    dir = Directions.Down;
+                }
+                roomMap[y][x].set(Items.Door, dir);
             });
 
             for (let i = 0; i < this.width; i++) {
-                roomMap[0][i] = roomMap[0][i] || RoomMapItems.Wall;
-                roomMap[this.height - 1][i] = roomMap[this.height - 1][i] || RoomMapItems.Wall;
+                roomMap[0][i].set(Items.Wall, Directions.Up);
+                roomMap[this.height - 1][i].set(Items.Wall, Directions.Down);
             }
             for (let i = 0; i < this.height; i++) {
-                roomMap[i][0] = roomMap[i][0] || RoomMapItems.Wall;
-                roomMap[i][this.width - 1] = roomMap[i][this.width - 1] || RoomMapItems.Wall;
+                roomMap[i][0].set(Items.Wall, Directions.Left);
+                roomMap[i][this.width - 1].set(Items.Wall, Directions.Right);
             }
 
             for (let i = 0; i < this.height; i++) {
                 for (let j = 0; j < this.width; j++) {
-                    roomMap[i][j] = roomMap[i][j] || RoomMapItems.Floor;
+                    roomMap[i][j].set(Items.Floor, Directions.Floor);
                 }
             }
 
@@ -224,7 +245,7 @@ export default class Room {
 
     draw() {
         if (this.childRooms.length === 0) {
-            const scaledPoint1 = this.point1.rescale(this.config.scale);
+            const scaledPoint1 = this.origin.rescale(this.config.scale);
 
             this.drawBackground(scaledPoint1);
             this.drawOutline(scaledPoint1);
