@@ -6,7 +6,6 @@ import RoomItem from './roomItem';
 
 import {
     AXIS,
-    SPRITE_TYPES,
     Directions,
     Items
 } from '../utils/dictionary';
@@ -245,76 +244,23 @@ export default class Room {
 
     draw() {
         if (this.childRooms.length === 0) {
-            const scaledPoint1 = this.origin.rescale(this.config.scale);
+            const { ctx, spriteMap, scale } = this.config;
+            const scaledOrigin = this.origin.rescale(this.config.scale);
 
-            this.drawBackground(scaledPoint1);
-            this.drawOutline(scaledPoint1);
-            this.drawDoors();
+            this.roomMap.reduce((acc, row, y) => {
+                row.reduce((acc2, item, x) => {
+                    item.draw(
+                        ctx,
+                        new Point(scaledOrigin.x + x * scale, scaledOrigin.y + y * scale),
+                        new Dimensions(scale, scale),
+                        spriteMap
+                    );
+                    return acc2;
+                }, 0);
+                return acc;
+            }, 0);
         }
 
         this.childRooms.forEach(room => room.draw());
-    }
-
-    drawBackground(origin: Point) {
-        const { ctx, spriteMap, scale } = this.config;
-
-        for (let i = 0; i < this.width; i++) {
-            for (let j = 0; j < this.height; j++) {
-                spriteMap
-                    .get(SPRITE_TYPES.BASE)
-                    .draw(
-                        ctx,
-                        new Point(origin.x + (i * scale), origin.y + (j * scale)),
-                        new Dimensions(scale, scale)
-                    );
-            }
-        }
-    }
-
-    drawOutline(origin: Point) {
-        const { ctx, spriteMap, scale } = this.config;
-
-        for (let i = 0; i < this.width; i++) {
-            spriteMap
-                .get(SPRITE_TYPES.WALL)
-                .draw(
-                    ctx,
-                    new Point(origin.x + (i * scale), origin.y),
-                    new Dimensions(scale, scale),
-                    Directions.Up
-                )
-                .draw(
-                    ctx,
-                    new Point(origin.x + (i * scale), origin.y + (scale * (this.height - 1))),
-                    new Dimensions(scale, scale),
-                    Directions.Down
-                );
-        }
-        for (let i = 0; i < this.height; i++) {
-            spriteMap
-                .get(SPRITE_TYPES.WALL)
-                .draw(
-                    ctx,
-                    new Point(origin.x, origin.y + (i * scale)),
-                    new Dimensions(scale, scale),
-                    Directions.Left
-                )
-                .draw(
-                    ctx,
-                    new Point(origin.x + ((this.width - 1) * scale), origin.y + (scale * i)),
-                    new Dimensions(scale, scale),
-                    Directions.Right
-                );
-        }
-    }
-
-    drawDoors() {
-        const { ctx, spriteMap, scale } = this.config;
-
-        this.doors.forEach(door => {
-            door
-                .rescale(scale)
-                .draw(ctx, spriteMap.get(SPRITE_TYPES.DOOR), scale);
-        });
     }
 }

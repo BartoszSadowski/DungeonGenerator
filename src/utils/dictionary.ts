@@ -31,7 +31,6 @@ export const SPRITE_LOCATIONS: Record<string, Point> = {
 export enum Items {
     Empty = '',
     Door = 'D',
-    DoubleDoor = 'B',
     Wall = 'W',
     Floor = 'F'
 }

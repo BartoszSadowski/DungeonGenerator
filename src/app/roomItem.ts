@@ -4,6 +4,9 @@ import {
     Directions,
     Items
 } from '../utils/dictionary';
+import Point from '../utils/point';
+import Dimensions from '../utils/dimensions';
+import Sprite from './sprite';
 
 export default class RoomItem {
     top: Item;
@@ -59,5 +62,20 @@ export default class RoomItem {
         }
 
         return item;
+    }
+
+    draw(ctx: CanvasRenderingContext2D, origin: Point, dimensions: Dimensions, spriteMap: Map<string, Sprite>) {
+        const pairs: Array<[Item, Directions]> = [
+            [this.floor, Directions.Up],
+            [this.top, Directions.Up],
+            [this.bottom, Directions.Down],
+            [this.left, Directions.Left],
+            [this.right, Directions.Right],
+            [this.center, Directions.Center]
+        ];
+        pairs.reduce((acc, [item, direction]) => {
+            item.draw(ctx, origin, dimensions, spriteMap, direction);
+            return acc;
+        }, 0);
     }
 }
