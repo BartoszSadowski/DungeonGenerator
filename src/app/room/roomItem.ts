@@ -3,10 +3,10 @@ import Item from './item';
 import {
     Directions,
     Items
-} from '../utils/dictionary';
-import Point from '../utils/point';
-import Dimensions from '../utils/dimensions';
-import Sprite from './sprite';
+} from '../../utils/dictionary';
+import Point from '../../utils/point';
+import Dimensions from '../../utils/dimensions';
+import Sprite from '../sprite';
 
 export default class RoomItem {
     top: Item;

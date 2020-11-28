@@ -1,17 +1,17 @@
-import Config from './config';
-import Point from '../utils/point';
-import Line from '../utils/line';
-import Dimensions from '../utils/dimensions';
-import RoomItem from './roomItem';
+import Config from '../config';
+import Point from '../../utils/point';
+import Line from '../../utils/line';
+import Dimensions from '../../utils/dimensions';
+import RoomMap from './roomMap';
 
 import {
     AXIS,
     Directions,
     Items
-} from '../utils/dictionary';
+} from '../../utils/dictionary';
 import {
     getRandomValue
-} from '../utils/random';
+} from '../../utils/random';
 
 export default class Room {
     origin: Point;
@@ -21,7 +21,7 @@ export default class Room {
     childRooms: Room[];
     doors: Line[];
     divisionLine: Line;
-    roomMap: Array<Array<RoomItem>>
+    roomMap: RoomMap
 
     constructor(point1: Point, point2: Point, config: Config, parentRoom: Room) {
         this.origin = point1;
@@ -179,12 +179,19 @@ export default class Room {
 
     plan(): void {
         if (this.childRooms.length === 0) {
-            const roomMap: Array<Array<RoomItem>> = [];
+            const roomMap = new RoomMap(new Dimensions(this.width, this.height));
 
-            for (let i = 0; i < this.height; i++) {
-                roomMap.push([]);
-                for (let j = 0; j < this.width; j++) {
-                    roomMap[i].push(new RoomItem());
+            const localOrigin = new Point(getRandomValue(0, 1), getRandomValue(0, 1));
+            const localWidth = this.width - getRandomValue(0, 1) - 1;
+            const localHeight = this.height - getRandomValue(0, 1) - 1;
+
+            for (let i = localOrigin.y; i < localHeight + 1; i++) {
+                for (let j = localOrigin.x; j < localWidth + 1; j++) {
+                    roomMap.set(
+                        new Point(j, i),
+                        Items.Floor,
+                        Directions.Floor
+                    );
                 }
             }
 
@@ -218,22 +225,30 @@ export default class Room {
                     y = this.height - 1;
                     dir = Directions.Down;
                 }
-                roomMap[y][x].set(Items.Door, dir);
+                const mapPoint = new Point(x, y);
+                roomMap.set(
+                    mapPoint,
+                    Items.Door,
+                    dir
+                );
+
+                const route = roomMap.findShortestRoute(mapPoint, Items.Floor, Directions.Floor);
+                route.forEach(point => {
+                    roomMap.set(
+                        point,
+                        Items.Floor,
+                        Directions.Floor
+                    );
+                });
             });
 
-            for (let i = 0; i < this.width; i++) {
-                roomMap[0][i].set(Items.Wall, Directions.Up);
-                roomMap[this.height - 1][i].set(Items.Wall, Directions.Down);
+            for (let i = localOrigin.x; i < localWidth + 1; i++) {
+                roomMap.set(new Point(i, localOrigin.y), Items.Wall, Directions.Up);
+                roomMap.set(new Point(i, localHeight), Items.Wall, Directions.Down);
             }
-            for (let i = 0; i < this.height; i++) {
-                roomMap[i][0].set(Items.Wall, Directions.Left);
-                roomMap[i][this.width - 1].set(Items.Wall, Directions.Right);
-            }
-
-            for (let i = 0; i < this.height; i++) {
-                for (let j = 0; j < this.width; j++) {
-                    roomMap[i][j].set(Items.Floor, Directions.Floor);
-                }
+            for (let i = localOrigin.y; i < localHeight + 1; i++) {
+                roomMap.set(new Point(localOrigin.x, i), Items.Wall, Directions.Left);
+                roomMap.set(new Point(localWidth, i), Items.Wall, Directions.Right);
             }
 
             this.roomMap = roomMap;
@@ -247,18 +262,12 @@ export default class Room {
             const { ctx, spriteMap, scale } = this.config;
             const scaledOrigin = this.origin.rescale(this.config.scale);
 
-            this.roomMap.reduce((acc, row, y) => {
-                row.reduce((acc2, item, x) => {
-                    item.draw(
-                        ctx,
-                        new Point(scaledOrigin.x + x * scale, scaledOrigin.y + y * scale),
-                        new Dimensions(scale, scale),
-                        spriteMap
-                    );
-                    return acc2;
-                }, 0);
-                return acc;
-            }, 0);
+            this.roomMap.onEach((item, x, y) => item.draw(
+                ctx,
+                new Point(scaledOrigin.x + x * scale, scaledOrigin.y + y * scale),
+                new Dimensions(scale, scale),
+                spriteMap
+            ));
         }
 
         this.childRooms.forEach(room => room.draw());

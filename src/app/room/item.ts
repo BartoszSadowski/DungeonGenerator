@@ -3,10 +3,10 @@ import {
     Items,
     Modifiers,
     SPRITE_TYPES
-} from '../utils/dictionary';
-import Dimensions from '../utils/dimensions';
-import Point from '../utils/point';
-import Sprite from './sprite';
+} from '../../utils/dictionary';
+import Dimensions from '../../utils/dimensions';
+import Point from '../../utils/point';
+import Sprite from '../sprite';
 
 export default class Item {
     item: Items;

@@ -23,4 +23,8 @@ export default class Point {
 
         return this.x <= bigX && this.x >= smallX && this.y <= bigY && this.y >= smallY;
     }
+
+    isSame(point: Point): boolean {
+        return this.x === point.x && this.y === point.y;
+    }
 }
