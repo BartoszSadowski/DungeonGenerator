@@ -259,7 +259,7 @@ export default class Room {
                                 try {
                                     const { item } = roomMap.get(point);
                                     if (!item.has(Items.Floor, Directions.Floor)) {
-                                        roomMap.set(mapPoint, Items.Wall, direction)
+                                        roomMap.set(mapPoint, Items.Wall, direction);
                                     }
                                 } catch (error) {
                                     if (error.message === roomMap.POINT_NOT_IN_MAP) {
