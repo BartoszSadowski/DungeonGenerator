@@ -64,6 +64,10 @@ export default class RoomItem {
         return item;
     }
 
+    has(item: Items, direction: Directions): Boolean {
+        return item === this.get(direction).item;
+    }
+
     draw(ctx: CanvasRenderingContext2D, origin: Point, dimensions: Dimensions, spriteMap: Map<string, Sprite>) {
         const pairs: Array<[Item, Directions]> = [
             [this.floor, Directions.Up],

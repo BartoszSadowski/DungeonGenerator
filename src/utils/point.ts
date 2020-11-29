@@ -1,3 +1,5 @@
+import { Directions } from './dictionary';
+
 export default class Point {
     x: number;
     y: number;
@@ -26,5 +28,17 @@ export default class Point {
 
     isSame(point: Point): boolean {
         return this.x === point.x && this.y === point.y;
+    }
+
+    getDirection(point: Point): Directions {
+        return ([
+            [this.isSame(point), Directions.Center],
+            [this.x > point.x, Directions.Left],
+            [this.x < point.x, Directions.Right],
+            [this.y > point.y, Directions.Up],
+            [this.y < point.y, Directions.Down],
+            [true, Directions.Default]
+        ] as Array<[boolean, Directions]>)
+            .find(con => con[0])[1];
     }
 }

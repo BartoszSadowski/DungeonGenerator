@@ -185,6 +185,7 @@ export default class Room {
             const localWidth = this.width - getRandomValue(0, 1) - 1;
             const localHeight = this.height - getRandomValue(0, 1) - 1;
 
+            // Fill rooms with floors
             for (let i = localOrigin.y; i < localHeight + 1; i++) {
                 for (let j = localOrigin.x; j < localWidth + 1; j++) {
                     roomMap.set(
@@ -195,6 +196,7 @@ export default class Room {
                 }
             }
 
+            // Add doors, and link them with rooms
             this.doors.forEach(door => {
                 let x: number;
                 let y: number;
@@ -242,14 +244,31 @@ export default class Room {
                 });
             });
 
-            for (let i = localOrigin.x; i < localWidth + 1; i++) {
-                roomMap.set(new Point(i, localOrigin.y), Items.Wall, Directions.Up);
-                roomMap.set(new Point(i, localHeight), Items.Wall, Directions.Down);
-            }
-            for (let i = localOrigin.y; i < localHeight + 1; i++) {
-                roomMap.set(new Point(localOrigin.x, i), Items.Wall, Directions.Left);
-                roomMap.set(new Point(localWidth, i), Items.Wall, Directions.Right);
-            }
+            // Wall it up
+            roomMap
+                .onEach((roomItem, x, y) => {
+                    if (roomItem.has(Items.Floor, Directions.Floor)) {
+                        const mapPoint = new Point(x, y);
+                        ([
+                            [Directions.Up, mapPoint.move(0, -1)],
+                            [Directions.Down, mapPoint.move(0, 1)],
+                            [Directions.Left, mapPoint.move(-1, 0)],
+                            [Directions.Right, mapPoint.move(1, 0)]
+                        ] as Array<[Directions, Point]>)
+                            .forEach(([direction, point]) => {
+                                try {
+                                    const { item } = roomMap.get(point);
+                                    if (!item.has(Items.Floor, Directions.Floor)) {
+                                        roomMap.set(mapPoint, Items.Wall, direction)
+                                    }
+                                } catch (error) {
+                                    if (error.message === roomMap.POINT_NOT_IN_MAP) {
+                                        roomMap.set(mapPoint, Items.Wall, direction);
+                                    }
+                                }
+                            });
+                    }
+                });
 
             this.roomMap = roomMap;
         }

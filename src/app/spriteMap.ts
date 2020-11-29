@@ -1,9 +1,9 @@
 import Dimensions from '../utils/dimensions';
 import Sprite from './sprite';
 import {
-    SPRITE_LOCATIONS,
     SPRITE_TYPES
 } from '../utils/dictionary';
+import SPRITE_LOCATIONS from '../utils/spriteLocations';
 
 const spriteDimensions = new Dimensions(16, 16);
 

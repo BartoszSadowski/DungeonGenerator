@@ -21,6 +21,9 @@ export default class RoomMap {
     map: Array<Array<RoomItem>>;
     dimensions: Dimensions;
 
+    // Error maessages
+    POINT_NOT_IN_MAP = 'Point not in map';
+
     constructor(dimensions: Dimensions) {
         this.map = [];
         for (let i = 0; i < dimensions.height; i++) {
@@ -34,10 +37,19 @@ export default class RoomMap {
     }
 
     get(point: Point) {
-        return {
-            item: this.map[point.y][point.x],
-            point
-        };
+        if (
+            point.y < this.dimensions.height
+            && point.y >= 0
+            && point.x < this.dimensions.width
+            && point.x >= 0
+        ) {
+            return {
+                item: this.map[point.y][point.x],
+                point
+            };
+        }
+
+        throw new Error(this.POINT_NOT_IN_MAP);
     }
 
     set(point: Point, item: Items, direction: Directions) {
