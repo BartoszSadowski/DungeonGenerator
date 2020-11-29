@@ -142,7 +142,7 @@ describe('get height()', () => {
     });
 });
 
-describe('draw()', () => {
+describe('draw(ctx, sprite, scale)', () => {
     it('should call sprite draw function twice', () => {
         spriteMock.draw
             .mockReturnValueOnce({
@@ -198,5 +198,154 @@ describe('draw()', () => {
 
         expect(drawMock).toHaveBeenNthCalledWith(1, ctx, point1, { width: 3, height: 3 }, Directions.Up);
         expect(drawMock).toHaveBeenNthCalledWith(2, ctx, point3, { width: 3, height: 3 }, Directions.Down);
+    });
+});
+
+describe('contains(line)', () => {
+    it('should return false if given line is parallel', () => {
+        const point1 = new Point(1, 0);
+        const point2 = new Point(0, 1);
+        const point3 = new Point(1, 1);
+        const point4 = new Point(2, 0);
+
+        const line1 = new Line(point1, point2);
+        const line2 = new Line(point3, point4);
+
+        expect(line1.contains(line2)).toBeFalsy();
+    });
+
+    it('should retrun false if given line is not in the same axis', () => {
+        const point1 = new Point(1, 0);
+        const point2 = new Point(0, 1);
+        const point3 = new Point(1, 0);
+        const point4 = new Point(2, 0);
+
+        const line1 = new Line(point1, point2);
+        const line2 = new Line(point3, point4);
+
+        expect(line1.contains(line2)).toBeFalsy();
+    });
+
+    it('should return false if right end is outside', () => {
+        const point1 = new Point(0, 0);
+        const point2 = new Point(2, 2);
+        const point3 = new Point(1, 1);
+        const point4 = new Point(3, 3);
+
+        const line1 = new Line(point1, point2);
+        const line2 = new Line(point3, point4);
+
+        expect(line1.contains(line2)).toBeFalsy();
+    });
+
+    it('should return false if right end is outside (reversed)', () => {
+        const point1 = new Point(0, 0);
+        const point2 = new Point(2, 2);
+        const point3 = new Point(3, 3);
+        const point4 = new Point(1, 1);
+
+        const line1 = new Line(point1, point2);
+        const line2 = new Line(point3, point4);
+
+        expect(line1.contains(line2)).toBeFalsy();
+    });
+
+    it('should return false if left end is outside', () => {
+        const point1 = new Point(1, 1);
+        const point2 = new Point(3, 3);
+        const point3 = new Point(0, 0);
+        const point4 = new Point(2, 2);
+
+        const line1 = new Line(point1, point2);
+        const line2 = new Line(point3, point4);
+
+        expect(line1.contains(line2)).toBeFalsy();
+    });
+
+    it('should return false if left end is outside (reversed)', () => {
+        const point1 = new Point(1, 1);
+        const point2 = new Point(3, 3);
+        const point3 = new Point(2, 2);
+        const point4 = new Point(0, 0);
+
+        const line1 = new Line(point1, point2);
+        const line2 = new Line(point3, point4);
+
+        expect(line1.contains(line2)).toBeFalsy();
+    });
+
+    it('should return true if given line is same line', () => {
+        const point1 = new Point(1, 0);
+        const point2 = new Point(0, 1);
+
+        const line1 = new Line(point1, point2);
+
+        expect(line1.contains(line1)).toBeTruthy();
+    });
+
+    it('should return true if given line is reversed', () => {
+        const point1 = new Point(1, 0);
+        const point2 = new Point(0, 1);
+
+        const line1 = new Line(point1, point2);
+        const line2 = new Line(point2, point1);
+
+        expect(line1.contains(line2)).toBeTruthy();
+    });
+
+    it('should return true if given line is fully inside', () => {
+        const point1 = new Point(0, 0);
+        const point2 = new Point(3, 3);
+        const point3 = new Point(1, 1);
+        const point4 = new Point(2, 2);
+
+        const line1 = new Line(point1, point2);
+        const line2 = new Line(point3, point4);
+
+        expect(line1.contains(line2)).toBeTruthy();
+    });
+
+    it('should return true if given line is fully inside (reversed)', () => {
+        const point1 = new Point(0, 0);
+        const point2 = new Point(3, 3);
+        const point3 = new Point(2, 2);
+        const point4 = new Point(1, 1);
+
+        const line1 = new Line(point1, point2);
+        const line2 = new Line(point3, point4);
+
+        expect(line1.contains(line2)).toBeTruthy();
+    });
+});
+
+describe('hasPoint(point)', () => {
+    it('should return false if point is outside of the line', () => {
+        const point1 = new Point(0, 0);
+        const point2 = new Point(1, 1);
+        const point3 = new Point(0, 1);
+
+        const line = new Line(point1, point2);
+
+        expect(line.hasPoint(point3)).toBeFalsy();
+    });
+
+    it('should return true if point is inside of the line', () => {
+        const point1 = new Point(0, 0);
+        const point2 = new Point(2, 2);
+        const point3 = new Point(1, 1);
+
+        const line = new Line(point1, point2);
+
+        expect(line.hasPoint(point3)).toBeTruthy();
+    });
+
+    it('should return true if point is on the line extension', () => {
+        const point1 = new Point(0, 0);
+        const point2 = new Point(1, 1);
+        const point3 = new Point(2, 2);
+
+        const line = new Line(point1, point2);
+
+        expect(line.hasPoint(point3)).toBeTruthy();
     });
 });

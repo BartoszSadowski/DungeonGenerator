@@ -37,3 +37,45 @@ describe('rescale() - function returning new Point with scaled dimensions', () =
         expect(scaledPoint.y).toBe(resultY);
     });
 });
+
+describe('isBetween(point1, point2)', () => {
+    it('should return false if point is right to both points', () => {
+        const point1 = new Point(1, 1);
+        const point2 = new Point(2, 2);
+        const point3 = new Point(3, 3);
+
+        expect(point3.isBetween(point1, point2)).toBeFalsy();
+    });
+
+    it('should return false if point is left to both points', () => {
+        const point1 = new Point(1, 1);
+        const point2 = new Point(2, 2);
+        const point3 = new Point(3, 3);
+
+        expect(point1.isBetween(point2, point3)).toBeFalsy();
+    });
+
+    it('should return false if point is up to both points', () => {
+        const point1 = new Point(1, 1);
+        const point2 = new Point(2, 2);
+        const point3 = new Point(3, 3);
+
+        expect(point3.isBetween(point1, point2)).toBeFalsy();
+    });
+
+    it('should return false if point is down to both points', () => {
+        const point1 = new Point(1, 1);
+        const point2 = new Point(2, 2);
+        const point3 = new Point(3, 3);
+
+        expect(point1.isBetween(point2, point3)).toBeFalsy();
+    });
+
+    it('should return true if is in the middle between points', () => {
+        const point1 = new Point(1, 1);
+        const point2 = new Point(2, 2);
+        const point3 = new Point(3, 3);
+
+        expect(point2.isBetween(point1, point3)).toBeTruthy();
+    });
+});

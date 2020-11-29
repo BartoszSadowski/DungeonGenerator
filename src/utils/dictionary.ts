@@ -1,5 +1,3 @@
-import Point from './point';
-
 export const AXIS: Record<string, string> = {
     VERTICAL: 'VERTICAL',
     HORIZONTAL: 'HORIZONTAL',
@@ -10,7 +8,10 @@ export enum Directions {
     Up = 'UP',
     Down = 'DOWN',
     Left = 'LEFT',
-    Right = 'RIGHT'
+    Right = 'RIGHT',
+    Default = 'UP',
+    Center = 'CENTER',
+    Floor = 'FLOOR'
 }
 
 export const SPRITE_TYPES: Record<string, string> = {
@@ -19,8 +20,13 @@ export const SPRITE_TYPES: Record<string, string> = {
     DOOR: 'DOOR'
 };
 
-export const SPRITE_LOCATIONS: Record<string, Point> = {
-    [SPRITE_TYPES.BASE]: new Point(0, 0),
-    [SPRITE_TYPES.WALL]: new Point(16, 0),
-    [SPRITE_TYPES.DOOR]: new Point(0, 16)
-};
+export enum Items {
+    Empty = '',
+    Door = 'D',
+    Wall = 'W',
+    Floor = 'F'
+}
+
+export enum Modifiers {
+    None = ''
+}
