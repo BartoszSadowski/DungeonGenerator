@@ -12,5 +12,6 @@ Repozytorium do mojej pracy inżynierskiej o tytule "One Page Dungeon Generator"
 ## Instalacja
 
 - Pobrać repozytorium
-- W wierszu poleceń w głównym folderze głównym projektu uruchomić polecenie `npm start`
+- W wierszy poleceń w głównym folderze projektu uruchomić polecenie `npm install`
+- Po zakończeniu poprzedniego polecenia uruchomić polecenie `npm start`
 - Przejść pod adres http://localhost:1234

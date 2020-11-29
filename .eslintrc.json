@@ -30,6 +30,12 @@
         "wrap-iife": ["error", "inside"],
         "max-len": ["warn", 120],
         "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
-        "arrow-parens": ["error", "as-needed"]
+        "arrow-parens": ["error", "as-needed"],
+        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+        // Prevents from using enum :/
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": ["error"],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "error"
     }
 }
