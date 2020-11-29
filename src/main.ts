@@ -10,9 +10,6 @@ import {
 } from './utils/canvas';
 
 const TILE_MAP_PATH = '../imgs/rockyTileSet.png';
-const SCALE = 40;
-const CANVAS_DIMENSIONS = <Dimensions> calculateCanvas(document.body.clientWidth, document.body.clientHeight, SCALE);
-const DUNGEON_POINT = <Point> calculateDungeonPoint(CANVAS_DIMENSIONS, SCALE);
 
 const canvas = <HTMLCanvasElement> document.getElementById('demoCanvas');
 const ctx = <CanvasRenderingContext2D> canvas.getContext('2d');
