@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "outDir": "./dist",
+        "outDir": "./dist-ts",
         "allowJs": false,
         "target": "ES6",
         "noImplicitAny": true,
