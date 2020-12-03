@@ -38,13 +38,22 @@ body {
     grid-area: navigation;
 }
 
+.name {
+    grid-area: name;
+}
+
+.name > h2 {
+    font: 2em var(--title-sans);
+    text-align: center;
+}
+
 .body {
     display: grid;
     grid-template-columns: 250px auto 3%;
     grid-template-rows: 80px auto 5%;
     column-gap: 10px;
     grid-template-areas: 
-    "header . ."
+    "header name ."
     "navigation main ."
     "navigation . .";
 }
