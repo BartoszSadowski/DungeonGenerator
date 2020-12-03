@@ -2,12 +2,12 @@
   "name": "one-page-dungeon-generator",
   "version": "1.0.0",
   "description": "",
-  "main": "index.html",
+  "main": "src/pages/index.html",
   "scripts": {
     "start": "run-p compile copy:static bundle",
     "compile": "tsc -w",
     "copy:static": "node ./copyStatic.js",
-    "bundle": "parcel index.html",
+    "bundle": "parcel src/pages/index.html",
     "test": "jest",
     "lint": "eslint --ext .js,.ts src/",
     "postinstall": "tsc"
