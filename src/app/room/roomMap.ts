@@ -9,7 +9,6 @@ import {
     getRandomValue
 } from '../../utils/random';
 
-
 type onEachItemFunction = (item: RoomItem, x: number, y: number) => any;
 
 type mappedRoomItem = {
