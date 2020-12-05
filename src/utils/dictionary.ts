@@ -24,7 +24,9 @@ export enum Items {
     Empty = '',
     Door = 'D',
     Wall = 'W',
-    Floor = 'F'
+    Floor = 'F',
+    Enterance = 'E',
+    Exit = 'X'
 }
 
 export enum Modifiers {

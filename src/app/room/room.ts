@@ -280,6 +280,18 @@ export default class Room {
                     }
                 });
 
+            if (this.type === RoomType.Entrance) {
+                const point: Point = roomMap.getNonEdgePoint();
+
+                roomMap.set(point, Items.Enterance, Directions.Center);
+            }
+
+            if (this.type === RoomType.Exit) {
+                const point: Point = roomMap.getNonEdgePoint();
+
+                roomMap.set(point, Items.Exit, Directions.Center);
+            }
+
             this.roomMap = roomMap;
         }
 

@@ -46,6 +46,11 @@ export default class Item {
         case Items.Door:
             spriteType = SPRITE_TYPES.DOOR;
             break;
+        case Items.Exit:
+        case Items.Enterance:
+            ctx.rect(origin.x, origin.y, dimensions.width, dimensions.height);
+            ctx.fill();
+            return;
         default:
             break;
         }
