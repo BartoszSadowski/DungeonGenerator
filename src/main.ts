@@ -8,11 +8,17 @@ import {
     calculateCanvas,
     calculateDungeonPoint
 } from './utils/canvas';
+import dungeonNames from './data/dungeonNames.json';
+import {
+    getRandomValue
+} from './utils/random';
 
 const TILE_MAP_PATH = '../imgs/rockyTileSet.png';
 
 const canvas = <HTMLCanvasElement> document.getElementById('demoCanvas');
 const ctx = <CanvasRenderingContext2D> canvas.getContext('2d');
+
+const nameEl = <HTMLElement> document.getElementById('dungeon-name');
 
 const SCALE = 35;
 const CANVAS_DIMENSIONS = <Dimensions> calculateCanvas(canvas.clientWidth, canvas.clientHeight, SCALE);
@@ -24,13 +30,36 @@ function canvasInit(canvasDimensions: Dimensions) {
 }
 
 class Dungeon extends Room {
-    constructor(dungeonPoint: Point, config: Config) {
+    name: string;
+    nameDOMEl: HTMLElement;
+    constructor(dungeonPoint: Point, config: Config, nameDOMEl: HTMLElement) {
         super(
             new Point(0, 0),
             dungeonPoint,
             config,
             null
         );
+        this.nameDOMEl = nameDOMEl;
+    }
+
+    generateName() {
+        const {
+            adjectives,
+            locations,
+            descriptors
+        } = dungeonNames;
+
+        const [adjectiveI, locationI, descriptorI] = [
+            getRandomValue(0, adjectives.length),
+            getRandomValue(0, locations.length),
+            getRandomValue(0, descriptors.length)
+        ];
+
+        this.name = `The ${adjectives[adjectiveI]} ${locations[locationI]} ${descriptors[descriptorI]}`;
+    }
+
+    presentName() {
+        this.nameDOMEl.innerText = this.name;
     }
 
     create() {
@@ -38,6 +67,9 @@ class Dungeon extends Room {
         this.connect();
         this.plan();
         this.draw();
+
+        this.generateName();
+        this.presentName();
     }
 }
 
@@ -57,7 +89,7 @@ class Dungeon extends Room {
 
         const config = new Config(divisable, minDimension, scale, context, spriteMap);
 
-        const dungeon = new Dungeon(dungeonPoint, config);
+        const dungeon = new Dungeon(dungeonPoint, config, nameEl);
 
         dungeon.create();
         console.log(dungeon);
