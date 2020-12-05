@@ -6,7 +6,8 @@ import {
     getRandomValue
 } from '../../utils/random';
 import {
-    RoomType
+    RoomType,
+    AXIS
 } from '../../utils/dictionary';
 
 export default class Dungeon extends Room {
@@ -43,29 +44,39 @@ export default class Dungeon extends Room {
         this.nameDOMEl.innerText = this.name;
     }
 
-    setRoomType(type: RoomType) {
-        let room: Room = this;
-        while (room.childRooms.length > 0) {
-            room = room.childRooms[getRandomValue(0, 1)];
-        }
+    setEnteranceExit() {
+        const enteranceHorizontal = getRandomValue(0, 1);
+        const enteranceVertical = getRandomValue(0, 1);
+        const exitHorizontal = Math.abs(enteranceHorizontal - 1);
+        const exitVertical = Math.abs(enteranceVertical - 1);
 
-        try {
-            room.setType(type);
-        } catch (error) {
-            if (error.message === room.ROOM_TYPE_DEFINED) {
-                this.setRoomType(type);
+        let roomEnterance: Room = this;
+        let roomExit: Room = this;
+
+        while (roomEnterance.childRooms.length > 0) {
+            if (roomEnterance.divisionLine.axis === AXIS.HORIZONTAL) {
+                roomEnterance = roomEnterance.childRooms[enteranceHorizontal];
             } else {
-                throw error;
+                roomEnterance = roomEnterance.childRooms[enteranceVertical];
             }
         }
+        while (roomExit.childRooms.length > 0) {
+            if (roomExit.divisionLine.axis === AXIS.HORIZONTAL) {
+                roomExit = roomExit.childRooms[exitHorizontal];
+            } else {
+                roomExit = roomExit.childRooms[exitVertical];
+            }
+        }
+
+        roomEnterance.setType(RoomType.Entrance);
+        roomExit.setType(RoomType.Exit);
     }
 
     create() {
         this.divide();
         this.connect();
 
-        this.setRoomType(RoomType.Entrance);
-        this.setRoomType(RoomType.Exit);
+        this.setEnteranceExit();
 
         this.plan();
         this.draw();
