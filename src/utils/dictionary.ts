@@ -30,3 +30,10 @@ export enum Items {
 export enum Modifiers {
     None = ''
 }
+
+export enum RoomType {
+    Default = 'Default',
+    Dungeon = 'Dungeon',
+    Entrance = 'Entrance',
+    Exit = 'Exit'
+}
