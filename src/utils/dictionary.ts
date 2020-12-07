@@ -17,7 +17,9 @@ export enum Directions {
 export const SPRITE_TYPES: Record<string, string> = {
     BASE: 'BASE',
     WALL: 'WALL',
-    DOOR: 'DOOR'
+    DOOR: 'DOOR',
+    ENTERANCE: 'ENTERANCE',
+    EXIT: 'EXIT'
 };
 
 export enum Items {
