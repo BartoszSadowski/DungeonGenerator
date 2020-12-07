@@ -5,6 +5,9 @@ import {
     Items,
     Directions
 } from '../../utils/dictionary';
+import {
+    getRandomValue
+} from '../../utils/random';
 
 type onEachItemFunction = (item: RoomItem, x: number, y: number) => any;
 
@@ -114,5 +117,29 @@ export default class RoomMap {
             j -= 1;
         }
         throw new Error('Element not found');
+    }
+
+    getNonEdgePoint() {
+        while (true) {
+            const point = new Point(
+                getRandomValue(0, this.dimensions.width - 1),
+                getRandomValue(0, this.dimensions.height - 1)
+            );
+
+            if (!this.get(point).item.has(Items.Floor, Directions.Floor)) {
+                // eslint-disable-next-line no-continue
+                continue;
+            }
+
+            const neighbours = this.getNeighbours(point);
+            if (neighbours.length < 4) {
+                // eslint-disable-next-line no-continue
+                continue;
+            }
+
+            if (neighbours.every(({ item }) => item.has(Items.Floor, Directions.Floor))) {
+                return point;
+            }
+        }
     }
 }

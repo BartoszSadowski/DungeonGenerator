@@ -7,7 +7,8 @@ import RoomMap from './roomMap';
 import {
     AXIS,
     Directions,
-    Items
+    Items,
+    RoomType
 } from '../../utils/dictionary';
 import {
     getRandomValue
@@ -18,18 +19,19 @@ export default class Room {
     point2: Point;
     config: Config;
     parentRoom: Room;
-    childRooms: Room[];
-    doors: Line[];
+    childRooms: Room[] = [];
+    doors: Line[] = [];
     divisionLine: Line;
-    roomMap: RoomMap
+    roomMap: RoomMap;
+    type: RoomType = RoomType.Default;
+
+    readonly ROOM_TYPE_DEFINED = 'Room has already defined type';
 
     constructor(point1: Point, point2: Point, config: Config, parentRoom: Room) {
         this.origin = point1;
         this.point2 = point2;
         this.config = config;
         this.parentRoom = parentRoom;
-        this.childRooms = [];
-        this.doors = [];
     }
 
     get width() {
@@ -59,6 +61,14 @@ export default class Room {
                 new Point(this.point2.x, this.origin.y)
             )
         ];
+    }
+
+    setType(type: RoomType, override?: boolean) {
+        if (this.type === RoomType.Default || override) {
+            this.type = type;
+        } else {
+            throw Error(this.ROOM_TYPE_DEFINED);
+        }
     }
 
     divide() {
@@ -269,6 +279,18 @@ export default class Room {
                             });
                     }
                 });
+
+            if (this.type === RoomType.Entrance) {
+                const point: Point = roomMap.getNonEdgePoint();
+
+                roomMap.set(point, Items.Enterance, Directions.Center);
+            }
+
+            if (this.type === RoomType.Exit) {
+                const point: Point = roomMap.getNonEdgePoint();
+
+                roomMap.set(point, Items.Exit, Directions.Center);
+            }
 
             this.roomMap = roomMap;
         }

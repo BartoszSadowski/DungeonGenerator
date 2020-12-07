@@ -46,12 +46,19 @@ export default class Item {
         case Items.Door:
             spriteType = SPRITE_TYPES.DOOR;
             break;
+        case Items.Exit:
+            spriteType = SPRITE_TYPES.EXIT;
+            break;
+        case Items.Enterance:
+            spriteType = SPRITE_TYPES.ENTERANCE;
+            break;
         default:
             break;
         }
         if (spriteType === '') {
             return;
         }
+
         SpriteMap
             .get(spriteType)
             .draw(

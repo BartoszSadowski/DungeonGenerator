@@ -17,16 +17,27 @@ export enum Directions {
 export const SPRITE_TYPES: Record<string, string> = {
     BASE: 'BASE',
     WALL: 'WALL',
-    DOOR: 'DOOR'
+    DOOR: 'DOOR',
+    ENTERANCE: 'ENTERANCE',
+    EXIT: 'EXIT'
 };
 
 export enum Items {
     Empty = '',
     Door = 'D',
     Wall = 'W',
-    Floor = 'F'
+    Floor = 'F',
+    Enterance = 'E',
+    Exit = 'X'
 }
 
 export enum Modifiers {
     None = ''
+}
+
+export enum RoomType {
+    Default = 'Default',
+    Dungeon = 'Dungeon',
+    Entrance = 'Entrance',
+    Exit = 'Exit'
 }
