@@ -1,0 +1,22 @@
+@media print {
+    html, body { height: auto; } /* Removal of second page */
+    @page { margin: 10px; } /* Removal of redundant headers and footers*/
+
+    .body {
+        display: block;
+        overflow: hidden;
+    }
+
+    .nav {
+        display: none;
+    }
+
+    .header {
+        display: none;
+    }
+
+    .main {
+        display: block;
+    }
+
+}
