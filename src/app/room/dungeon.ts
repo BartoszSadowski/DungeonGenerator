@@ -7,7 +7,8 @@ import {
 } from '../../utils/random';
 import {
     RoomType,
-    AXIS
+    AXIS,
+    StorageItems
 } from '../../utils/dictionary';
 
 export default class Dungeon extends Room {
@@ -72,7 +73,7 @@ export default class Dungeon extends Room {
     }
 
     save() {
-        sessionStorage.setItem('dungeon', JSON.stringify(this));
+        sessionStorage.setItem(StorageItems.Dungeon, JSON.stringify(this));
     }
 
     create() {
@@ -88,5 +89,11 @@ export default class Dungeon extends Room {
         this.presentName();
 
         this.save();
+    }
+
+    init() {
+        if (!sessionStorage.getItem(StorageItems.Dungeon)) {
+            this.create();
+        }
     }
 }

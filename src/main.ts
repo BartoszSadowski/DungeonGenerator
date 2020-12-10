@@ -43,7 +43,7 @@ function canvasInit(canvasDimensions: Dimensions) {
 
         const dungeon = new Dungeon(dungeonPoint, config, nameEl);
 
-        dungeon.create();
+        dungeon.init();
         console.log(dungeon);
     });
 })({
