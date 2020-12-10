@@ -17,8 +17,7 @@ export default class Dungeon extends Room {
         super(
             new Point(0, 0),
             dungeonPoint,
-            config,
-            null
+            config
         );
         this.nameDOMEl = nameDOMEl;
         this.type = RoomType.Dungeon;
@@ -72,6 +71,10 @@ export default class Dungeon extends Room {
         roomExit.setType(RoomType.Exit);
     }
 
+    save() {
+        sessionStorage.setItem('dungeon', JSON.stringify(this));
+    }
+
     create() {
         this.divide();
         this.connect();
@@ -83,5 +86,7 @@ export default class Dungeon extends Room {
 
         this.generateName();
         this.presentName();
+
+        this.save();
     }
 }

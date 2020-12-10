@@ -18,7 +18,6 @@ export default class Room {
     origin: Point;
     point2: Point;
     config: Config;
-    parentRoom: Room;
     childRooms: Room[] = [];
     doors: Line[] = [];
     divisionLine: Line;
@@ -27,11 +26,10 @@ export default class Room {
 
     readonly ROOM_TYPE_DEFINED = 'Room has already defined type';
 
-    constructor(point1: Point, point2: Point, config: Config, parentRoom: Room) {
+    constructor(point1: Point, point2: Point, config: Config) {
         this.origin = point1;
         this.point2 = point2;
         this.config = config;
-        this.parentRoom = parentRoom;
     }
 
     get width() {
@@ -104,14 +102,12 @@ export default class Room {
                 new Room(
                     this.origin,
                     new Point(newLine, this.point2.y),
-                    this.config,
-                    this
+                    this.config
                 ),
                 new Room(
                     new Point(newLine, this.origin.y),
                     this.point2,
-                    this.config,
-                    this
+                    this.config
                 )
             );
         } else {
@@ -129,14 +125,12 @@ export default class Room {
                 new Room(
                     this.origin,
                     new Point(this.point2.x, newLine),
-                    this.config,
-                    this
+                    this.config
                 ),
                 new Room(
                     new Point(this.origin.x, newLine),
                     this.point2,
-                    this.config,
-                    this
+                    this.config
                 )
             );
         }
