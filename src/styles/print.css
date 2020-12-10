@@ -19,4 +19,13 @@
         display: block;
     }
 
+    
+}
+
+@media print and (orientation: portrait) {
+    /* portrait mode */
+}
+
+@media print and (orientation: landscape) {
+    /* portrait mode */
 }
