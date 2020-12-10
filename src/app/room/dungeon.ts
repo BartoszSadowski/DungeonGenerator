@@ -96,13 +96,10 @@ export default class Dungeon extends Room {
         const savedDungeon: Dungeon = JSON.parse(savedDungeonStr);
 
         this.loadChildren(savedDungeon);
-
-        // this.draw();
+        this.draw();
 
         this.name = savedDungeon.name;
         this.presentName();
-
-        console.log(savedDungeon);
     }
 
     init() {

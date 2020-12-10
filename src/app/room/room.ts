@@ -342,5 +342,19 @@ export default class Room {
 
                 this.childRooms.push(room);
             });
+
+        if (!savedRoom.childRooms.length) {
+            this.roomMap = new RoomMap(savedRoom.roomMap.dimensions);
+            for (let i = 0; i < this.roomMap.dimensions.height; i++) {
+                for (let j = 0; j < this.roomMap.dimensions.width; j++) {
+                    this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].bottom.item, Directions.Down);
+                    this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].center.item, Directions.Center);
+                    this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].floor.item, Directions.Floor);
+                    this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].left.item, Directions.Left);
+                    this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].right.item, Directions.Right);
+                    this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].top.item, Directions.Up);
+                }
+            }
+        }
     }
 }
