@@ -307,4 +307,40 @@ export default class Room {
 
         this.childRooms.forEach(room => room.draw());
     }
+
+    loadChildren(savedRoom: Room) {
+        if (savedRoom.divisionLine) {
+            this.divisionLine = new Line(
+                new Point(savedRoom.divisionLine.point1.x, savedRoom.divisionLine.point1.y),
+                new Point(savedRoom.divisionLine.point2.x, savedRoom.divisionLine.point2.y)
+            );
+        }
+
+        try {
+            this.setType(savedRoom.type);
+            // eslint-disable-next-line no-empty
+        } catch (e) {
+        }
+
+        savedRoom.doors
+            .forEach(door => {
+                this.doors.push(new Line(
+                    new Point(door.point1.x, door.point1.y),
+                    new Point(door.point2.x, door.point2.y)
+                ));
+            });
+
+        savedRoom.childRooms
+            .forEach((loadedRoom: Room) => {
+                const room = new Room(
+                    new Point(loadedRoom.origin.x, loadedRoom.origin.y),
+                    new Point(loadedRoom.point2.x, loadedRoom.point2.y),
+                    this.config
+                );
+
+                room.loadChildren(loadedRoom);
+
+                this.childRooms.push(room);
+            });
+    }
 }

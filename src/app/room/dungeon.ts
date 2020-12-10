@@ -91,9 +91,25 @@ export default class Dungeon extends Room {
         this.save();
     }
 
+    load() {
+        const savedDungeonStr: string = sessionStorage.getItem(StorageItems.Dungeon);
+        const savedDungeon: Dungeon = JSON.parse(savedDungeonStr);
+
+        this.loadChildren(savedDungeon);
+
+        // this.draw();
+
+        this.name = savedDungeon.name;
+        this.presentName();
+
+        console.log(savedDungeon);
+    }
+
     init() {
         if (!sessionStorage.getItem(StorageItems.Dungeon)) {
             this.create();
+        } else {
+            this.load();
         }
     }
 }
