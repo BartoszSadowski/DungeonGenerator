@@ -10,6 +10,7 @@ import {
     AXIS,
     StorageItems
 } from '../../utils/dictionary';
+import { isThrowStatement } from 'typescript';
 
 export default class Dungeon extends Room {
     name: string;
@@ -114,7 +115,19 @@ export default class Dungeon extends Room {
         }
     }
 
+    clear() {
+        this.config.ctx.clearRect(
+            this.origin.x * this.config.scale,
+            this.origin.y * this.config.scale,
+            this.point2.x * this.config.scale,
+            this.point2.y * this.config.scale
+        );
+        this.childRooms = [];
+        this.doors = [];
+    }
+
     regenerate() {
-        console.log('Trying to generate again');
+        this.clear();
+        this.create();
     }
 }
