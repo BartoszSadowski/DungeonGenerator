@@ -95,11 +95,15 @@ export default class Dungeon extends Room {
         const savedDungeonStr: string = sessionStorage.getItem(StorageItems.Dungeon);
         const savedDungeon: Dungeon = JSON.parse(savedDungeonStr);
 
-        this.loadChildren(savedDungeon);
-        this.draw();
+        if (this.point2.isSame(savedDungeon.point2)) {
+            this.loadChildren(savedDungeon);
+            this.draw();
 
-        this.name = savedDungeon.name;
-        this.presentName();
+            this.name = savedDungeon.name;
+            this.presentName();
+        } else {
+            this.create();
+        }
     }
 
     init() {
@@ -108,5 +112,9 @@ export default class Dungeon extends Room {
         } else {
             this.load();
         }
+    }
+
+    regenerate() {
+        console.log('Trying to generate again');
     }
 }

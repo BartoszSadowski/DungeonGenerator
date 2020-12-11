@@ -47,16 +47,24 @@ body {
     text-align: center;
 }
 
+.controls {
+    grid-area: controls;
+    display: flex;
+    padding: 10px;
+    justify-content: space-evenly;
+}
+
 .body {
     display: grid;
     grid-template-columns: 250px auto 3%;
-    grid-template-rows: 80px auto 5%;
+    grid-template-rows: 80px auto 50px;
     column-gap: 10px;
     grid-template-areas: 
     "header name ."
     "navigation main ."
-    "navigation . .";
+    "navigation controls .";
 }
+
 
 @media screen and (max-width: 767px) and (orientation: portrait) {
     html {
@@ -91,6 +99,10 @@ body {
         right: 0;
         left: 0;
         bottom: 0;
+    }
+
+    .controls {
+        display: none;
     }
 }
 
