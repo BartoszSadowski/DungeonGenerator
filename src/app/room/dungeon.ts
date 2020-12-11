@@ -10,7 +10,6 @@ import {
     AXIS,
     StorageItems
 } from '../../utils/dictionary';
-import { isThrowStatement } from 'typescript';
 
 export default class Dungeon extends Room {
     name: string;
