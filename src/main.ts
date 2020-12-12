@@ -16,6 +16,7 @@ const ctx = <CanvasRenderingContext2D> canvas.getContext('2d');
 
 const nameEl = <HTMLElement> document.getElementById('dungeon-name');
 const regenerate = <HTMLElement> document.getElementById('dungeon-regenerate');
+const body = <HTMLElement> document.querySelector('body');
 
 const SCALE = 35;
 const CANVAS_DIMENSIONS = <Dimensions> calculateCanvas(canvas.clientWidth, canvas.clientHeight, SCALE);
@@ -48,6 +49,11 @@ function canvasInit(canvasDimensions: Dimensions) {
 
         regenerate.addEventListener('click', () => {
             dungeon.regenerate();
+        });
+        body.addEventListener('keyup', (event: KeyboardEvent) => {
+            if (event.key === 'r') {
+                dungeon.regenerate();
+            }
         });
         console.log(dungeon);
     });
