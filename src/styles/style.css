@@ -203,3 +203,62 @@ body {
     left: -5px;
 }
 
+/* Config */
+.main--subpage {
+   margin-left: auto;
+   margin-right: auto;
+   width: 70%;
+   max-width: 80em;
+}
+
+.config-entry {
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+.config-entry__range {
+    width: 100%;
+    top: 2px;
+    height: 0;
+    -webkit-appearance: none;
+}
+
+.config-entry__range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    margin: -8px 0 0;
+    border-radius: 50%;
+    background: var(--slider);
+    cursor: pointer;
+    border: 0 !important;
+}
+
+.config-entry__range::-webkit-slider-runnable-track {
+    height: 3px;
+    cursor: pointer;
+    background: var(--dim-gray);
+}
+
+.config-entry__range:focus {
+    background: none;
+    outline: none;
+}
+
+.config-entry__labels {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+.config-entry__label {
+    color: var(--dim-gray);
+    cursor: pointer;
+    font: 400 1em var(--title-sans);
+}
+
+.config-entry__title {
+    font: 1.5em var(--title-sans);
+    color: var(--dim-gray);
+}
