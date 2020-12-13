@@ -205,10 +205,16 @@ body {
 
 /* Config */
 .main--subpage {
-   margin-left: auto;
-   margin-right: auto;
-   width: 70%;
-   max-width: 80em;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    max-width: 80em;
+    overflow-y: scroll;
+}
+
+.config-category {
+    font: 400 1.75em var(--title-sans);
+    text-decoration: underline;
 }
 
 .config-entry {
@@ -217,10 +223,15 @@ body {
 }
 
 .config-entry__range {
-    width: 100%;
+    width: 99%;
     top: 2px;
     height: 0;
     -webkit-appearance: none;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
 }
 
 .config-entry__range::-webkit-slider-thumb {

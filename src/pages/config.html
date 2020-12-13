@@ -23,10 +23,56 @@
         <h2>Config</h2>
     </header>
     <main class="main main--subpage">
+        <h3 class="config-category">Tiles</h3>
         <div class="config-entry">
             <label for="scale" class="config-entry__title">Scale</label>
-            <div class="config-entry__scale">
+            <div class="config-entry__input">
                 <input class="config-entry__range" type="range" id="scale" min="16" max="64" value="35">
+            </div>
+            <ul class="config-entry__labels">
+                <li class="config-entry__label">Little</li>
+                <li class="config-entry__label config-entry__label--selected">Medium</li>
+                <li class="config-entry__label">Big</li>
+            </ul>
+        </div>
+        <h3 class="config-category">Big Rooms</h3>
+        <div class="config-entry">
+            <label for="scale" class="config-entry__title">Height</label>
+            <div class="config-entry__input">
+                <input class="config-entry__range" type="range" id="big-room-height" min="10" max="32" value="12">
+            </div>
+            <ul class="config-entry__labels">
+                <li class="config-entry__label">Little</li>
+                <li class="config-entry__label config-entry__label--selected">Medium</li>
+                <li class="config-entry__label">Big</li>
+            </ul>
+        </div>
+        <div class="config-entry">
+            <label for="scale" class="config-entry__title">Width</label>
+            <div class="config-entry__input">
+                <input class="config-entry__range" type="range" id="big-room-width" min="10" max="32" value="16">
+            </div>
+            <ul class="config-entry__labels">
+                <li class="config-entry__label">Little</li>
+                <li class="config-entry__label config-entry__label--selected">Medium</li>
+                <li class="config-entry__label">Big</li>
+            </ul>
+        </div>
+        <h3 class="config-category">Small Room</h3>
+        <div class="config-entry">
+            <label for="scale" class="config-entry__title">Height</label>
+            <div class="config-entry__input">
+                <input class="config-entry__range" type="range" id="small-room-height" min="2" max="8" value="5">
+            </div>
+            <ul class="config-entry__labels">
+                <li class="config-entry__label">Little</li>
+                <li class="config-entry__label config-entry__label--selected">Medium</li>
+                <li class="config-entry__label">Big</li>
+            </ul>
+        </div><div class="config-entry">
+            <label for="scale" class="config-entry__title">Width</label>
+            <div class="config-entry__input">
+                <input class="config-entry__range" type="range" id="small-room-width" min="2" max="8" value="5">
             </div>
             <ul class="config-entry__labels">
                 <li class="config-entry__label">Little</li>

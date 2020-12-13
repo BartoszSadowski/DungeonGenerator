@@ -28,29 +28,33 @@ function canvasInit(canvasDimensions: Dimensions) {
 }
 
 Sprite.initialize(TILE_MAP_PATH, () => {
-    // Load config
-    const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap);
-    config.init();
+    try {
+        // Load config
+        const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap);
+        config.init();
 
-    // Calculate canvas
-    const canvasDimensions = <Dimensions> calculateCanvas(canvas.clientWidth, canvas.clientHeight, config.scale);
-    const dungeonPoint = <Point> calculateDungeonPoint(canvasDimensions, config.scale);
+        // Calculate canvas
+        const canvasDimensions = <Dimensions> calculateCanvas(canvas.clientWidth, canvas.clientHeight, config.scale);
+        const dungeonPoint = <Point> calculateDungeonPoint(canvasDimensions, config.scale);
 
-    canvasInit(canvasDimensions);
+        canvasInit(canvasDimensions);
 
-    // Load dungeon
-    const dungeon = new Dungeon(dungeonPoint, config, nameEl);
-    dungeon.init();
+        // Load dungeon
+        const dungeon = new Dungeon(dungeonPoint, config, nameEl);
+        dungeon.init();
 
-    // Set listeners
-    regenerateEl.addEventListener('click', () => {
-        dungeon.regenerate();
-    });
-    bodyEl.addEventListener('keyup', (event: KeyboardEvent) => {
-        if (event.key === 'r') {
+        // Set listeners
+        regenerateEl.addEventListener('click', () => {
             dungeon.regenerate();
-        }
-    });
+        });
+        bodyEl.addEventListener('keyup', (event: KeyboardEvent) => {
+            if (event.key === 'r') {
+                dungeon.regenerate();
+            }
+        });
 
-    console.log(dungeon);
+        console.log(dungeon);
+    } catch (error) {
+        console.log(error);
+    }
 });
