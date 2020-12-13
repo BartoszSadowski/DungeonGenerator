@@ -14,6 +14,12 @@ import {
 export default class Dungeon extends Room {
     name: string;
     nameDOMEl: HTMLElement;
+    scale: number;
+
+    // messages
+    LOADED: string = 'Dungeon Loaded';
+    CREATED: string = 'Dungeon Created';
+
     constructor(dungeonPoint: Point, config: Config, nameDOMEl: HTMLElement) {
         super(
             new Point(0, 0),
@@ -77,6 +83,8 @@ export default class Dungeon extends Room {
     }
 
     create() {
+        this.scale = this.config.scale;
+
         this.divide();
         this.connect();
 
@@ -89,29 +97,30 @@ export default class Dungeon extends Room {
         this.presentName();
 
         this.save();
+        return this.CREATED;
     }
 
     load() {
         const savedDungeonStr: string = sessionStorage.getItem(StorageItems.Dungeon);
         const savedDungeon: Dungeon = JSON.parse(savedDungeonStr);
 
-        if (this.point2.isSame(savedDungeon.point2)) {
+        if (this.point2.isSame(savedDungeon.point2) && this.config.scale === savedDungeon.scale) {
+            console.log(this.config.scale, savedDungeon.scale);
             this.loadChildren(savedDungeon);
             this.draw();
 
             this.name = savedDungeon.name;
             this.presentName();
-        } else {
-            this.create();
+            return this.LOADED;
         }
+        return this.create();
     }
 
     init() {
         if (!sessionStorage.getItem(StorageItems.Dungeon)) {
-            this.create();
-        } else {
-            this.load();
+            return this.create();
         }
+        return this.load();
     }
 
     clear() {

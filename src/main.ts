@@ -2,6 +2,7 @@ import Dungeon from './app/room/dungeon';
 import Config from './app/config';
 import Sprite from './app/sprite';
 import Dimensions from './utils/dimensions';
+import Point from './utils/point';
 import {
     canvas,
     ctx,
@@ -9,12 +10,15 @@ import {
     regenerateEl,
     bodyEl,
     SCALE,
-    CANVAS_DIMENSIONS,
-    DUNGEON_POINT,
     spriteMap,
     divisable,
     minDimension
 } from './data/configData';
+
+import {
+    calculateCanvas,
+    calculateDungeonPoint
+} from './utils/canvas';
 
 const TILE_MAP_PATH = '../imgs/rockyTileSet.png';
 
@@ -24,14 +28,21 @@ function canvasInit(canvasDimensions: Dimensions) {
 }
 
 Sprite.initialize(TILE_MAP_PATH, () => {
-    canvasInit(CANVAS_DIMENSIONS);
-
+    // Load config
     const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap);
     config.init();
 
-    const dungeon = new Dungeon(DUNGEON_POINT, config, nameEl);
+    // Calculate canvas
+    const canvasDimensions = <Dimensions> calculateCanvas(canvas.clientWidth, canvas.clientHeight, config.scale);
+    const dungeonPoint = <Point> calculateDungeonPoint(canvasDimensions, config.scale);
+
+    canvasInit(canvasDimensions);
+
+    // Load dungeon
+    const dungeon = new Dungeon(dungeonPoint, config, nameEl);
     dungeon.init();
 
+    // Set listeners
     regenerateEl.addEventListener('click', () => {
         dungeon.regenerate();
     });

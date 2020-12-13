@@ -11,6 +11,10 @@ export default class Config {
     ctx: CanvasRenderingContext2D;
     spriteMap: Map<string, Sprite>
 
+    // messages
+    SAVED: string = 'Config saved';
+    LOADED: string = 'Config loaded';
+
     constructor(
         divisable: Dimensions,
         minDimension: Dimensions,
@@ -27,6 +31,8 @@ export default class Config {
 
     save() {
         sessionStorage.setItem(StorageItems.Config, JSON.stringify(this));
+
+        return this.SAVED;
     }
 
     load() {
@@ -36,13 +42,14 @@ export default class Config {
         this.scale = savedConfig.scale;
         this.divisable = new Dimensions(savedConfig.divisable.width, savedConfig.divisable.height);
         this.minDimension = new Dimensions(savedConfig.minDimension.width, savedConfig.minDimension.height);
+
+        return this.LOADED;
     }
 
     init() {
         if (!sessionStorage.getItem(StorageItems.Config)) {
-            this.save();
-        } else {
-            this.load();
+            return this.save();
         }
+        return this.load();
     }
 }
