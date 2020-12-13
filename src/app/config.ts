@@ -1,5 +1,8 @@
 import Dimensions from '../utils/dimensions';
 import Sprite from './sprite';
+import {
+    StorageItems
+} from '../utils/dictionary';
 
 export default class Config {
     divisable: Dimensions;
@@ -20,5 +23,18 @@ export default class Config {
         this.scale = scale;
         this.ctx = context;
         this.spriteMap = spriteMap;
+    }
+
+    save() {
+        sessionStorage.setItem(StorageItems.Config, JSON.stringify(this));
+    }
+
+    load() {
+        const savedConfigStr: string = sessionStorage.getItem(StorageItems.Config);
+        const savedConfig: Config = JSON.parse(savedConfigStr);
+
+        this.scale = savedConfig.scale;
+        this.divisable = new Dimensions(savedConfig.divisable.width, savedConfig.divisable.height);
+        this.minDimension = new Dimensions(savedConfig.minDimension.width, savedConfig.minDimension.height);
     }
 }

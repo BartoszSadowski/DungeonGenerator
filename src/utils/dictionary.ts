@@ -43,5 +43,6 @@ export enum RoomType {
 }
 
 export enum StorageItems {
-    Dungeon = 'Dungeon'
+    Dungeon = 'Dungeon',
+    Config = 'Config'
 }
