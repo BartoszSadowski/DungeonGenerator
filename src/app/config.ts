@@ -37,4 +37,12 @@ export default class Config {
         this.divisable = new Dimensions(savedConfig.divisable.width, savedConfig.divisable.height);
         this.minDimension = new Dimensions(savedConfig.minDimension.width, savedConfig.minDimension.height);
     }
+
+    init() {
+        if (!sessionStorage.getItem(StorageItems.Config)) {
+            this.save();
+        } else {
+            this.load();
+        }
+    }
 }

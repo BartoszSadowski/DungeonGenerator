@@ -27,6 +27,7 @@ Sprite.initialize(TILE_MAP_PATH, () => {
     canvasInit(CANVAS_DIMENSIONS);
 
     const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap);
+    config.init();
 
     const dungeon = new Dungeon(DUNGEON_POINT, config, nameEl);
     dungeon.init();
