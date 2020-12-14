@@ -10,6 +10,7 @@ import {
     regenerateEl,
     bodyEl,
     SCALE,
+    DENSENESS,
     spriteMap,
     divisable,
     minDimension
@@ -30,7 +31,7 @@ function canvasInit(canvasDimensions: Dimensions) {
 Sprite.initialize(TILE_MAP_PATH, () => {
     try {
         // Load config
-        const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap);
+        const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap, DENSENESS);
         config.init();
 
         // Calculate canvas

@@ -10,6 +10,7 @@ export default class Config {
     scale: number;
     ctx: CanvasRenderingContext2D;
     spriteMap: Map<string, Sprite>
+    denseness: number
 
     // messages
     SAVED: string = 'Config saved';
@@ -20,13 +21,15 @@ export default class Config {
         minDimension: Dimensions,
         scale: number,
         context: CanvasRenderingContext2D,
-        spriteMap: Map<string, Sprite>
+        spriteMap: Map<string, Sprite>,
+        denseness: number
     ) {
         this.divisable = divisable;
         this.minDimension = minDimension;
         this.scale = scale;
         this.ctx = context;
         this.spriteMap = spriteMap;
+        this.denseness = denseness;
     }
 
     save() {
@@ -40,6 +43,7 @@ export default class Config {
         const savedConfig: Config = JSON.parse(savedConfigStr);
 
         this.scale = savedConfig.scale;
+        this.denseness = savedConfig.denseness;
         this.divisable = new Dimensions(savedConfig.divisable.width, savedConfig.divisable.height);
         this.minDimension = new Dimensions(savedConfig.minDimension.width, savedConfig.minDimension.height);
 

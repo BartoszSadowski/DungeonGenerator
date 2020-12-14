@@ -2,6 +2,7 @@ import Config from './app/config';
 import {
     ctx,
     SCALE,
+    DENSENESS,
     spriteMap,
     divisable,
     minDimension
@@ -9,12 +10,11 @@ import {
 import Dimensions from './utils/dimensions';
 
 const scaleEl = <HTMLInputElement> document.getElementById('scale');
-const bigRoomHeightEl = <HTMLInputElement> document.getElementById('big-room-height');
-const bigRoomWidthEl = <HTMLInputElement> document.getElementById('big-room-width');
-const smallRoomHeightEl = <HTMLInputElement> document.getElementById('small-room-height');
-const smallRoomWidthEl = <HTMLInputElement> document.getElementById('small-room-width');
+const roomHeightEl = <HTMLInputElement> document.getElementById('room-height');
+const roomWidthEl = <HTMLInputElement> document.getElementById('room-width');
+const densenessEl = <HTMLInputElement> document.getElementById('denseness');
 
-const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap);
+const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap, DENSENESS);
 config.init();
 
 scaleEl.value = config.scale.toString();
@@ -23,26 +23,20 @@ scaleEl.addEventListener('change', () => {
     config.save();
 });
 
-bigRoomHeightEl.value = config.divisable.height.toString();
-bigRoomHeightEl.addEventListener('change', () => {
-    config.divisable = new Dimensions(config.divisable.width, +bigRoomHeightEl.value);
+roomHeightEl.value = config.divisable.height.toString();
+roomHeightEl.addEventListener('change', () => {
+    config.divisable = new Dimensions(+roomWidthEl.value, +roomHeightEl.value);
     config.save();
 });
 
-bigRoomWidthEl.value = config.divisable.width.toString();
-bigRoomWidthEl.addEventListener('change', () => {
-    config.divisable = new Dimensions(+bigRoomWidthEl.value, config.divisable.width);
+roomWidthEl.value = config.divisable.width.toString();
+roomWidthEl.addEventListener('change', () => {
+    config.divisable = new Dimensions(+roomWidthEl.value, +roomHeightEl.value);
     config.save();
 });
 
-smallRoomHeightEl.value = config.minDimension.height.toString();
-smallRoomHeightEl.addEventListener('change', () => {
-    config.minDimension = new Dimensions(config.minDimension.width, +smallRoomHeightEl.value);
+densenessEl.value = config.denseness.toString();
+densenessEl.addEventListener('change', () => {
+    config.denseness = +densenessEl.value;
     config.save();
-});
-
-smallRoomWidthEl.value = config.minDimension.width.toString();
-smallRoomWidthEl.addEventListener('change', () => {
-    config.minDimension = new Dimensions(+smallRoomWidthEl.value, config.minDimension.width);
-    config.save();
-});
+})

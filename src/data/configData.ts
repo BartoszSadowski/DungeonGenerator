@@ -8,6 +8,7 @@ export const regenerateEl = <HTMLElement> document.getElementById('dungeon-regen
 export const bodyEl = <HTMLElement> document.querySelector('body');
 
 export const SCALE = 35;
+export const DENSENESS = 1;
 
 export const spriteMap = createSpriteMap();
 export const divisable = new Dimensions(16, 12);
