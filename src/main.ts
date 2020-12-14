@@ -1,9 +1,21 @@
 import Dungeon from './app/room/dungeon';
 import Config from './app/config';
 import Sprite from './app/sprite';
-import createSpriteMap from './app/spriteMap';
 import Dimensions from './utils/dimensions';
 import Point from './utils/point';
+import {
+    canvas,
+    ctx,
+    nameEl,
+    regenerateEl,
+    bodyEl,
+    SCALE,
+    DENSENESS,
+    spriteMap,
+    divisable,
+    minDimension
+} from './data/configData';
+
 import {
     calculateCanvas,
     calculateDungeonPoint
@@ -11,47 +23,45 @@ import {
 
 const TILE_MAP_PATH = '../imgs/rockyTileSet.png';
 
-const canvas = <HTMLCanvasElement> document.getElementById('demoCanvas');
-const ctx = <CanvasRenderingContext2D> canvas.getContext('2d');
-
-const nameEl = <HTMLElement> document.getElementById('dungeon-name');
-
-const SCALE = 35;
-const CANVAS_DIMENSIONS = <Dimensions> calculateCanvas(canvas.clientWidth, canvas.clientHeight, SCALE);
-const DUNGEON_POINT = <Point> calculateDungeonPoint(CANVAS_DIMENSIONS, SCALE);
-
 function canvasInit(canvasDimensions: Dimensions) {
     canvas.width = canvasDimensions.width;
     canvas.height = canvasDimensions.height;
 }
 
-(function init(options) {
-    Sprite.initialize(TILE_MAP_PATH, () => {
-        const {
-            divisable,
-            minDimension,
-            scale,
-            dungeonPoint,
-            canvasDimensions,
-            context,
-            spriteMap
-        } = options;
+Sprite.initialize(TILE_MAP_PATH, () => {
+    try {
+        // Load config
+        const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap, DENSENESS);
+        config.init();
+
+        // Calculate canvas
+        const canvasDimensions = <Dimensions> calculateCanvas(canvas.clientWidth, canvas.clientHeight, config.scale);
+        const dungeonPoint = <Point> calculateDungeonPoint(canvasDimensions, config.scale);
 
         canvasInit(canvasDimensions);
 
-        const config = new Config(divisable, minDimension, scale, context, spriteMap);
-
+        // Load dungeon
         const dungeon = new Dungeon(dungeonPoint, config, nameEl);
+        dungeon.init();
 
-        dungeon.create();
+        // Set listeners
+        regenerateEl.addEventListener('click', () => {
+            dungeon.regenerate();
+        });
+
+        bodyEl.addEventListener('keyup', (event: KeyboardEvent) => {
+            if (event.key === 'r') {
+                dungeon.regenerate();
+            }
+        });
+
+        window.addEventListener(dungeon.REQUEST_REGENRATION, () => {
+            window.location.reload();
+            dungeon.create();
+        });
+
         console.log(dungeon);
-    });
-})({
-    divisable: new Dimensions(16, 12),
-    minDimension: new Dimensions(5, 5),
-    context: ctx,
-    dungeonPoint: DUNGEON_POINT,
-    canvasDimensions: CANVAS_DIMENSIONS,
-    scale: SCALE,
-    spriteMap: createSpriteMap()
+    } catch (error) {
+        console.log(error);
+    }
 });

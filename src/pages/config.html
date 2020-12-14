@@ -22,8 +22,53 @@
     <header class="name">
         <h2>Config</h2>
     </header>
-    <main class="main">
-        <h3>Work in progress</h3>
+    <main class="main main--subpage">
+        <div class="config-entry">
+            <label for="scale" class="config-entry__title">Scale</label>
+            <div class="config-entry__input">
+                <input class="config-entry__range" type="range" id="scale" min="16" max="64" value="35">
+            </div>
+            <ul class="config-entry__labels">
+                <li class="config-entry__label">Little</li>
+                <li class="config-entry__label config-entry__label--selected">Medium</li>
+                <li class="config-entry__label">Big</li>
+            </ul>
+        </div>
+        <div class="config-entry">
+            <label for="room-height" class="config-entry__title">Rooms Height</label>
+            <div class="config-entry__input">
+                <input class="config-entry__range" type="range" id="room-height" min="10" max="32" value="12">
+            </div>
+            <ul class="config-entry__labels">
+                <li class="config-entry__label">Short</li>
+                <li class="config-entry__label config-entry__label--selected">Medium</li>
+                <li class="config-entry__label">Tall</li>
+            </ul>
+        </div>
+        <div class="config-entry">
+            <label for="room-width" class="config-entry__title">Rooms Width</label>
+            <div class="config-entry__input">
+                <input class="config-entry__range" type="range" id="room-width" min="10" max="32" value="16">
+            </div>
+            <ul class="config-entry__labels">
+                <li class="config-entry__label">Short</li>
+                <li class="config-entry__label config-entry__label--selected">Medium</li>
+                <li class="config-entry__label">Long</li>
+            </ul>
+        </div>
+        <div class="config-entry">
+            <label for="denseness" class="config-entry__title">Denseness</label>
+            <div class="config-entry__input">
+                <input class="config-entry__range" type="range" id="denseness" min="0" max="2" value="1">
+            </div>
+            <ul class="config-entry__labels">
+                <li class="config-entry__label">Dense</li>
+                <li class="config-entry__label config-entry__label--selected">Medium</li>
+                <li class="config-entry__label">Sparse</li>
+            </ul>
+        </div>
     </main>
+
+    <script src="../../dist-ts/config_page.js"></script>
 </body>
 </html>

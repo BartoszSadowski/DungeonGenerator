@@ -19,7 +19,9 @@
         display: block;
     }
 
-    
+    .controls {
+        display: none;
+    }
 }
 
 @media print and (orientation: portrait) {

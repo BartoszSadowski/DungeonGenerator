@@ -47,16 +47,36 @@ body {
     text-align: center;
 }
 
+.controls {
+    grid-area: controls;
+    display: flex;
+    padding: 10px;
+    justify-content: space-evenly;
+}
+
 .body {
     display: grid;
     grid-template-columns: 250px auto 3%;
-    grid-template-rows: 80px auto 5%;
+    grid-template-rows: 80px auto 45px;
     column-gap: 10px;
     grid-template-areas: 
     "header name ."
     "navigation main ."
-    "navigation . .";
+    "navigation controls .";
 }
+
+.controls__button {
+    background-color: var(--nav-background);
+    color: var(--light-gray);
+    border: none;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.controls__button:focus {
+    outline: #DF4500 solid 1px;
+}
+
 
 @media screen and (max-width: 767px) and (orientation: portrait) {
     html {
@@ -92,6 +112,10 @@ body {
         left: 0;
         bottom: 0;
     }
+
+    .controls {
+        display: none;
+    }
 }
 
 /* menu */
@@ -116,6 +140,10 @@ body {
 }
 
 .dungeon-generator > a:hover {
+    color:white;
+}
+
+.dungeon-generator > a:focus {
     color:white;
 }
 
@@ -145,6 +173,10 @@ body {
     z-index: 1;
 }
 
+.nav__item > a:focus {
+    color: white;
+}
+
 .nav__item > a::before {
     content: '';
     display: block;
@@ -171,3 +203,73 @@ body {
     left: -5px;
 }
 
+/* Config */
+.main--subpage {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    max-width: 80em;
+    overflow-y: scroll;
+}
+
+.config-category {
+    font: 400 1.75em var(--title-sans);
+    text-decoration: underline;
+}
+
+.config-entry {
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+.config-entry__range {
+    width: 99%;
+    top: 2px;
+    height: 0;
+    -webkit-appearance: none;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+.config-entry__range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    margin: -8px 0 0;
+    border-radius: 50%;
+    background: var(--slider);
+    cursor: pointer;
+    border: 0 !important;
+}
+
+.config-entry__range::-webkit-slider-runnable-track {
+    height: 3px;
+    cursor: pointer;
+    background: var(--dim-gray);
+}
+
+.config-entry__range:focus {
+    background: none;
+    outline: none;
+}
+
+.config-entry__labels {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+.config-entry__label {
+    color: var(--dim-gray);
+    cursor: pointer;
+    font: 400 1em var(--title-sans);
+}
+
+.config-entry__title {
+    font: 1.5em var(--title-sans);
+    color: var(--dim-gray);
+}

@@ -18,7 +18,6 @@ export default class Room {
     origin: Point;
     point2: Point;
     config: Config;
-    parentRoom: Room;
     childRooms: Room[] = [];
     doors: Line[] = [];
     divisionLine: Line;
@@ -27,11 +26,10 @@ export default class Room {
 
     readonly ROOM_TYPE_DEFINED = 'Room has already defined type';
 
-    constructor(point1: Point, point2: Point, config: Config, parentRoom: Room) {
+    constructor(point1: Point, point2: Point, config: Config) {
         this.origin = point1;
         this.point2 = point2;
         this.config = config;
-        this.parentRoom = parentRoom;
     }
 
     get width() {
@@ -104,14 +102,12 @@ export default class Room {
                 new Room(
                     this.origin,
                     new Point(newLine, this.point2.y),
-                    this.config,
-                    this
+                    this.config
                 ),
                 new Room(
                     new Point(newLine, this.origin.y),
                     this.point2,
-                    this.config,
-                    this
+                    this.config
                 )
             );
         } else {
@@ -129,14 +125,12 @@ export default class Room {
                 new Room(
                     this.origin,
                     new Point(this.point2.x, newLine),
-                    this.config,
-                    this
+                    this.config
                 ),
                 new Room(
                     new Point(this.origin.x, newLine),
                     this.point2,
-                    this.config,
-                    this
+                    this.config
                 )
             );
         }
@@ -189,11 +183,12 @@ export default class Room {
 
     plan(): void {
         if (this.childRooms.length === 0) {
+            const { denseness } = this.config;
             const roomMap = new RoomMap(new Dimensions(this.width, this.height));
 
-            const localOrigin = new Point(getRandomValue(0, 1), getRandomValue(0, 1));
-            const localWidth = this.width - getRandomValue(0, 1) - 1;
-            const localHeight = this.height - getRandomValue(0, 1) - 1;
+            const localOrigin = new Point(getRandomValue(0, denseness), getRandomValue(0, denseness));
+            const localWidth = this.width - getRandomValue(0, denseness) - 1;
+            const localHeight = this.height - getRandomValue(0, denseness) - 1;
 
             // Fill rooms with floors
             for (let i = localOrigin.y; i < localHeight + 1; i++) {
@@ -281,13 +276,13 @@ export default class Room {
                 });
 
             if (this.type === RoomType.Entrance) {
-                const point: Point = roomMap.getNonEdgePoint();
+                const point: Point = roomMap.getPossiblyNonEdgePoint();
 
                 roomMap.set(point, Items.Enterance, Directions.Center);
             }
 
             if (this.type === RoomType.Exit) {
-                const point: Point = roomMap.getNonEdgePoint();
+                const point: Point = roomMap.getPossiblyNonEdgePoint();
 
                 roomMap.set(point, Items.Exit, Directions.Center);
             }
@@ -312,5 +307,55 @@ export default class Room {
         }
 
         this.childRooms.forEach(room => room.draw());
+    }
+
+    loadChildren(savedRoom: Room) {
+        if (savedRoom.divisionLine) {
+            this.divisionLine = new Line(
+                new Point(savedRoom.divisionLine.point1.x, savedRoom.divisionLine.point1.y),
+                new Point(savedRoom.divisionLine.point2.x, savedRoom.divisionLine.point2.y)
+            );
+        }
+
+        try {
+            this.setType(savedRoom.type);
+            // eslint-disable-next-line no-empty
+        } catch (e) {
+        }
+
+        savedRoom.doors
+            .forEach(door => {
+                this.doors.push(new Line(
+                    new Point(door.point1.x, door.point1.y),
+                    new Point(door.point2.x, door.point2.y)
+                ));
+            });
+
+        savedRoom.childRooms
+            .forEach((loadedRoom: Room) => {
+                const room = new Room(
+                    new Point(loadedRoom.origin.x, loadedRoom.origin.y),
+                    new Point(loadedRoom.point2.x, loadedRoom.point2.y),
+                    this.config
+                );
+
+                room.loadChildren(loadedRoom);
+
+                this.childRooms.push(room);
+            });
+
+        if (!savedRoom.childRooms.length) {
+            this.roomMap = new RoomMap(savedRoom.roomMap.dimensions);
+            for (let i = 0; i < this.roomMap.dimensions.height; i++) {
+                for (let j = 0; j < this.roomMap.dimensions.width; j++) {
+                    this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].bottom.item, Directions.Down);
+                    this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].center.item, Directions.Center);
+                    this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].floor.item, Directions.Floor);
+                    this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].left.item, Directions.Left);
+                    this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].right.item, Directions.Right);
+                    this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].top.item, Directions.Up);
+                }
+            }
+        }
     }
 }

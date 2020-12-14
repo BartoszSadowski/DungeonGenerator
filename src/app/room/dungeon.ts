@@ -7,18 +7,26 @@ import {
 } from '../../utils/random';
 import {
     RoomType,
-    AXIS
+    AXIS,
+    StorageItems
 } from '../../utils/dictionary';
 
 export default class Dungeon extends Room {
     name: string;
     nameDOMEl: HTMLElement;
+
+    // messages
+    LOADED: string = 'Dungeon Loaded';
+    CREATED: string = 'Dungeon Created';
+
+    // events
+    REQUEST_REGENRATION: string = 'RequestRegenreration'
+
     constructor(dungeonPoint: Point, config: Config, nameDOMEl: HTMLElement) {
         super(
             new Point(0, 0),
             dungeonPoint,
-            config,
-            null
+            config
         );
         this.nameDOMEl = nameDOMEl;
         this.type = RoomType.Dungeon;
@@ -72,6 +80,10 @@ export default class Dungeon extends Room {
         roomExit.setType(RoomType.Exit);
     }
 
+    save() {
+        sessionStorage.setItem(StorageItems.Dungeon, JSON.stringify(this));
+    }
+
     create() {
         this.divide();
         this.connect();
@@ -83,5 +95,46 @@ export default class Dungeon extends Room {
 
         this.generateName();
         this.presentName();
+
+        this.save();
+        return this.CREATED;
+    }
+
+    load() {
+        const savedDungeonStr: string = sessionStorage.getItem(StorageItems.Dungeon);
+        const savedDungeon: Dungeon = JSON.parse(savedDungeonStr);
+
+        if (this.point2.isSame(savedDungeon.point2)) {
+            this.loadChildren(savedDungeon);
+            this.draw();
+
+            this.name = savedDungeon.name;
+            this.presentName();
+            return this.LOADED;
+        }
+        return this.create();
+    }
+
+    init() {
+        if (!sessionStorage.getItem(StorageItems.Dungeon)) {
+            return this.create();
+        }
+        return this.load();
+    }
+
+    clear() {
+        this.config.ctx.clearRect(
+            this.origin.x * this.config.scale,
+            this.origin.y * this.config.scale,
+            this.point2.x * this.config.scale,
+            this.point2.y * this.config.scale
+        );
+        this.childRooms = [];
+        this.doors = [];
+    }
+
+    regenerate() {
+        this.clear();
+        window.dispatchEvent(new Event(this.REQUEST_REGENRATION));
     }
 }
