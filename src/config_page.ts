@@ -39,4 +39,4 @@ densenessEl.value = config.denseness.toString();
 densenessEl.addEventListener('change', () => {
     config.denseness = +densenessEl.value;
     config.save();
-})
+});
