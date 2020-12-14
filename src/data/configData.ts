@@ -12,4 +12,4 @@ export const DENSENESS = 1;
 
 export const spriteMap = createSpriteMap();
 export const divisable = new Dimensions(16, 12);
-export const minDimension = new Dimensions(5, 5);
+export const minDimension = new Dimensions(6, 6);

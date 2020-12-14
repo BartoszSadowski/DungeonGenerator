@@ -25,7 +25,8 @@ export default class RoomMap {
     dimensions: Dimensions;
 
     // Error maessages
-    POINT_NOT_IN_MAP = 'Point not in map';
+    POINT_NOT_IN_MAP: string = 'Point not in map';
+    NON_POINT_MATCHED: string = 'Point not found';
 
     constructor(dimensions: Dimensions) {
         this.map = [];
@@ -119,8 +120,11 @@ export default class RoomMap {
         throw new Error('Element not found');
     }
 
-    getNonEdgePoint() {
-        while (true) {
+    getPossiblyNonEdgePoint() {
+        let counter = 10000;
+        const possiblePoints: Point[] = [];
+        while (counter) {
+            counter -= 1;
             const point = new Point(
                 getRandomValue(0, this.dimensions.width - 1),
                 getRandomValue(0, this.dimensions.height - 1)
@@ -133,6 +137,7 @@ export default class RoomMap {
 
             const neighbours = this.getNeighbours(point);
             if (neighbours.length < 4) {
+                possiblePoints.push(point);
                 // eslint-disable-next-line no-continue
                 continue;
             }
@@ -141,5 +146,9 @@ export default class RoomMap {
                 return point;
             }
         }
+        if (possiblePoints) {
+            return possiblePoints[0];
+        }
+        throw new Error(this.NON_POINT_MATCHED);
     }
 }

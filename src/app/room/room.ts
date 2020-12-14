@@ -183,11 +183,12 @@ export default class Room {
 
     plan(): void {
         if (this.childRooms.length === 0) {
+            const { denseness } = this.config;
             const roomMap = new RoomMap(new Dimensions(this.width, this.height));
 
-            const localOrigin = new Point(getRandomValue(0, 1), getRandomValue(0, 1));
-            const localWidth = this.width - getRandomValue(0, 1) - 1;
-            const localHeight = this.height - getRandomValue(0, 1) - 1;
+            const localOrigin = new Point(getRandomValue(0, denseness), getRandomValue(0, denseness));
+            const localWidth = this.width - getRandomValue(0, denseness) - 1;
+            const localHeight = this.height - getRandomValue(0, denseness) - 1;
 
             // Fill rooms with floors
             for (let i = localOrigin.y; i < localHeight + 1; i++) {
@@ -275,13 +276,13 @@ export default class Room {
                 });
 
             if (this.type === RoomType.Entrance) {
-                const point: Point = roomMap.getNonEdgePoint();
+                const point: Point = roomMap.getPossiblyNonEdgePoint();
 
                 roomMap.set(point, Items.Enterance, Directions.Center);
             }
 
             if (this.type === RoomType.Exit) {
-                const point: Point = roomMap.getNonEdgePoint();
+                const point: Point = roomMap.getPossiblyNonEdgePoint();
 
                 roomMap.set(point, Items.Exit, Directions.Center);
             }
