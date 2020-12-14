@@ -39,7 +39,8 @@ export enum RoomType {
     Default = 'Default',
     Dungeon = 'Dungeon',
     Entrance = 'Entrance',
-    Exit = 'Exit'
+    Exit = 'Exit',
+    Event = 'Event'
 }
 
 export enum StorageItems {

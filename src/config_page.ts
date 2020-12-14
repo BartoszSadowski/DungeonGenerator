@@ -14,7 +14,7 @@ const roomHeightEl = <HTMLInputElement> document.getElementById('room-height');
 const roomWidthEl = <HTMLInputElement> document.getElementById('room-width');
 const densenessEl = <HTMLInputElement> document.getElementById('denseness');
 
-const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap, DENSENESS);
+const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap, DENSENESS, 1);
 config.init();
 
 scaleEl.value = config.scale.toString();

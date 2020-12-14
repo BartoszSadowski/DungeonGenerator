@@ -80,6 +80,33 @@ export default class Dungeon extends Room {
         roomExit.setType(RoomType.Exit);
     }
 
+    getLeaves() {
+        const children: Room[] = [];
+
+        (function getChildren(room: Room) {
+            if (room.childRooms.length > 0) {
+                room.childRooms.forEach((child: Room) => getChildren(child));
+            } else {
+                children.push(room);
+            }
+        })(this);
+
+        return children;
+    }
+
+    setEvents() {
+        const emptyChildren = this.getLeaves()
+            .filter(({ type }) => type === RoomType.Default)
+            .sort(() => getRandomValue(-1, 1));
+
+        const localChance = Math.max(5, emptyChildren.length * this.config.eventChance);
+
+        emptyChildren.slice(0, localChance)
+            .forEach((child: Room) => {
+                child.setType(RoomType.Event);
+            });
+    }
+
     save() {
         sessionStorage.setItem(StorageItems.Dungeon, JSON.stringify(this));
     }
@@ -89,6 +116,7 @@ export default class Dungeon extends Room {
         this.connect();
 
         this.setEnteranceExit();
+        this.setEvents();
 
         this.plan();
         this.draw();
