@@ -19,6 +19,9 @@ export default class Dungeon extends Room {
     LOADED: string = 'Dungeon Loaded';
     CREATED: string = 'Dungeon Created';
 
+    // events
+    REQUEST_REGENRATION: string = 'RequestRegenreration'
+
     constructor(dungeonPoint: Point, config: Config, nameDOMEl: HTMLElement) {
         super(
             new Point(0, 0),
@@ -132,6 +135,6 @@ export default class Dungeon extends Room {
 
     regenerate() {
         this.clear();
-        this.create();
+        window.dispatchEvent(new Event(this.REQUEST_REGENRATION));
     }
 }

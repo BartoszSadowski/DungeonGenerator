@@ -48,10 +48,16 @@ Sprite.initialize(TILE_MAP_PATH, () => {
         regenerateEl.addEventListener('click', () => {
             dungeon.regenerate();
         });
+
         bodyEl.addEventListener('keyup', (event: KeyboardEvent) => {
             if (event.key === 'r') {
                 dungeon.regenerate();
             }
+        });
+
+        window.addEventListener(dungeon.REQUEST_REGENRATION, () => {
+            window.location.reload();
+            dungeon.create();
         });
 
         console.log(dungeon);
