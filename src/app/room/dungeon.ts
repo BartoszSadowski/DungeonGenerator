@@ -14,7 +14,6 @@ import {
 export default class Dungeon extends Room {
     name: string;
     nameDOMEl: HTMLElement;
-    scale: number;
 
     // messages
     LOADED: string = 'Dungeon Loaded';
@@ -83,8 +82,6 @@ export default class Dungeon extends Room {
     }
 
     create() {
-        this.scale = this.config.scale;
-
         this.divide();
         this.connect();
 
@@ -104,8 +101,7 @@ export default class Dungeon extends Room {
         const savedDungeonStr: string = sessionStorage.getItem(StorageItems.Dungeon);
         const savedDungeon: Dungeon = JSON.parse(savedDungeonStr);
 
-        if (this.point2.isSame(savedDungeon.point2) && this.config.scale === savedDungeon.scale) {
-            console.log(this.config.scale, savedDungeon.scale);
+        if (this.point2.isSame(savedDungeon.point2)) {
             this.loadChildren(savedDungeon);
             this.draw();
 
