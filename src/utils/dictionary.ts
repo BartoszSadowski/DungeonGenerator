@@ -19,7 +19,12 @@ export const SPRITE_TYPES: Record<string, string> = {
     WALL: 'WALL',
     DOOR: 'DOOR',
     ENTERANCE: 'ENTERANCE',
-    EXIT: 'EXIT'
+    EXIT: 'EXIT',
+    EVENT_A: 'EVENT_A',
+    EVENT_B: 'EVENT_B',
+    EVENT_C: 'EVENT_C',
+    EVENT_D: 'EVENT_D',
+    EVENT_E: 'EVENT_E'
 };
 
 export enum Items {
