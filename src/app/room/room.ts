@@ -336,10 +336,6 @@ export default class Room {
             );
         }
 
-        if (savedRoom.event) {
-            this.event = new DungeonEvent(savedRoom.event.variant);
-        }
-
         try {
             this.setType(savedRoom.type);
             // eslint-disable-next-line no-empty
@@ -371,12 +367,21 @@ export default class Room {
             this.roomMap = new RoomMap(savedRoom.roomMap.dimensions);
             for (let i = 0; i < this.roomMap.dimensions.height; i++) {
                 for (let j = 0; j < this.roomMap.dimensions.width; j++) {
+                    // Items
                     this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].bottom.item, Directions.Down);
                     this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].center.item, Directions.Center);
                     this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].floor.item, Directions.Floor);
                     this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].left.item, Directions.Left);
                     this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].right.item, Directions.Right);
                     this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].top.item, Directions.Up);
+
+                    // Modifiers
+                    this.roomMap.map[i][j]
+                        .addModifier(
+                            Directions.Center,
+                            Modifiers.Variant,
+                            savedRoom.roomMap.map[i][j].center.modifiers[Modifiers.Variant]
+                        );
                 }
             }
         }
