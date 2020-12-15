@@ -99,7 +99,7 @@ export default class Dungeon extends Room {
             .filter(({ type }) => type === RoomType.Default)
             .sort(() => getRandomValue(-1, 1));
 
-        const localChance = Math.max(5, emptyChildren.length * this.config.eventChance);
+        const localChance = Math.min(5, emptyChildren.length * this.config.eventChance);
 
         emptyChildren.slice(0, localChance)
             .forEach((child: Room) => {

@@ -52,6 +52,9 @@ export default class Item {
         case Items.Enterance:
             spriteType = SPRITE_TYPES.ENTERANCE;
             break;
+        case Items.Event:
+            spriteType = SPRITE_TYPES.EVENT_A;
+            break;
         default:
             break;
         }

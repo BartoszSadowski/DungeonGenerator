@@ -287,6 +287,12 @@ export default class Room {
                 roomMap.set(point, Items.Exit, Directions.Center);
             }
 
+            if (this.type === RoomType.Event) {
+                const point: Point = roomMap.getPossiblyNonEdgePoint();
+
+                roomMap.set(point, Items.Event, Directions.Center);
+            }
+
             this.roomMap = roomMap;
         }
 

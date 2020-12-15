@@ -33,7 +33,8 @@ export enum Items {
     Wall = 'W',
     Floor = 'F',
     Enterance = 'E',
-    Exit = 'X'
+    Exit = 'X',
+    Event = 'e'
 }
 
 export enum Modifiers {
