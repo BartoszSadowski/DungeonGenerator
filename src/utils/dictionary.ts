@@ -38,7 +38,8 @@ export enum Items {
 }
 
 export enum Modifiers {
-    None = ''
+    None = '',
+    Variant = 'V'
 }
 
 export enum RoomType {

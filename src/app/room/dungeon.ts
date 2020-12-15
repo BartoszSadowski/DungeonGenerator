@@ -1,6 +1,7 @@
 import Room from './room';
 import Point from '../../utils/point';
 import Config from '../config';
+import DungeonEvent from '../dungeonEvent';
 import dungeonNames from '../../data/dungeonNames.json';
 import {
     getRandomValue
@@ -104,6 +105,7 @@ export default class Dungeon extends Room {
         emptyChildren.slice(0, localChance)
             .forEach((child: Room) => {
                 child.setType(RoomType.Event);
+                child.setEvent(new DungeonEvent(getRandomValue(0, localChance)));
             });
     }
 

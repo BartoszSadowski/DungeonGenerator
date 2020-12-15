@@ -1,14 +1,16 @@
+import RoomMap from './roomMap';
+import DungeonEvent from '../dungeonEvent';
 import Config from '../config';
 import Point from '../../utils/point';
 import Line from '../../utils/line';
 import Dimensions from '../../utils/dimensions';
-import RoomMap from './roomMap';
 
 import {
     AXIS,
     Directions,
     Items,
-    RoomType
+    RoomType,
+    Modifiers
 } from '../../utils/dictionary';
 import {
     getRandomValue
@@ -23,6 +25,7 @@ export default class Room {
     divisionLine: Line;
     roomMap: RoomMap;
     type: RoomType = RoomType.Default;
+    event?: DungeonEvent;
 
     readonly ROOM_TYPE_DEFINED = 'Room has already defined type';
 
@@ -67,6 +70,10 @@ export default class Room {
         } else {
             throw Error(this.ROOM_TYPE_DEFINED);
         }
+    }
+
+    setEvent(event: DungeonEvent) {
+        this.event = event;
     }
 
     divide() {
@@ -290,7 +297,13 @@ export default class Room {
             if (this.type === RoomType.Event) {
                 const point: Point = roomMap.getPossiblyNonEdgePoint();
 
-                roomMap.set(point, Items.Event, Directions.Center);
+                roomMap.set(
+                    point,
+                    Items.Event,
+                    Directions.Center,
+                    Modifiers.Variant,
+                    this.event.variant
+                );
             }
 
             this.roomMap = roomMap;
@@ -321,6 +334,10 @@ export default class Room {
                 new Point(savedRoom.divisionLine.point1.x, savedRoom.divisionLine.point1.y),
                 new Point(savedRoom.divisionLine.point2.x, savedRoom.divisionLine.point2.y)
             );
+        }
+
+        if (savedRoom.event) {
+            this.event = new DungeonEvent(savedRoom.event.variant);
         }
 
         try {
