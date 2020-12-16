@@ -15,6 +15,7 @@ import {
 export default class Dungeon extends Room {
     name: string;
     nameDOMEl: HTMLElement;
+    events: DungeonEvent[] = [];
 
     // messages
     LOADED: string = 'Dungeon Loaded';
@@ -96,19 +97,21 @@ export default class Dungeon extends Room {
     }
 
     setEvents() {
-        const emptyChildren = this.getLeaves()
+        const emptyChildren: Room[] = this.getLeaves()
             .filter(({ type }) => type === RoomType.Default)
             .sort(() => getRandomValue(-1, 1));
 
-        const localChance = Math.min(5, emptyChildren.length * this.config.eventChance);
+        const localChance: number = Math.min(5, emptyChildren.length * this.config.eventChance);
 
-        emptyChildren.slice(0, localChance)
-            .reduce((acc: number, child: Room, index: number) => {
+        this.events = emptyChildren
+            .slice(0, localChance)
+            .reduce((acc: DungeonEvent[], child: Room, index: number) => {
+                const event = new DungeonEvent(index);
                 child.setType(RoomType.Event);
-                child.setEvent(new DungeonEvent(index));
+                child.setEvent(event);
 
-                return acc;
-            }, 0);
+                return [...acc, event];
+            }, []);
     }
 
     save() {
@@ -137,6 +140,12 @@ export default class Dungeon extends Room {
         const savedDungeon: Dungeon = JSON.parse(savedDungeonStr);
 
         if (this.point2.isSame(savedDungeon.point2)) {
+            this.events = savedDungeon.events
+                .reduce((acc: DungeonEvent[], event: DungeonEvent) => [
+                    ...acc,
+                    new DungeonEvent(event.variant)
+                ], []);
+
             this.loadChildren(savedDungeon);
             this.draw();
 
