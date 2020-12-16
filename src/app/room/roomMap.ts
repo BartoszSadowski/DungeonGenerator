@@ -3,7 +3,8 @@ import Point from '../../utils/point';
 import RoomItem from './roomItem';
 import {
     Items,
-    Directions
+    Directions,
+    Modifiers
 } from '../../utils/dictionary';
 import {
     getRandomValue
@@ -56,8 +57,11 @@ export default class RoomMap {
         throw new Error(this.POINT_NOT_IN_MAP);
     }
 
-    set(point: Point, item: Items, direction: Directions) {
+    set(point: Point, item: Items, direction: Directions, modifierType?: Modifiers, modifierValue?: any) {
         this.map[point.y][point.x].set(item, direction);
+        if (modifierType) {
+            this.map[point.y][point.x].addModifier(direction, modifierType, modifierValue);
+        }
     }
 
     onEach(call: onEachItemFunction) {

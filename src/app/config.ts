@@ -11,6 +11,7 @@ export default class Config {
     ctx: CanvasRenderingContext2D;
     spriteMap: Map<string, Sprite>
     denseness: number
+    eventChance: number;
 
     // messages
     SAVED: string = 'Config saved';
@@ -22,7 +23,8 @@ export default class Config {
         scale: number,
         context: CanvasRenderingContext2D,
         spriteMap: Map<string, Sprite>,
-        denseness: number
+        denseness: number,
+        eventChance: number
     ) {
         this.divisable = divisable;
         this.minDimension = minDimension;
@@ -30,6 +32,7 @@ export default class Config {
         this.ctx = context;
         this.spriteMap = spriteMap;
         this.denseness = denseness;
+        this.eventChance = eventChance;
     }
 
     save() {

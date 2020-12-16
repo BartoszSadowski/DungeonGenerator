@@ -1,6 +1,7 @@
 import Room from './room';
 import Point from '../../utils/point';
 import Config from '../config';
+import DungeonEvent from '../dungeonEvent';
 import dungeonNames from '../../data/dungeonNames.json';
 import {
     getRandomValue
@@ -14,6 +15,7 @@ import {
 export default class Dungeon extends Room {
     name: string;
     nameDOMEl: HTMLElement;
+    events: DungeonEvent[] = [];
 
     // messages
     LOADED: string = 'Dungeon Loaded';
@@ -80,6 +82,38 @@ export default class Dungeon extends Room {
         roomExit.setType(RoomType.Exit);
     }
 
+    getLeaves() {
+        const children: Room[] = [];
+
+        (function getChildren(room: Room) {
+            if (room.childRooms.length > 0) {
+                room.childRooms.forEach((child: Room) => getChildren(child));
+            } else {
+                children.push(room);
+            }
+        })(this);
+
+        return children;
+    }
+
+    setEvents() {
+        const emptyChildren: Room[] = this.getLeaves()
+            .filter(({ type }) => type === RoomType.Default)
+            .sort(() => getRandomValue(-1, 1));
+
+        const localChance: number = Math.min(5, emptyChildren.length * this.config.eventChance);
+
+        this.events = emptyChildren
+            .slice(0, localChance)
+            .reduce((acc: DungeonEvent[], child: Room, index: number) => {
+                const event = new DungeonEvent(index);
+                child.setType(RoomType.Event);
+                child.setEvent(event);
+
+                return [...acc, event];
+            }, []);
+    }
+
     save() {
         sessionStorage.setItem(StorageItems.Dungeon, JSON.stringify(this));
     }
@@ -89,6 +123,7 @@ export default class Dungeon extends Room {
         this.connect();
 
         this.setEnteranceExit();
+        this.setEvents();
 
         this.plan();
         this.draw();
@@ -105,6 +140,12 @@ export default class Dungeon extends Room {
         const savedDungeon: Dungeon = JSON.parse(savedDungeonStr);
 
         if (this.point2.isSame(savedDungeon.point2)) {
+            this.events = savedDungeon.events
+                .reduce((acc: DungeonEvent[], event: DungeonEvent) => [
+                    ...acc,
+                    new DungeonEvent(event.variant)
+                ], []);
+
             this.loadChildren(savedDungeon);
             this.draw();
 

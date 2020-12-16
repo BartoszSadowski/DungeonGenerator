@@ -2,7 +2,8 @@ import Item from './item';
 
 import {
     Directions,
-    Items
+    Items,
+    Modifiers
 } from '../../utils/dictionary';
 import Point from '../../utils/point';
 import Dimensions from '../../utils/dimensions';
@@ -23,6 +24,10 @@ export default class RoomItem {
         this.bottom = new Item();
         this.center = new Item();
         this.floor = new Item();
+    }
+
+    addModifier(direction: Directions, type: Modifiers, value: any): Item {
+        return this.get(direction).setModifier(type, value);
     }
 
     set(value: Items, direction: Directions, hard: Boolean = false): Item {

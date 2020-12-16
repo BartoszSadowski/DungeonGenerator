@@ -1,14 +1,16 @@
+import RoomMap from './roomMap';
+import DungeonEvent from '../dungeonEvent';
 import Config from '../config';
 import Point from '../../utils/point';
 import Line from '../../utils/line';
 import Dimensions from '../../utils/dimensions';
-import RoomMap from './roomMap';
 
 import {
     AXIS,
     Directions,
     Items,
-    RoomType
+    RoomType,
+    Modifiers
 } from '../../utils/dictionary';
 import {
     getRandomValue
@@ -23,6 +25,7 @@ export default class Room {
     divisionLine: Line;
     roomMap: RoomMap;
     type: RoomType = RoomType.Default;
+    event?: DungeonEvent;
 
     readonly ROOM_TYPE_DEFINED = 'Room has already defined type';
 
@@ -67,6 +70,10 @@ export default class Room {
         } else {
             throw Error(this.ROOM_TYPE_DEFINED);
         }
+    }
+
+    setEvent(event: DungeonEvent) {
+        this.event = event;
     }
 
     divide() {
@@ -287,6 +294,18 @@ export default class Room {
                 roomMap.set(point, Items.Exit, Directions.Center);
             }
 
+            if (this.type === RoomType.Event) {
+                const point: Point = roomMap.getPossiblyNonEdgePoint();
+
+                roomMap.set(
+                    point,
+                    Items.Event,
+                    Directions.Center,
+                    Modifiers.Variant,
+                    this.event.variant
+                );
+            }
+
             this.roomMap = roomMap;
         }
 
@@ -348,12 +367,21 @@ export default class Room {
             this.roomMap = new RoomMap(savedRoom.roomMap.dimensions);
             for (let i = 0; i < this.roomMap.dimensions.height; i++) {
                 for (let j = 0; j < this.roomMap.dimensions.width; j++) {
+                    // Items
                     this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].bottom.item, Directions.Down);
                     this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].center.item, Directions.Center);
                     this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].floor.item, Directions.Floor);
                     this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].left.item, Directions.Left);
                     this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].right.item, Directions.Right);
                     this.roomMap.set(new Point(j, i), savedRoom.roomMap.map[i][j].top.item, Directions.Up);
+
+                    // Modifiers
+                    this.roomMap.map[i][j]
+                        .addModifier(
+                            Directions.Center,
+                            Modifiers.Variant,
+                            savedRoom.roomMap.map[i][j].center.modifiers[Modifiers.Variant]
+                        );
                 }
             }
         }

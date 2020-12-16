@@ -10,20 +10,25 @@ import Sprite from '../sprite';
 
 export default class Item {
     item: Items;
-    modifiers: Array<Modifiers>;
+    modifiers: Record<string, any>;
 
     constructor() {
         this.item = Items.Empty;
-        this.modifiers = [];
+        this.modifiers = {};
     }
 
     isEmpty(): Boolean {
         return this.item === Items.Empty;
     }
 
-    set(item: Items, modifiers?: Array<Modifiers>): Item {
+    set(item: Items): Item {
         this.item = item;
-        this.modifiers = modifiers || this.modifiers;
+
+        return this;
+    }
+
+    setModifier(type: Modifiers, value: any): Item {
+        this.modifiers[type] = value;
 
         return this;
     }
@@ -51,6 +56,26 @@ export default class Item {
             break;
         case Items.Enterance:
             spriteType = SPRITE_TYPES.ENTERANCE;
+            break;
+        case Items.Event:
+            switch (this.modifiers[Modifiers.Variant]) {
+            case 1:
+                spriteType = SPRITE_TYPES.EVENT_B;
+                break;
+            case 2:
+                spriteType = SPRITE_TYPES.EVENT_C;
+                break;
+            case 3:
+                spriteType = SPRITE_TYPES.EVENT_D;
+                break;
+            case 4:
+                spriteType = SPRITE_TYPES.EVENT_E;
+                break;
+            case 0:
+            default:
+                spriteType = SPRITE_TYPES.EVENT_A;
+                break;
+            }
             break;
         default:
             break;
