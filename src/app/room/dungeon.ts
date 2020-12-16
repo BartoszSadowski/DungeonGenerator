@@ -103,10 +103,12 @@ export default class Dungeon extends Room {
         const localChance = Math.min(5, emptyChildren.length * this.config.eventChance);
 
         emptyChildren.slice(0, localChance)
-            .forEach((child: Room) => {
+            .reduce((acc: number, child: Room, index: number) => {
                 child.setType(RoomType.Event);
-                child.setEvent(new DungeonEvent(getRandomValue(0, localChance)));
-            });
+                child.setEvent(new DungeonEvent(index));
+
+                return acc;
+            }, 0);
     }
 
     save() {
