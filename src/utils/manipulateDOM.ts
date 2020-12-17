@@ -1,4 +1,4 @@
-import DungeonEvent from '../app/dungeonEvent';
+import DungeonEvent from '../app/events/dungeonEvent';
 import { eventEl } from '../data/configData';
 
 const generateArticle = (event: DungeonEvent) => `

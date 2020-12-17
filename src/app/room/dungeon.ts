@@ -1,7 +1,7 @@
 import Room from './room';
 import Point from '../../utils/point';
 import Config from '../config';
-import DungeonEvent from '../dungeonEvent';
+import DungeonEvent from '../events/dungeonEvent';
 import dungeonNames from '../../data/dungeonNames.json';
 import {
     getRandomValue
