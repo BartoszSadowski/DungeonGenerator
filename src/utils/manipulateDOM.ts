@@ -11,9 +11,9 @@ const generateGenericEvent = (event: DungeonEvent) => `
 
 const generateEnemyEvent = (event: DungeonEvent) => `
 <h3>${event.variant + 1}. ${event.name}</h3>
+Strength: ${event.strength}, 
+HP: ${event.health}
 <div>
-    Strength: ${event.strength}, 
-    HP: ${event.health}
     Description: ...
 </div>
 `;
