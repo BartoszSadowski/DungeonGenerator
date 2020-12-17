@@ -6,6 +6,7 @@ export const ctx = <CanvasRenderingContext2D | null> (canvas ? canvas.getContext
 export const nameEl = <HTMLElement> document.getElementById('dungeon-name');
 export const regenerateEl = <HTMLElement> document.getElementById('dungeon-regenerate');
 export const bodyEl = <HTMLElement> document.querySelector('body');
+export const eventEl = <HTMLElement> document.getElementById('event-list');
 
 export const SCALE = 35;
 export const DENSENESS = 1;

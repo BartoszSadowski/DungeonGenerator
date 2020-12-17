@@ -4,6 +4,10 @@ import Sprite from './app/sprite';
 import Dimensions from './utils/dimensions';
 import Point from './utils/point';
 import {
+    generateEvents
+} from './utils/manipulateDOM';
+
+import {
     canvas,
     ctx,
     nameEl,
@@ -43,6 +47,7 @@ Sprite.initialize(TILE_MAP_PATH, () => {
         // Load dungeon
         const dungeon = new Dungeon(dungeonPoint, config, nameEl);
         dungeon.init();
+        generateEvents(dungeon.events);
 
         // Set listeners
         regenerateEl.addEventListener('click', () => {

@@ -25,8 +25,8 @@ body {
 }
 
 .canvas {
-    width: 100%;
-    height: 100%;
+    width: 99%;
+    height: 99%;
     background-color: #ccc;
 }
 
@@ -50,18 +50,33 @@ body {
 .controls {
     grid-area: controls;
     display: flex;
-    padding: 10px;
+    padding: 5px;
     justify-content: space-evenly;
+}
+
+.event-list {
+    grid-area: events;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    overflow-y: auto;
+}
+
+.event-list__event {
+    border: 1px solid;
+    margin: 5px;
+    overflow-y: scroll;
+    min-height: calc(20% - 12px);
 }
 
 .body {
     display: grid;
-    grid-template-columns: 250px auto 3%;
+    grid-template-columns: 250px auto 200px;
     grid-template-rows: 80px auto 45px;
     column-gap: 10px;
     grid-template-areas: 
     "header name ."
-    "navigation main ."
+    "navigation main events"
     "navigation controls .";
 }
 
