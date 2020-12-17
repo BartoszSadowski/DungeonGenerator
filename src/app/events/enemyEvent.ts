@@ -7,10 +7,10 @@ export default class EnemyEvent extends DungeonEvent {
     health: number;
     type: EventTypes = EventTypes.Enemy;
 
-    constructor(variant: number) {
+    constructor(variant: number, strength?: number, health?: number) {
         super(variant);
 
-        this.strength = getRandomValue(10, 30);
-        this.health = getRandomValue(10, 30);
+        this.strength = strength || getRandomValue(10, 30);
+        this.health = health || getRandomValue(10, 30);
     }
 }
