@@ -57,5 +57,6 @@ export enum StorageItems {
 
 export enum EventTypes {
     Default = 'Default',
-    Enemy = 'Enemy'
+    Enemy = 'Enemy',
+    Item = 'Item'
 }

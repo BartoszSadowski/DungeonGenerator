@@ -1,8 +1,8 @@
 import Room from './room';
 import Point from '../../utils/point';
 import Config from '../config';
+import DungeonEvents from '../events';
 import DungeonEvent from '../events/dungeonEvent';
-import EnemyEvent from '../events/enemyEvent';
 import dungeonNames from '../../data/dungeonNames.json';
 import {
     getRandomValue
@@ -14,7 +14,12 @@ import {
     EventTypes
 } from '../../utils/dictionary';
 
-const Events = [DungeonEvent, EnemyEvent];
+const {
+    EnemyEvent,
+    ItemEvent
+} = DungeonEvents;
+
+const Events = [DungeonEvent, EnemyEvent, ItemEvent];
 
 export default class Dungeon extends Room {
     name: string;
@@ -110,7 +115,7 @@ export default class Dungeon extends Room {
         this.events = emptyChildren
             .slice(0, localChance)
             .reduce((acc: DungeonEvent[], child: Room, index: number) => {
-                const Event = Events[getRandomValue(0, 1)];
+                const Event = Events[getRandomValue(0, Events.length - 1)];
                 const event = new Event(index);
 
                 child.setType(RoomType.Event);
@@ -160,6 +165,9 @@ export default class Dungeon extends Room {
                         ev.adjective = event.adjective;
                         ev.action = event.action;
                         ev.where = event.where;
+                        break;
+                    case EventTypes.Item:
+                        ev = new ItemEvent(event.variant);
                         break;
                     case EventTypes.Default:
                     default:

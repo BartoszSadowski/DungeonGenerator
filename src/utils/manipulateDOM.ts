@@ -1,13 +1,14 @@
 import DungeonEvent from '../app/events/dungeonEvent';
 import EnemyEvent from '../app/events/enemyEvent';
+import ItemEvent from '../app/events/itemEvent';
 import { eventEl } from '../data/configData';
 import { EventTypes } from './dictionary';
 
 const generateGenericEvent = (event: DungeonEvent) => `
-    <h3>${event.variant + 1}. ${event.name}</h3>
-    <div>
-        Description: ...
-    </div>
+<h3>${event.variant + 1}. ${event.name}</h3>
+<div>
+    Description: ...
+</div>
 `;
 
 const generateEnemyEvent = (event: EnemyEvent) => `
@@ -19,11 +20,22 @@ HP: ${event.health}
 </div>
 `;
 
+const generateItemEvent = (event: ItemEvent) => `
+<h3>${event.variant + 1}. ${event.name}</h3>
+<div>
+    Description: ...
+</div>
+`;
+
 const generateArticle = (event: DungeonEvent) => `
 <article class="event-list__event">
-    ${event.type === EventTypes.Enemy
+    ${
+    // eslint-disable-next-line no-nested-ternary
+    event.type === EventTypes.Enemy
         ? generateEnemyEvent(event as EnemyEvent)
-        : generateGenericEvent(event)}
+        : event.type === EventTypes.Item
+            ? generateItemEvent(event as ItemEvent)
+            : generateGenericEvent(event)}
 </article>
 `;
 
