@@ -1,3 +1,23 @@
 {
-
+    "adjectives": [
+        "Shiny",
+        "Bloody",
+        "Redish"
+    ],
+    "nouns": [
+        "necklace",
+        "chestplate",
+        "helmet",
+        "sword",
+        "shield"
+    ],
+    "actions": [
+        "lays on",
+        "is in"
+    ],
+    "places": [
+        "the floor",
+        "the table near the wall",
+        "the corner"
+    ]
 }

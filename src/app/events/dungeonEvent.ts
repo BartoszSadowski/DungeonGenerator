@@ -7,11 +7,14 @@ export default class DungeonEvent {
     // for enemy type
     strength?: number;
     health?: number;
-    weapon?: string;
     species?: string;
     adjective?: string;
     action?: string;
     where?: string;
+
+    // for item type
+    noun?: string;
+    modifier?: number;
 
     constructor(variant: number) {
         this.variant = variant;

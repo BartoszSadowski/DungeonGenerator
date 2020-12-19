@@ -21,9 +21,9 @@ HP: ${event.health}
 `;
 
 const generateItemEvent = (event: ItemEvent) => `
-<h3>${event.variant + 1}. ${event.name}</h3>
+<h3>${event.variant + 1}. ${event.name} +${event.modifier}</h3>
 <div>
-    Description: ...
+    Description: ${event.description}
 </div>
 `;
 

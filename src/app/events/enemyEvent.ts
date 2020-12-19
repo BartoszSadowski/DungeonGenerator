@@ -6,7 +6,6 @@ import EnemyValues from '../../data/enemyValues.json';
 export default class EnemyEvent extends DungeonEvent {
     strength: number;
     health: number;
-    weapon: string;
     species: string;
     adjective: string;
     action: string;
@@ -30,7 +29,7 @@ export default class EnemyEvent extends DungeonEvent {
 
     get description(): string {
         return `
-            The ${this.adjective} ${this.species} ${this.action} ${this.where}.
+            ${this.name} ${this.action} ${this.where}.
         `;
     }
 

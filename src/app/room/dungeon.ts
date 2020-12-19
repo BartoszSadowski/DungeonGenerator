@@ -160,7 +160,6 @@ export default class Dungeon extends Room {
                         ev = new EnemyEvent(event.variant);
                         ev.health = event.health;
                         ev.strength = event.strength;
-                        ev.weapon = event.weapon;
                         ev.species = event.species;
                         ev.adjective = event.adjective;
                         ev.action = event.action;
@@ -168,6 +167,11 @@ export default class Dungeon extends Room {
                         break;
                     case EventTypes.Item:
                         ev = new ItemEvent(event.variant);
+                        ev.modifier = event.modifier;
+                        ev.adjective = event.adjective;
+                        ev.noun = event.noun;
+                        ev.action = event.action;
+                        ev.where = event.where;
                         break;
                     case EventTypes.Default:
                     default:
