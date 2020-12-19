@@ -46,9 +46,9 @@ export default class Dungeon extends Room {
         } = dungeonNames;
 
         const [adjectiveI, locationI, descriptorI] = [
-            getRandomValue(0, adjectives.length),
-            getRandomValue(0, locations.length),
-            getRandomValue(0, descriptors.length)
+            getRandomValue(0, adjectives.length - 1),
+            getRandomValue(0, locations.length - 1),
+            getRandomValue(0, descriptors.length - 1)
         ];
 
         this.name = `The ${adjectives[adjectiveI]} ${locations[locationI]} ${descriptors[descriptorI]}`;
@@ -155,6 +155,11 @@ export default class Dungeon extends Room {
                         ev = new EnemyEvent(event.variant);
                         ev.health = event.health;
                         ev.strength = event.strength;
+                        ev.weapon = event.weapon;
+                        ev.species = event.species;
+                        ev.adjective = event.adjective;
+                        ev.action = event.action;
+                        ev.where = event.where;
                         break;
                     case EventTypes.Default:
                     default:

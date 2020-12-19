@@ -2,18 +2,22 @@ import { EventTypes } from '../../utils/dictionary';
 
 export default class DungeonEvent {
     variant: number;
-    name: string;
+    type: EventTypes = EventTypes.Default;
+
+    // for enemy type
     strength?: number;
     health?: number;
-    type: EventTypes = EventTypes.Default;
+    weapon?: string;
+    species?: string;
+    adjective?: string;
+    action?: string;
+    where?: string;
 
     constructor(variant: number) {
         this.variant = variant;
-
-        this.generateName();
     }
 
-    generateName() {
-        this.name = '';
+    get name(): string {
+        return `${this.variant}`;
     }
 }

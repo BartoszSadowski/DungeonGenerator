@@ -1,0 +1,29 @@
+{
+    "specieses": [
+        "gnome",
+        "dragon",
+        "human",
+        "skeleton",
+        "mummy",
+        "elf"
+    ],
+    "adjectives": [
+        "handsome",
+        "lonely",
+        "sad",
+        "happy",
+        "angry",
+        "baby"
+    ],
+    "actions": [
+        "stands",
+        "sits",
+        "polishes a knife",
+        "stares at you"
+    ],
+    "places": [
+        "near the wall",
+        "on the floor",
+        "ont the diamond throne"
+    ]
+}
