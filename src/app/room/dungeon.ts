@@ -13,14 +13,15 @@ import {
     StorageItems,
     EventTypes
 } from '../../utils/dictionary';
+import {
+    eventChance
+} from '../../data/configData';
 
 const {
     EnemyEvent,
     ItemEvent,
     GenericEvent
 } = DungeonEvents;
-
-const Events = [GenericEvent, EnemyEvent, ItemEvent];
 
 export default class Dungeon extends Room {
     name: string;
@@ -107,6 +108,18 @@ export default class Dungeon extends Room {
     }
 
     setEvents() {
+        const Events: (typeof DungeonEvent)[] = [];
+
+        for (let i = 0; i < eventChance; i++) {
+            Events.push(GenericEvent);
+        }
+        for (let i = 0; i < this.config.dangerChance; i++) {
+            Events.push(EnemyEvent);
+        }
+        for (let i = 0; i < this.config.lootChance; i++) {
+            Events.push(ItemEvent);
+        }
+
         const emptyChildren: Room[] = this.getLeaves()
             .filter(({ type }) => type === RoomType.Default)
             .sort(() => getRandomValue(-1, 1));

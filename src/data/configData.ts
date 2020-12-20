@@ -17,3 +17,4 @@ export const minDimension = new Dimensions(6, 6);
 
 export const lootChance = 50;
 export const dangerChance = 50;
+export const eventChance = lootChance + dangerChance / 2;
