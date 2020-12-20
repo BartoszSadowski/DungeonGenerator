@@ -178,6 +178,7 @@ export default class Dungeon extends Room {
                     case EventTypes.Default:
                         ev = new GenericEvent(event.variant);
                         ev.desc = event.desc;
+                        ev.nameProp = event.nameProp;
                         break;
                     default:
                         ev = new DungeonEvent(event.variant);

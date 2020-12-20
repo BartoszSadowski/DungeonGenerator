@@ -19,6 +19,7 @@ export default class DungeonEvent {
 
     // for generic type
     desc?: string;
+    nameProp?: string;
 
     constructor(variant: number) {
         this.variant = variant;
