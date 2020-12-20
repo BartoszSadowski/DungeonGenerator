@@ -6,25 +6,29 @@ import { eventEl } from '../data/configData';
 import { EventTypes } from './dictionary';
 
 const generateGenericEvent = (event: GenericEvent) => `
-<h3>${event.variant + 1}. ${event.name}</h3>
-<div>
+<h3 class="event__title">${event.variant + 1}. ${event.name}</h3>
+<div class="event__description">
     Description: ${event.description}
 </div>
 `;
 
 const generateEnemyEvent = (event: EnemyEvent) => `
-<h3>${event.variant + 1}. ${event.name}</h3>
-Strength: ${event.strength}, 
-HP: ${event.health}
-<div>
+<h3 class="event__title">${event.variant + 1}. ${event.name}</h3>
+<div class="event__description">
+    <div class="event__stats">
+        Strength: ${event.strength}, 
+        HP: ${event.health}
+    </div>
     Description: ${event.description}
 </div>
 `;
 
 const generateItemEvent = (event: ItemEvent) => `
-<h3>${event.variant + 1}. ${event.name} +${event.modifier}</h3>
-Value: ${event.value}
-<div>
+<h3 class="event__title">${event.variant + 1}. ${event.name} +${event.modifier}</h3>
+<div class="event__description">
+    <div class="event__stats">
+        Value: ${event.value}
+    </div>
     Description: ${event.description}
 </div>
 `;

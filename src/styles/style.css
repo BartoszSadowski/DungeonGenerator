@@ -67,8 +67,31 @@ body {
     border: 1px solid;
     margin: 5px;
     overflow-y: scroll;
-    min-height: calc(20% - 12px);
+    min-height: calc(20% - 22px);
     overflow: hidden;
+
+    background-color: var(--light-gray);
+    padding: 5px;
+    box-shadow: 2px 1px 1px #000;
+}
+
+.event__title {
+    --margin: 5px;
+
+    font: 500 1.10em var(--title-sans);
+    margin-top: var(--margin);
+    margin-bottom: var(--margin);
+}
+
+.event__description {
+    font: 1em var(--title-sans);
+}
+
+.event__stats {
+    --margin: 5px;
+
+    margin-top: var(--margin);
+    margin-bottom: var(--margin);
 }
 
 .body {
