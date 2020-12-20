@@ -17,7 +17,9 @@ import {
     DENSENESS,
     spriteMap,
     divisable,
-    minDimension
+    minDimension,
+    lootChance,
+    dangerChance
 } from './data/configData';
 
 import {
@@ -35,7 +37,7 @@ function canvasInit(canvasDimensions: Dimensions) {
 Sprite.initialize(TILE_MAP_PATH, () => {
     try {
         // Load config
-        const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap, DENSENESS, 1);
+        const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap, DENSENESS, lootChance, dangerChance);
         config.init();
 
         // Calculate canvas

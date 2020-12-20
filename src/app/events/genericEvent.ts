@@ -4,6 +4,7 @@ import GenericValues from '../../data/genericValues.json';
 import { getRandomValue } from '../../utils/random';
 
 export default class GenericEvent extends DungeonEvent {
+    variant: number;
     type: EventTypes = EventTypes.Default;
     desc: string;
     nameProp: string;

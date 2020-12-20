@@ -14,3 +14,7 @@ export const DENSENESS = 1;
 export const spriteMap = createSpriteMap();
 export const divisable = new Dimensions(16, 12);
 export const minDimension = new Dimensions(6, 6);
+
+export const lootChance = 50;
+export const dangerChance = 50;
+export const eventChance = lootChance + dangerChance / 2;
