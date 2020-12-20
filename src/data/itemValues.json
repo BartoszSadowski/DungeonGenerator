@@ -12,12 +12,12 @@
         "shield"
     ],
     "actions": [
-        "lays on",
-        "is in"
+        "lays",
+        "is"
     ],
     "places": [
-        "the floor",
-        "the table near the wall",
-        "the corner"
+        "on the floor",
+        "on the table near the wall",
+        "in the corner"
     ]
 }

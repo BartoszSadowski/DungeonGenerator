@@ -16,10 +16,11 @@ import {
 
 const {
     EnemyEvent,
-    ItemEvent
+    ItemEvent,
+    GenericEvent
 } = DungeonEvents;
 
-const Events = [DungeonEvent, EnemyEvent, ItemEvent];
+const Events = [GenericEvent, EnemyEvent, ItemEvent];
 
 export default class Dungeon extends Room {
     name: string;
@@ -172,8 +173,12 @@ export default class Dungeon extends Room {
                         ev.noun = event.noun;
                         ev.action = event.action;
                         ev.where = event.where;
+                        ev.value = event.value;
                         break;
                     case EventTypes.Default:
+                        ev = new GenericEvent(event.variant);
+                        ev.desc = event.desc;
+                        break;
                     default:
                         ev = new DungeonEvent(event.variant);
                         break;

@@ -10,11 +10,13 @@ export default class ItemEvent extends DungeonEvent {
     action: string;
     where: string;
     modifier: number;
+    value: number;
 
     constructor(variant: number) {
         super(variant);
 
         this.modifier = getRandomValue(1, 3);
+        this.value = (this.modifier * 50) + getRandomValue(0, 50);
         this.setAdjective();
         this.setNoun();
         this.setAction();

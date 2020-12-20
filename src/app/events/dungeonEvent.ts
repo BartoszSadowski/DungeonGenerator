@@ -15,6 +15,10 @@ export default class DungeonEvent {
     // for item type
     noun?: string;
     modifier?: number;
+    value?: number;
+
+    // for generic type
+    desc?: string;
 
     constructor(variant: number) {
         this.variant = variant;
