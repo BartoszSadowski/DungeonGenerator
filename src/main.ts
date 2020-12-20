@@ -6,6 +6,9 @@ import Point from './utils/point';
 import {
     generateEvents
 } from './utils/manipulateDOM';
+import {
+    getValueWithTendency
+} from './utils/random';
 
 import {
     canvas,
