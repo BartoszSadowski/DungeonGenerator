@@ -11,7 +11,8 @@ export default class Config {
     ctx: CanvasRenderingContext2D;
     spriteMap: Map<string, Sprite>
     denseness: number
-    eventChance: number;
+    lootChance: number;
+    dangerChance: number;
 
     // messages
     SAVED: string = 'Config saved';
@@ -24,7 +25,8 @@ export default class Config {
         context: CanvasRenderingContext2D,
         spriteMap: Map<string, Sprite>,
         denseness: number,
-        eventChance: number
+        lootChance: number,
+        dangerChance: number
     ) {
         this.divisable = divisable;
         this.minDimension = minDimension;
@@ -32,7 +34,8 @@ export default class Config {
         this.ctx = context;
         this.spriteMap = spriteMap;
         this.denseness = denseness;
-        this.eventChance = eventChance;
+        this.lootChance = lootChance;
+        this.dangerChance = dangerChance;
     }
 
     save() {
@@ -49,6 +52,8 @@ export default class Config {
         this.denseness = savedConfig.denseness;
         this.divisable = new Dimensions(savedConfig.divisable.width, savedConfig.divisable.height);
         this.minDimension = new Dimensions(savedConfig.minDimension.width, savedConfig.minDimension.height);
+        this.lootChance = savedConfig.lootChance;
+        this.dangerChance = savedConfig.dangerChance;
 
         return this.LOADED;
     }

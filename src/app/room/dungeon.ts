@@ -111,10 +111,8 @@ export default class Dungeon extends Room {
             .filter(({ type }) => type === RoomType.Default)
             .sort(() => getRandomValue(-1, 1));
 
-        const localChance: number = Math.min(5, emptyChildren.length * this.config.eventChance);
-
         this.events = emptyChildren
-            .slice(0, localChance)
+            .slice(0, 5)
             .reduce((acc: DungeonEvent[], child: Room, index: number) => {
                 const Event = Events[getRandomValue(0, Events.length - 1)];
                 const event = new Event(index);

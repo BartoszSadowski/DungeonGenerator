@@ -5,7 +5,9 @@ import {
     DENSENESS,
     spriteMap,
     divisable,
-    minDimension
+    minDimension,
+    lootChance,
+    dangerChance
 } from './data/configData';
 import Dimensions from './utils/dimensions';
 
@@ -13,8 +15,10 @@ const scaleEl = <HTMLInputElement> document.getElementById('scale');
 const roomHeightEl = <HTMLInputElement> document.getElementById('room-height');
 const roomWidthEl = <HTMLInputElement> document.getElementById('room-width');
 const densenessEl = <HTMLInputElement> document.getElementById('denseness');
+const dangerChanceEl = <HTMLInputElement> document.getElementById('danger');
+const lootChanceEl = <HTMLInputElement> document.getElementById('loot');
 
-const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap, DENSENESS, 1);
+const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap, DENSENESS, lootChance, dangerChance);
 config.init();
 
 scaleEl.value = config.scale.toString();
@@ -38,5 +42,19 @@ roomWidthEl.addEventListener('change', () => {
 densenessEl.value = config.denseness.toString();
 densenessEl.addEventListener('change', () => {
     config.denseness = +densenessEl.value;
+    config.save();
+});
+
+dangerChanceEl.value = config.dangerChance.toString();
+dangerChanceEl.addEventListener('change', () => {
+    config.dangerChance = +dangerChanceEl.value;
+    console.log(config);
+    config.save();
+});
+
+lootChanceEl.value = config.lootChance.toString();
+lootChanceEl.addEventListener('change', () => {
+    config.lootChance = +lootChanceEl.value;
+    console.log(config);
     config.save();
 });
