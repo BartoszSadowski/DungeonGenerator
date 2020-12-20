@@ -1,7 +1,8 @@
 import Room from './room';
 import Point from '../../utils/point';
 import Config from '../config';
-import DungeonEvent from '../dungeonEvent';
+import DungeonEvents from '../events';
+import DungeonEvent from '../events/dungeonEvent';
 import dungeonNames from '../../data/dungeonNames.json';
 import {
     getRandomValue
@@ -9,8 +10,17 @@ import {
 import {
     RoomType,
     AXIS,
-    StorageItems
+    StorageItems,
+    EventTypes
 } from '../../utils/dictionary';
+
+const {
+    EnemyEvent,
+    ItemEvent,
+    GenericEvent
+} = DungeonEvents;
+
+const Events = [GenericEvent, EnemyEvent, ItemEvent];
 
 export default class Dungeon extends Room {
     name: string;
@@ -42,9 +52,9 @@ export default class Dungeon extends Room {
         } = dungeonNames;
 
         const [adjectiveI, locationI, descriptorI] = [
-            getRandomValue(0, adjectives.length),
-            getRandomValue(0, locations.length),
-            getRandomValue(0, descriptors.length)
+            getRandomValue(0, adjectives.length - 1),
+            getRandomValue(0, locations.length - 1),
+            getRandomValue(0, descriptors.length - 1)
         ];
 
         this.name = `The ${adjectives[adjectiveI]} ${locations[locationI]} ${descriptors[descriptorI]}`;
@@ -106,7 +116,9 @@ export default class Dungeon extends Room {
         this.events = emptyChildren
             .slice(0, localChance)
             .reduce((acc: DungeonEvent[], child: Room, index: number) => {
-                const event = new DungeonEvent(index);
+                const Event = Events[getRandomValue(0, Events.length - 1)];
+                const event = new Event(index);
+
                 child.setType(RoomType.Event);
                 child.setEvent(event);
 
@@ -141,10 +153,43 @@ export default class Dungeon extends Room {
 
         if (this.point2.isSame(savedDungeon.point2)) {
             this.events = savedDungeon.events
-                .reduce((acc: DungeonEvent[], event: DungeonEvent) => [
-                    ...acc,
-                    new DungeonEvent(event.variant)
-                ], []);
+                .reduce((acc: DungeonEvent[], event: DungeonEvent) => {
+                    let ev: DungeonEvent;
+
+                    switch (event.type) {
+                    case EventTypes.Enemy:
+                        ev = new EnemyEvent(event.variant);
+                        ev.health = event.health;
+                        ev.strength = event.strength;
+                        ev.species = event.species;
+                        ev.adjective = event.adjective;
+                        ev.action = event.action;
+                        ev.where = event.where;
+                        break;
+                    case EventTypes.Item:
+                        ev = new ItemEvent(event.variant);
+                        ev.modifier = event.modifier;
+                        ev.adjective = event.adjective;
+                        ev.noun = event.noun;
+                        ev.action = event.action;
+                        ev.where = event.where;
+                        ev.value = event.value;
+                        break;
+                    case EventTypes.Default:
+                        ev = new GenericEvent(event.variant);
+                        ev.desc = event.desc;
+                        ev.nameProp = event.nameProp;
+                        break;
+                    default:
+                        ev = new DungeonEvent(event.variant);
+                        break;
+                    }
+
+                    return [
+                        ...acc,
+                        ev
+                    ];
+                }, []);
 
             this.loadChildren(savedDungeon);
             this.draw();

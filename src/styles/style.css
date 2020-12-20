@@ -36,6 +36,7 @@ body {
 
 .nav {
     grid-area: navigation;
+    height: 100%;
 }
 
 .name {
@@ -50,18 +51,57 @@ body {
 .controls {
     grid-area: controls;
     display: flex;
-    padding: 10px;
+    padding: 5px;
     justify-content: space-evenly;
+}
+
+.event-list {
+    grid-area: events;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    overflow-y: auto;
+}
+
+.event-list__event {
+    border: 1px solid;
+    margin: 5px;
+    overflow-y: scroll;
+    min-height: calc(20% - 22px);
+    overflow: hidden;
+
+    background-color: var(--light-gray);
+    padding: 5px;
+    box-shadow: 2px 1px 1px #000;
+}
+
+.event__title {
+    --margin: 5px;
+
+    font: 500 1.10em var(--title-sans);
+    margin-top: var(--margin);
+    margin-bottom: var(--margin);
+}
+
+.event__description {
+    font: 1em var(--title-sans);
+}
+
+.event__stats {
+    --margin: 5px;
+
+    margin-top: var(--margin);
+    margin-bottom: var(--margin);
 }
 
 .body {
     display: grid;
-    grid-template-columns: 250px auto 3%;
+    grid-template-columns: 250px auto 200px;
     grid-template-rows: 80px auto 45px;
     column-gap: 10px;
     grid-template-areas: 
     "header name ."
-    "navigation main ."
+    "navigation main events"
     "navigation controls .";
 }
 

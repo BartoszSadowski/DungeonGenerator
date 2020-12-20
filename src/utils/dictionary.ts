@@ -54,3 +54,9 @@ export enum StorageItems {
     Dungeon = 'Dungeon',
     Config = 'Config'
 }
+
+export enum EventTypes {
+    Default = 'Default',
+    Enemy = 'Enemy',
+    Item = 'Item'
+}

@@ -2,11 +2,6 @@
     html, body { height: auto; } /* Removal of second page */
     @page { margin: 10px; } /* Removal of redundant headers and footers*/
 
-    .body {
-        display: block;
-        overflow: hidden;
-    }
-
     .nav {
         display: none;
     }
@@ -22,12 +17,28 @@
     .controls {
         display: none;
     }
+
+    .event-list {
+        display: block;
+    }
 }
 
 @media print and (orientation: portrait) {
-    /* portrait mode */
+    .body {
+        display: block;
+        overflow: hidden;
+    }
 }
 
 @media print and (orientation: landscape) {
-    /* portrait mode */
+    .body {
+        display: grid;
+        grid-template-columns: auto auto 200px;
+        grid-template-rows: 80px auto 45px;
+        column-gap: 10px;
+        grid-template-areas: 
+        "header name ."
+        "navigation main events"
+        "navigation controls .";
+    }
 }

@@ -1,5 +1,5 @@
 import RoomMap from './roomMap';
-import DungeonEvent from '../dungeonEvent';
+import DungeonEvent from '../events/dungeonEvent';
 import Config from '../config';
 import Point from '../../utils/point';
 import Line from '../../utils/line';

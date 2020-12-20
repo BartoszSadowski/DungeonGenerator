@@ -1,0 +1,8 @@
+{
+    "events": [
+        {
+            "name": "Poisonous mist",
+            "description": "Green mists floats around the room. Whoever touches it gets sick."
+        }
+    ]
+}
