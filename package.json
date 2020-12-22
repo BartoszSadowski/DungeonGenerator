@@ -4,13 +4,14 @@
   "description": "",
   "main": "src/pages/index.html",
   "scripts": {
-    "start": "run-p compile copy:static bundle",
+    "start": "run-p compile bundle",
     "compile": "tsc -w",
-    "copy:static": "node ./copyStatic.js",
     "bundle": "parcel src/pages/index.html",
     "test": "jest",
     "lint": "eslint --ext .js,.ts src/",
-    "postinstall": "tsc"
+    "postinstall": "tsc",
+    "build:bundle": "parcel build src/pages/index.html --public-url ./",
+    "build": "run-s postinstall build:bundle"
   },
   "repository": {
     "type": "git",
