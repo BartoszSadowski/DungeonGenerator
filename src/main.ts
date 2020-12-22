@@ -1,3 +1,5 @@
+/// <reference path='./main.d.ts'/>
+
 import Dungeon from './app/room/dungeon';
 import Config from './app/config';
 import Sprite from './app/sprite';
@@ -27,14 +29,14 @@ import {
     calculateDungeonPoint
 } from './utils/canvas';
 
-const TILE_MAP_PATH = '../imgs/rockyTileSet.png';
+import tileMap from './imgs/rockyTileSet.png';
 
 function canvasInit(canvasDimensions: Dimensions) {
     canvas.width = canvasDimensions.width;
     canvas.height = canvasDimensions.height;
 }
 
-Sprite.initialize(TILE_MAP_PATH, () => {
+Sprite.initialize(tileMap, () => {
     try {
         // Load config
         const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap, DENSENESS, lootChance, dangerChance);
