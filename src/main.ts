@@ -68,8 +68,6 @@ Sprite.initialize(tileMap, () => {
             window.location.reload();
             dungeon.create();
         });
-
-        console.log(dungeon);
     } catch (error) {
         console.log(error);
     }
