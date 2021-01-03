@@ -7,7 +7,7 @@
     "start": "parcel src/pages/index.html",
     "test": "jest",
     "lint": "eslint --ext .js,.ts src/",
-    "bundle": "parcel build src/pages/index.html --public-url ./"
+    "bundle": "parcel build src/pages/index.html --out-dir docs --public-url ./"
   },
   "repository": {
     "type": "git",
