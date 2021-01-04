@@ -5,6 +5,7 @@ export const canvas = <HTMLCanvasElement> document.getElementById('demoCanvas');
 export const ctx = <CanvasRenderingContext2D | null> (canvas ? canvas.getContext('2d') : null);
 export const nameEl = <HTMLElement> document.getElementById('dungeon-name');
 export const regenerateEl = <HTMLElement> document.getElementById('dungeon-regenerate');
+export const printEl = <HTMLElement> document.getElementById('dungeon-print');
 export const bodyEl = <HTMLElement> document.querySelector('body');
 export const eventEl = <HTMLElement> document.getElementById('event-list');
 
