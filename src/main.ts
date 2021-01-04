@@ -14,6 +14,7 @@ import {
     ctx,
     nameEl,
     regenerateEl,
+    printEl,
     bodyEl,
     SCALE,
     DENSENESS,
@@ -67,6 +68,10 @@ Sprite.initialize(tileMap, () => {
         window.addEventListener(dungeon.REQUEST_REGENRATION, () => {
             window.location.reload();
             dungeon.create();
+        });
+
+        printEl.addEventListener('click', () => {
+            window.print();
         });
     } catch (error) {
         console.log(error);
