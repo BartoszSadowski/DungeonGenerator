@@ -37,43 +37,44 @@ function canvasInit(canvasDimensions: Dimensions) {
     canvas.height = canvasDimensions.height;
 }
 
-Sprite.initialize(tileMap, () => {
-    try {
-        // Load config
-        const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap, DENSENESS, lootChance, dangerChance);
-        config.init();
+Sprite.initialize(tileMap)
+    .then(() => {
+        try {
+            // Load config
+            const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap, DENSENESS, lootChance, dangerChance);
+            config.init();
 
-        // Calculate canvas
-        const canvasDimensions = <Dimensions> calculateCanvas(canvas.clientWidth, canvas.clientHeight, config.scale);
-        const dungeonPoint = <Point> calculateDungeonPoint(canvasDimensions, config.scale);
+            // Calculate canvas
+            const canvasDimensions = <Dimensions> calculateCanvas(canvas.clientWidth, canvas.clientHeight, config.scale);
+            const dungeonPoint = <Point> calculateDungeonPoint(canvasDimensions, config.scale);
 
-        canvasInit(canvasDimensions);
+            canvasInit(canvasDimensions);
 
-        // Load dungeon
-        const dungeon = new Dungeon(dungeonPoint, config, nameEl);
-        dungeon.init();
-        generateEvents(dungeon.events);
+            // Load dungeon
+            const dungeon = new Dungeon(dungeonPoint, config, nameEl);
+            dungeon.init();
+            generateEvents(dungeon.events);
 
-        // Set listeners
-        regenerateEl.addEventListener('click', () => {
-            dungeon.regenerate();
-        });
-
-        bodyEl.addEventListener('keyup', (event: KeyboardEvent) => {
-            if (event.key === 'r') {
+            // Set listeners
+            regenerateEl.addEventListener('click', () => {
                 dungeon.regenerate();
-            }
-        });
+            });
 
-        window.addEventListener(dungeon.REQUEST_REGENRATION, () => {
-            window.location.reload();
-            dungeon.create();
-        });
+            bodyEl.addEventListener('keyup', (event: KeyboardEvent) => {
+                if (event.key === 'r') {
+                    dungeon.regenerate();
+                }
+            });
 
-        printEl.addEventListener('click', () => {
-            window.print();
-        });
-    } catch (error) {
-        console.log(error);
-    }
-});
+            window.addEventListener(dungeon.REQUEST_REGENRATION, () => {
+                window.location.reload();
+                dungeon.create();
+            });
+
+            printEl.addEventListener('click', () => {
+                window.print();
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    });

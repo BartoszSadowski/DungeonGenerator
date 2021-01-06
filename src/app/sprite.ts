@@ -71,8 +71,10 @@ export default class Sprite {
         return this;
     }
 
-    static initialize(tileMap: string, callBack: anyFunction) {
-        this.image.addEventListener('load', callBack);
-        this.image.src = tileMap;
+    static initialize(tileMap: string): Promise<void> {
+        return new Promise((resolve)=> {
+            this.image.src = tileMap;
+            this.image.addEventListener('load', () => resolve());
+        });
     }
 }
