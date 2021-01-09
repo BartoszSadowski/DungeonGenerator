@@ -5,7 +5,13 @@
         "human",
         "skeleton",
         "mummy",
-        "elf"
+        "elf",
+        "zombie",
+        "orc",
+        "dwarf",
+        "halfling",
+        "goblin",
+        "troll"
     ],
     "adjectives": [
         "handsome",
@@ -13,17 +19,41 @@
         "sad",
         "happy",
         "angry",
-        "baby"
+        "baby",
+        "wealthy",
+        "big",
+        "huge",
+        "tiny",
+        "small",
+        "furious",
+        "excited",
+        "ugly",
+        "old",
+        "famous",
+        "funny looking"
     ],
     "actions": [
         "stands",
         "sits",
         "polishes a knife",
-        "stares at you"
+        "stares at you",
+        "taps his fingers",
+        "taps her fingers",
+        "shouts",
+        "sneezes",
+        "is crying",
+        "gets ready to fight",
+        "shuffles deck of cards",
+        "prepares dinner"
     ],
     "places": [
         "near the wall",
         "on the floor",
-        "on the diamond throne"
+        "on the diamond throne",
+        "next to huge table",
+        "on old wood chair",
+        "in the pit",
+        "in huge bed",
+        "on red blanket"
     ]
 }
