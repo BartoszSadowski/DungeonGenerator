@@ -3,6 +3,34 @@
         {
             "name": "Poisonous mist",
             "description": "Green mists floats around the room. Whoever touches it gets sick."
+        },
+        {
+            "name": "Glowing rock",
+            "description": "Huge rock stands in the middle of the room. It glows when you get near it."
+        },
+        {
+            "name": "Plate of cookies",
+            "description": "On the blanket lays plate of cookies. Whoever eats one, immediately gets fat."
+        },
+        {
+            "name": "Drink me",
+            "description": "You see little flask asking to drink it. If one do, one becomes really fast, but really dumb."
+        },
+        {
+            "name": "Pile of dust",
+            "description": "In the room corner lays a huge pile of dust. Touching it get's you strong, but sleepy."
+        },
+        {
+            "name": "Antiwish stone",
+            "description": "If while holding stone wish gets pronounced, opposite of it happens."
+        },
+        {
+            "name": "Wand of no secrets",
+            "description": "If one holds the wand, one answers all questions truthfully."
+        },
+        {
+            "name": "Trapdoor",
+            "description": "If standed on, trapdoor opens and throws party into deep pit with no easy way out."
         }
     ]
 }

@@ -41,7 +41,7 @@ export default class RoomMap {
         this.dimensions = dimensions;
     }
 
-    get(point: Point) {
+    get(point: Point): mappedRoomItem {
         if (
             point.y < this.dimensions.height
             && point.y >= 0

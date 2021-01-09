@@ -1,4 +1,5 @@
 /// <reference path='./main.d.ts'/>
+import 'regenerator-runtime/runtime';
 
 import Dungeon from './app/room/dungeon';
 import Config from './app/config';
@@ -37,7 +38,8 @@ function canvasInit(canvasDimensions: Dimensions) {
     canvas.height = canvasDimensions.height;
 }
 
-Sprite.initialize(tileMap, () => {
+(async () => {
+    await Sprite.initialize(tileMap);
     try {
         // Load config
         const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap, DENSENESS, lootChance, dangerChance);
@@ -76,4 +78,4 @@ Sprite.initialize(tileMap, () => {
     } catch (error) {
         console.log(error);
     }
-});
+})();

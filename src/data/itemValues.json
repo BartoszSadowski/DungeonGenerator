@@ -2,22 +2,45 @@
     "adjectives": [
         "Shiny",
         "Bloody",
-        "Redish"
+        "Redish",
+        "Old",
+        "New",
+        "Powerful",
+        "Huge",
+        "Tiny",
+        "Glowing",
+        "Wiggly"
     ],
     "nouns": [
         "necklace",
         "chestplate",
         "helmet",
         "sword",
-        "shield"
+        "shield",
+        "axe",
+        "bow",
+        "pants",
+        "gloves",
+        "tome",
+        "dagger",
+        "coin",
+        "bag",
+        "staff",
+        "golem"
     ],
     "actions": [
         "lays",
-        "is"
+        "is",
+        "floats",
+        "shakes",
+        "jumps"
     ],
     "places": [
         "on the floor",
         "on the table near the wall",
-        "in the corner"
+        "in the corner",
+        "on the chair",
+        "on the huge rock",
+        "in the glass box"
     ]
 }

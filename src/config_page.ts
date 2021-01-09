@@ -48,13 +48,11 @@ densenessEl.addEventListener('change', () => {
 dangerChanceEl.value = config.dangerChance.toString();
 dangerChanceEl.addEventListener('change', () => {
     config.dangerChance = +dangerChanceEl.value;
-    console.log(config);
     config.save();
 });
 
 lootChanceEl.value = config.lootChance.toString();
 lootChanceEl.addEventListener('change', () => {
     config.lootChance = +lootChanceEl.value;
-    console.log(config);
     config.save();
 });
