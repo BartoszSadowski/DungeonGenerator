@@ -10,7 +10,7 @@
 }
 
 html {
-    height: 100vh;
+    height: 100%;
 }
 
 body {
@@ -94,6 +94,13 @@ body {
     margin-bottom: var(--margin);
 }
 
+.footer {
+    grid-area: footer;
+
+    font: 1em var(--title-sans) var(--light-gray);
+    text-align: center;
+}
+
 .body {
     display: grid;
     grid-template-columns: 250px auto 200px;
@@ -102,7 +109,7 @@ body {
     grid-template-areas: 
     "header name ."
     "navigation main events"
-    "navigation controls .";
+    "navigation controls footer";
 }
 
 .controls__button {
@@ -115,47 +122,6 @@ body {
 
 .controls__button:focus {
     outline: #DF4500 solid 1px;
-}
-
-
-@media screen and (max-width: 767px) and (orientation: portrait) {
-    html {
-      transform: rotate(-90deg);
-      transform-origin: left top;
-      width: 100vh;
-      height: 100vw;
-      overflow-x: hidden;
-      position: absolute;
-      top: 100%;
-      left: 0;
-    }
-
-    .header {
-        display: none;
-    }
-
-    .nav {
-        display: none;
-    }
-
-    .body {
-        display: block;
-    }
-
-    .canvas {
-        display: block;
-        position: absolute;
-        margin: auto;
-        background-color: #fff;
-        top: 0;
-        right: 0;
-        left: 0;
-        bottom: 0;
-    }
-
-    .controls {
-        display: none;
-    }
 }
 
 /* menu */

@@ -35,7 +35,11 @@ import tileMap from './imgs/rockyTileSet.png';
 
 function canvasInit(canvasDimensions: Dimensions) {
     canvas.width = canvasDimensions.width;
+    canvas.style.width = `${canvasDimensions.width}px`;
     canvas.height = canvasDimensions.height;
+    canvas.style.height = `${canvasDimensions.height}px`;
+
+    console.log(canvas);
 }
 
 (async () => {
