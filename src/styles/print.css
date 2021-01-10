@@ -21,12 +21,30 @@
     .event-list {
         display: block;
     }
+
+    .hamburger {
+        display: none;
+    }
 }
 
 @media print and (orientation: portrait) {
     .body {
         display: block;
         overflow: hidden;
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        margin: 10px;
+    }
+
+    .canvas {
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: 40vh !important;
+        width: auto !important;
     }
 }
 
@@ -37,8 +55,13 @@
         grid-template-rows: 80px auto 45px;
         column-gap: 10px;
         grid-template-areas: 
-        "header name ."
-        "navigation main events"
-        "navigation controls .";
+        ". name ."
+        ". main events"
+        ". . footer";
+    }
+
+    .canvas {
+        max-height: 80vh !important;
+        width: auto !important;
     }
 }
