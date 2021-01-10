@@ -21,6 +21,10 @@
     .event-list {
         display: block;
     }
+
+    .hamburger {
+        display: none;
+    }
 }
 
 @media print and (orientation: portrait) {
