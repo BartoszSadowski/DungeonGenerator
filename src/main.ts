@@ -38,8 +38,6 @@ function canvasInit(canvasDimensions: Dimensions) {
     canvas.style.width = `${canvasDimensions.width}px`;
     canvas.height = canvasDimensions.height;
     canvas.style.height = `${canvasDimensions.height}px`;
-
-    console.log(canvas);
 }
 
 (async () => {

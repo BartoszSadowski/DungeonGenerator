@@ -279,3 +279,29 @@ body {
     font: 1.5em var(--title-sans);
     color: var(--dim-gray);
 }
+
+.hamburger {
+    display: none;
+    grid-area: hamburger;
+}
+
+@media (max-width: 1000px) {
+    .body {
+        display: grid;
+        grid-template-columns: 50px 700px 200px;
+        grid-template-rows: 80px 1200px 45px;
+        column-gap: 10px;
+        grid-template-areas: 
+        "hamburger name name"
+        ". main events"
+        "controls controls footer";
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .side-menu {
+        display: none;
+    }
+}
