@@ -7,6 +7,7 @@ import {
 import Dimensions from '../../utils/dimensions';
 import Point from '../../utils/point';
 import Sprite from '../sprite';
+import { getRandomValue } from '../../utils/random';
 
 export default class Item {
     item: Items;
@@ -74,6 +75,30 @@ export default class Item {
             case 0:
             default:
                 spriteType = SPRITE_TYPES.EVENT_A;
+                break;
+            }
+            break;
+        case Items.Misc:
+            switch (this.modifiers[Modifiers.Variant]) {
+            case 1:
+                spriteType = SPRITE_TYPES.MISC_A;
+                break;
+            case 2:
+                spriteType = SPRITE_TYPES.MISC_B;
+                break;
+            case 3:
+                spriteType = SPRITE_TYPES.MISC_C;
+                break;
+            case 4:
+                spriteType = SPRITE_TYPES.MISC_D;
+                break;
+            case 5:
+                spriteType = SPRITE_TYPES.MISC_E;
+                break;
+            case 6:
+                spriteType = SPRITE_TYPES.MISC_F;
+                break;
+            default:
                 break;
             }
             break;
