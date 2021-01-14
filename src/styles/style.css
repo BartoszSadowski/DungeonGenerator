@@ -32,6 +32,7 @@ body {
 
 .main {
     grid-area: main;
+    font: 1em var(--title-sans);
 }
 
 .nav {
