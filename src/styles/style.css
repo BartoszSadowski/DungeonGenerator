@@ -354,6 +354,10 @@ body {
     outline: none;
 }
 
+.bold {
+    font-weight: bold;
+}
+
 @media (max-width: 1000px) {
     .body {
         grid-template-columns: 50px 700px 200px;
