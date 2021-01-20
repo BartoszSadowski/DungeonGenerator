@@ -24,7 +24,13 @@ export const SPRITE_TYPES: Record<string, string> = {
     EVENT_B: 'EVENT_B',
     EVENT_C: 'EVENT_C',
     EVENT_D: 'EVENT_D',
-    EVENT_E: 'EVENT_E'
+    EVENT_E: 'EVENT_E',
+    MISC_A: 'MISC_A',
+    MISC_B: 'MISC_B',
+    MISC_C: 'MISC_C',
+    MISC_D: 'MISC_D',
+    MISC_E: 'MISC_E',
+    MISC_F: 'MISC_F'
 };
 
 export enum Items {
@@ -34,7 +40,8 @@ export enum Items {
     Floor = 'F',
     Enterance = 'E',
     Exit = 'X',
-    Event = 'e'
+    Event = 'e',
+    Misc = 'M'
 }
 
 export enum Modifiers {

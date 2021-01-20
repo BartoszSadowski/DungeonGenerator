@@ -1,4 +1,5 @@
 import RoomMap from './roomMap';
+import Item from './item';
 import DungeonEvent from '../events/dungeonEvent';
 import Config from '../config';
 import Point from '../../utils/point';
@@ -306,6 +307,23 @@ export default class Room {
                 );
             }
 
+            if ((this.type === RoomType.Default || this.type === RoomType.Event) && getRandomValue(0, 3) === 0) {
+                let safe = 100;
+                let point: Point;
+                let item: Item;
+                do {
+                    point = roomMap.getPossiblyNonEdgePoint();
+                    item = roomMap.get(point).item.center;
+                    safe -= 1;
+                } while (item.item !== Items.Empty && safe);
+                roomMap.set(
+                    point, Items.Misc,
+                    Directions.Center,
+                    Modifiers.Variant,
+                    getRandomValue(1, 6)
+                );
+            }
+
             this.roomMap = roomMap;
         }
 
@@ -321,7 +339,8 @@ export default class Room {
                 ctx,
                 new Point(scaledOrigin.x + x * scale, scaledOrigin.y + y * scale),
                 new Dimensions(scale, scale),
-                spriteMap
+                spriteMap,
+                this.config.roomsOnly
             ));
         }
 
