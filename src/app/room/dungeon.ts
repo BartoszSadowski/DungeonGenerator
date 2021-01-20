@@ -62,7 +62,13 @@ export default class Dungeon extends Room {
     }
 
     presentName() {
-        this.nameDOMEl.innerText = this.name;
+        let name: string;
+        if (this.config.roomsOnly) {
+            name = '';
+        } else {
+            name = this.name;
+        }
+        this.nameDOMEl.innerText = name;
     }
 
     setEnteranceExit() {

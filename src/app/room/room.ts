@@ -339,7 +339,8 @@ export default class Room {
                 ctx,
                 new Point(scaledOrigin.x + x * scale, scaledOrigin.y + y * scale),
                 new Dimensions(scale, scale),
-                spriteMap
+                spriteMap,
+                this.config.roomsOnly
             ));
         }
 

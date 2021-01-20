@@ -13,6 +13,7 @@ export default class Config {
     denseness: number
     lootChance: number;
     dangerChance: number;
+    roomsOnly: boolean;
 
     // messages
     SAVED: string = 'Config saved';
@@ -36,6 +37,7 @@ export default class Config {
         this.denseness = denseness;
         this.lootChance = lootChance;
         this.dangerChance = dangerChance;
+        this.roomsOnly = false;
     }
 
     save() {
@@ -54,6 +56,7 @@ export default class Config {
         this.minDimension = new Dimensions(savedConfig.minDimension.width, savedConfig.minDimension.height);
         this.lootChance = savedConfig.lootChance;
         this.dangerChance = savedConfig.dangerChance;
+        this.roomsOnly = savedConfig.roomsOnly;
 
         return this.LOADED;
     }

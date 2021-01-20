@@ -73,7 +73,13 @@ export default class RoomItem {
         return item === this.get(direction).item;
     }
 
-    draw(ctx: CanvasRenderingContext2D, origin: Point, dimensions: Dimensions, spriteMap: Map<string, Sprite>) {
+    draw(
+        ctx: CanvasRenderingContext2D,
+        origin: Point,
+        dimensions: Dimensions,
+        spriteMap: Map<string, Sprite>,
+        roomsOnly: boolean
+    ) {
         const pairs: Array<[Item, Directions]> = [
             [this.floor, Directions.Up],
             [this.top, Directions.Up],
@@ -83,7 +89,7 @@ export default class RoomItem {
             [this.center, Directions.Center]
         ];
         pairs.reduce((acc, [item, direction]) => {
-            item.draw(ctx, origin, dimensions, spriteMap, direction);
+            item.draw(ctx, origin, dimensions, spriteMap, direction, roomsOnly);
             return acc;
         }, 0);
     }

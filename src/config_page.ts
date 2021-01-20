@@ -17,9 +17,16 @@ const roomWidthEl = <HTMLInputElement> document.getElementById('room-width');
 const densenessEl = <HTMLInputElement> document.getElementById('denseness');
 const dangerChanceEl = <HTMLInputElement> document.getElementById('danger');
 const lootChanceEl = <HTMLInputElement> document.getElementById('loot');
+const roomsOnlyEl = <HTMLInputElement> document.getElementById('roomsOnly');
 
 const config = new Config(divisable, minDimension, SCALE, ctx, spriteMap, DENSENESS, lootChance, dangerChance);
 config.init();
+
+roomsOnlyEl.value = config.roomsOnly ? '1' : '0';
+roomsOnlyEl.addEventListener('change', () => {
+    config.roomsOnly = !!+roomsOnlyEl.value;
+    config.save();
+});
 
 scaleEl.value = config.scale.toString();
 scaleEl.addEventListener('change', () => {

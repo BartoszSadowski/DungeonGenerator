@@ -56,7 +56,9 @@ function canvasInit(canvasDimensions: Dimensions) {
         // Load dungeon
         const dungeon = new Dungeon(dungeonPoint, config, nameEl);
         dungeon.init();
-        generateEvents(dungeon.events);
+        if (!config.roomsOnly) {
+            generateEvents(dungeon.events);
+        }
 
         // Set listeners
         regenerateEl.addEventListener('click', () => {
